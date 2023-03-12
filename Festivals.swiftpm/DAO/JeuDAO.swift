@@ -18,7 +18,6 @@ struct JeuDAO {
                 completion(nil)
                 return
             }
-            
             do {
                 let decoder = JSONDecoder()
                 let jeux = try decoder.decode([JeuDTO].self, from: data)
@@ -38,12 +37,10 @@ struct JeuDAO {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
         do {
             let encoder = JSONEncoder()
             let jsonData = try encoder.encode(jeu)
             request.httpBody = jsonData
-            
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 if let httpResponse = response as? HTTPURLResponse {
                     completion(httpResponse.statusCode == 201)

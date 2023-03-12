@@ -1,90 +1,99 @@
 import Foundation
 
-struct BenevoleDAO {
-    
-    var API: String
+struct JeuDAO {
 
+    var API: String
+    
     init(api:String){
         self.API = api + "/benevole"
     }
     
-    func getAll(completion: @escaping ([Benevole]?) -> Void) {
-        let url = URL(string: self.API)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
+    func getAll(completion: @escaping ([BenevoleDTO]?) -> Void) {
+        guard let url = URL(string: API) else {
+            completion(nil)
+            return
+        }
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else {
                 completion(nil)
                 return
             }
             do {
-                let benevolesDTO = try JSONDecoder().decode([BenevoleDTO].self, from: data)
-                let benevoles = benevolesDTO.map { $0.toBenevole() }
+                let decoder = JSONDecoder()
+                let benevoles = try decoder.decode([BenevoleDTO].self, from: data)
                 completion(benevoles)
             } catch {
-                print("Error decoding benevoles: \(error)")
                 completion(nil)
             }
-        }.resume()
+        }
+        task.resume()
     }
     
-    func create(benevole: Benevole, completion: @escaping (Bool) -> Void) {
-        let url = URL(string: self.API)!
+    func create(jeu: BenevoleDTO, completion: @escaping (Bool) -> Void) {
+        guard let url = URL(string: API) else {
+            completion(false)
+            return
+        }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         do {
-            let benevoleDTO = BenevoleDTO(from: benevole)
-            let jsonData = try JSONEncoder().encode(benevoleDTO)
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(jeu)
             request.httpBody = jsonData
-            
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let _ = data else {
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let httpResponse = response as? HTTPURLResponse {
+                    completion(httpResponse.statusCode == 201)
+                } else {
                     completion(false)
-                    return
                 }
-                completion(true)
-            }.resume()
+            }
+            task.resume()
         } catch {
-            print("Error encoding benevole: \(error)")
             completion(false)
         }
     }
     
-    func update(benevole: Benevole, completion: @escaping (Bool) -> Void) {
-        let url = URL(string: "\(self.API)/\(benevole.id)")!
+    func update(jeu: BenevoleDTO, completion: @escaping (Bool) -> Void) {
+        guard let id = benevole.id, let url = URL(string: "\(API)/\(id)") else {
+            completion(false)
+            return
+        }
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         do {
-            let benevoleDTO = BenevoleDTO(from: benevole)
-            let jsonData = try JSONEncoder().encode(benevoleDTO)
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(benevole)
             request.httpBody = jsonData
             
-            URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard let _ = data else {
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let httpResponse = response as? HTTPURLResponse {
+                    completion(httpResponse.statusCode == 200)
+                } else {
                     completion(false)
-                    return
                 }
-                completion(true)
-            }.resume()
+            }
+            task.resume()
         } catch {
-            print("Error encoding benevole: \(error)")
             completion(false)
         }
     }
     
-    func delete(benevole: Benevole, completion: @escaping (Bool) -> Void) {
-        let url = URL(string: "\(self.API)/\(benevole.id)")!
+    func delete(benevoleId: String, completion: @escaping (Bool) -> Void) {
+        guard let url = URL(string: "\(API)/\(benevoleId)") else {
+            completion(false)
+            return
+        }
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let _ = data else {
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let httpResponse = response as? HTTPURLResponse {
+                completion(httpResponse.statusCode == 204)
+            } else {
                 completion(false)
-                return
             }
-            completion(true)
-        }.resume()
+        }
+        task.resume()
     }
 }

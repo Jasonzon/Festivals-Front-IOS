@@ -1,5 +1,7 @@
+import Foundation
+
 struct CreneauDTO: Codable {
-    
+
     let id: String?
     let debut: String
     let fin: String

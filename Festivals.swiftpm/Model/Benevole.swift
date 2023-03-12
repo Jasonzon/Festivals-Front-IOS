@@ -14,7 +14,7 @@ class Benevole : ObservableObject {
     var mail : String {
         didSet {
             if mail != oldValue {
-                if mail.isValidEmail() {
+                if isMailValid() {
                     self.observer?.changed(mail : self.mail)
                 } 
                 else {
@@ -57,7 +57,7 @@ class Benevole : ObservableObject {
         self.id = id
     }
 
-    func isValidEmail() -> Bool {
+    func isMailValid() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: self.mail)

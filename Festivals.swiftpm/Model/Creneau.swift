@@ -13,7 +13,7 @@ class Creneau : ObservableObject {
     var debut : String {
         didSet {
             if debut != oldValue {
-                if debut.isValidDate() {
+                if isDebutValid() {
                     self.observer?.changed(debut: self.debut)
                 }
                 else {
@@ -26,7 +26,7 @@ class Creneau : ObservableObject {
     var fin : String {
         didSet {
             if fin != oldValue {
-                if fin.isValidDate() {
+                if isFinValid() {
                     self.observer?.changed(fin: self.fin)
                 }
                 else {
@@ -42,7 +42,11 @@ class Creneau : ObservableObject {
         self.id = id
     }
 
-    func isValidDate() -> Bool {
+    func isDebutValid() -> Bool {
+        return true //Pour l'instant, à changer
+    }
+
+    func isFinValid() -> Bool {
         return true //Pour l'instant, à changer
     }
 }

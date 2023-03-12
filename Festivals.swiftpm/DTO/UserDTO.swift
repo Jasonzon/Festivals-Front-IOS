@@ -1,3 +1,5 @@
+import Foundation
+
 struct UserDTO: Codable {
 
     let id: String?

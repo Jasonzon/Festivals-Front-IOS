@@ -1,3 +1,5 @@
+import Foundation
+
 struct CreneauDAO {
 
     var API: String

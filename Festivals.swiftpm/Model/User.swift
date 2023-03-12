@@ -21,7 +21,7 @@ class User : ObservableObject {
     var mail : String {
         didSet {
             if mail != oldValue {
-                if mail.isValidEmail() {
+                if isValidEmail() {
                     self.observer?.changed(mail : self.mail)
                 } 
                 else {
@@ -87,7 +87,7 @@ class User : ObservableObject {
         self.password = password
     }
 
-    func isValidEmail() -> Bool {
+    func isMailValid() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: self.mail)

@@ -1,6 +1,6 @@
 import Foundation
 
-struct BenevoleDTO: Encodable {
+struct BenevoleDTO: Codable {
 
     var id: String?
     let nom: String
