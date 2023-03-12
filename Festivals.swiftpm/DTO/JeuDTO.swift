@@ -4,12 +4,12 @@ struct JeuDTO: Codable {
     
     let id: String?
     let name: String
-    let type: String
+    let type: JeuType
 
     init(id: String, name: String, type: JeuType) {
         self.id = id
         self.name = name
-        self.type = type.rawValue
+        self.type = type
     }
 
     enum CodingKeys: String, CodingKey {

@@ -8,7 +8,7 @@ protocol UserObserver {
     func changed(password : String)
 }
 
-enum UserRole : String, CaseIterable, Identifiable{
+enum UserRole : String, CaseIterable, Identifiable, Codable {
     case Basic, Admin
     var id: Self {self}
 }

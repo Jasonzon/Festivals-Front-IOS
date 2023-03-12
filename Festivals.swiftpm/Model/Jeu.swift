@@ -5,7 +5,7 @@ protocol JeuObserver {
     func changed(type: JeuType)
 }
 
-enum JeuType : String, CaseIterable, Identifiable {
+enum JeuType : String, CaseIterable, Identifiable, Codable {
     case Enfant, Famille, Initie, Avance, Expert
     var id: Self {self}
 }
