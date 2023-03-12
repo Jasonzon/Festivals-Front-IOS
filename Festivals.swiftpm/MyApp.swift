@@ -7,4 +7,8 @@ struct MyApp: App {
             ContentView()
         }
     }
+
+    init() {
+        API.API = "https://festivals-back-production.up.railway.app"
+    }
 }
