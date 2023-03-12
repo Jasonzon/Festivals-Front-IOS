@@ -21,7 +21,7 @@ class User : ObservableObject {
     var mail : String {
         didSet {
             if mail != oldValue {
-                if isValidEmail() {
+                if isMailValid() {
                     self.observer?.changed(mail : self.mail)
                 } 
                 else {

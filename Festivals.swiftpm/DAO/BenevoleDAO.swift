@@ -1,6 +1,6 @@
 import Foundation
 
-struct JeuDAO {
+struct BenevoleDAO {
 
     var API: String
     
@@ -29,7 +29,7 @@ struct JeuDAO {
         task.resume()
     }
     
-    func create(jeu: BenevoleDTO, completion: @escaping (Bool) -> Void) {
+    func create(benevole: BenevoleDTO, completion: @escaping (Bool) -> Void) {
         guard let url = URL(string: API) else {
             completion(false)
             return
@@ -39,7 +39,7 @@ struct JeuDAO {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         do {
             let encoder = JSONEncoder()
-            let jsonData = try encoder.encode(jeu)
+            let jsonData = try encoder.encode(benevole)
             request.httpBody = jsonData
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 if let httpResponse = response as? HTTPURLResponse {
@@ -54,7 +54,7 @@ struct JeuDAO {
         }
     }
     
-    func update(jeu: BenevoleDTO, completion: @escaping (Bool) -> Void) {
+    func update(benevole: BenevoleDTO, completion: @escaping (Bool) -> Void) {
         guard let id = benevole.id, let url = URL(string: "\(API)/\(id)") else {
             completion(false)
             return

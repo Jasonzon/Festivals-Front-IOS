@@ -1,6 +1,7 @@
 import Foundation
 
 class API {
+    
     static var API = ""
     
     static func jeuDAO() -> JeuDAO {
