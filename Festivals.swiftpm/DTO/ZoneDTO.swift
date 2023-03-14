@@ -9,6 +9,11 @@ struct ZoneDTO: Codable {
         self.id = id
         self.name = name
     }
+
+    init(zone: Zone) {
+        self.id = zone.id
+        self.name = zone.name
+    }
     
     enum CodingKeys: String, CodingKey {
         case id = "zone_id"

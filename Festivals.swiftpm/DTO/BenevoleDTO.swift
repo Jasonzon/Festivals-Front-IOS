@@ -14,6 +14,13 @@ struct BenevoleDTO: Codable {
         self.mail = mail
     }
 
+    init(benevole: Benevole) {
+        self.id = benevole.id
+        self.nom = benevole.nom
+        self.prenom = benevole.prenom
+        self.mail = benevole.mail
+    }
+
     enum CodingKeys: String, CodingKey {
         case id = "benevole_id"
         case nom = "benevole_nom"

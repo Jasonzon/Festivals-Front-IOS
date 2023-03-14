@@ -9,13 +9,22 @@ struct UserDTO: Codable {
     let role: UserRole
     let password: String?
 
-    init (id: String, mail: String, nom: String, prenom: String, role: UserRole, password: String) {
+    init(id: String, mail: String, nom: String, prenom: String, role: UserRole, password: String) {
         self.id = id
         self.mail = mail
         self.nom = nom
         self.prenom = prenom
         self.role = role
         self.password = password
+    }
+
+    init(user: User) {
+        self.id = user.id
+        self.mail = user.mail
+        self.nom = user.nom
+        self.prenom = user.prenom
+        self.role = user.role
+        self.password = user.password
     }
     
     enum CodingKeys: String, CodingKey {

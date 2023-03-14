@@ -12,6 +12,12 @@ struct JeuDTO: Codable {
         self.type = type
     }
 
+    init(jeu: Jeu) {
+        self.id = jeu.jeu_id
+        self.name = jeu.name
+        self.type = jeu.type
+    }
+
     enum CodingKeys: String, CodingKey {
         case id = "jeu_id"
         case name = "jeu_name"

@@ -12,6 +12,12 @@ struct CreneauDTO: Codable {
         self.fin = fin
     }
 
+    init(creneau: Creneau) {
+        self.id = creneau.id
+        self.debut = creneau.debut
+        self.fin = creneau.fin
+    }
+
     enum CodingKeys: String, CodingKey {
         case id = "creneau_id"
         case debut = "creneau_debut"
