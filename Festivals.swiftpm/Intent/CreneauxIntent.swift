@@ -7,7 +7,7 @@ enum CreneauxIntentState {
     case createRequest(element: Creneau)
 }
 
-struct JeuxIntent {
+struct CreneauxIntent {
 
     private var listState = PassthroughSubject<CreneauxIntentState<Creneau>,Never>()
 
@@ -26,7 +26,7 @@ struct JeuxIntent {
         }
     }
 
-    func intentCreateRequest(element: Jeu) {
+    func intentCreateRequest(element: Creneau) {
         self.listState.send(.createRequest(element: element))
     }
 }

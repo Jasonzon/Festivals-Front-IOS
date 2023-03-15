@@ -3,7 +3,7 @@ import SwiftUI
 
 enum APIError : Error, CustomStringConvertible, Equatable {
         
-    case urlNotFound(URL)
+    case urlNotFound(String)
     case JsonDecodingFailed
     case JsonEncodingFailed
     case initDataFailed

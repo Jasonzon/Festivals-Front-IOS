@@ -8,7 +8,7 @@ enum CreneauIntentState {
     case updateModel
 }
 
-struct JeuIntent {
+struct CreneauIntent {
 
     private var state = PassThroughSubject<CreneauIntentState,Never>()
 

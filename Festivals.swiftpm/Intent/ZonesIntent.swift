@@ -7,7 +7,7 @@ enum ZonesIntentState {
     case createRequest(element: Zone)
 }
 
-struct JeuxIntent {
+struct ZonesIntent {
 
     private var listState = PassthroughSubject<ZonesIntentState<Zone>,Never>()
 

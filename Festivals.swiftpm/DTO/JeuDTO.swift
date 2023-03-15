@@ -13,7 +13,7 @@ struct JeuDTO: Codable {
     }
 
     init(jeu: Jeu) {
-        self.id = jeu.jeu_id
+        self.id = jeu.id
         self.name = jeu.name
         self.type = jeu.type
     }

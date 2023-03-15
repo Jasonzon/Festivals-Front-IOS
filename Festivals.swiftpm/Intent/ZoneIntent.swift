@@ -8,7 +8,7 @@ enum ZoneIntentState {
     case updateModel
 }
 
-struct JeuIntent {
+struct ZoneIntent {
 
     private var state = PassThroughSubject<ZoneIntentState,Never>()
 
@@ -21,7 +21,7 @@ struct JeuIntent {
     }
 
     func intentValidation(zone: Zone) async -> Result<Bool,APIError> {
-        let data = await API.zoneDAO().update(zone: ZoneDTO(jeu))
+        let data = await API.zoneDAO().update(zone: ZoneDTO(zone))
         switch data {
             case .success(_):
                 self.state.send(.updateModel)
