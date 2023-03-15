@@ -8,31 +8,35 @@ struct BenevoleDAO {
         self.API = api + "/benevole"
     }
     
-    func getAll(completion: @escaping ([BenevoleDTO]?) -> Void) {
+    func getAll() async -> Result<[BenevoleDTO], APIError> {
         guard let url = URL(string: API) else {
-            completion(nil)
-            return
+            return .failure(.urlNotFound(API))
         }
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard let data = data else {
-                completion(nil)
-                return
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url, delegate: nil)
+            guard let httpResponse = response as? HTTPURLResponse else {
+                return .failure(.unknown)
             }
-            do {
+            if httpResponse.statusCode == 200 {
                 let decoder = JSONDecoder()
                 let benevoles = try decoder.decode([BenevoleDTO].self, from: data)
-                completion(benevoles)
-            } catch {
-                completion(nil)
+                return .success(benevoles)
+            } 
+            else {
+                return .failure(.httpResponseError(httpResponse.statusCode))
             }
+        } 
+        catch let error as APIError {
+            return .failure(error)
+        } 
+        catch {
+            return .failure(.unknown)
         }
-        task.resume()
     }
     
-    func create(benevole: BenevoleDTO, completion: @escaping (Bool) -> Void) {
+    func create(benevole: BenevoleDTO) async -> Result<Bool,APIError> {
         guard let url = URL(string: API) else {
-            completion(false)
-            return
+            return .failure(.urlNotFound(API))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -41,23 +45,30 @@ struct BenevoleDAO {
             let encoder = JSONEncoder()
             let jsonData = try encoder.encode(benevole)
             request.httpBody = jsonData
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if let httpResponse = response as? HTTPURLResponse {
-                    completion(httpResponse.statusCode == 201)
-                } else {
-                    completion(false)
+            let (data, response) = try await URLSession.shared.data(for: request, delegate: nil)
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    return .success(true)
+                } 
+                else {
+                    return .failure(.httpResponseError(httpResponse.statusCode))
                 }
+            } 
+            else {
+                return .failure(.unknown)
             }
-            task.resume()
-        } catch {
-            completion(false)
+        }
+        catch let error as APIError {
+            return .failure(error)
+        } 
+        catch {
+            return .failure(.unknown)
         }
     }
     
-    func update(benevole: BenevoleDTO, completion: @escaping (Bool) -> Void) {
+    func update(benevole: BenevoleDTO) async -> Result<Bool,APIError> {
         guard let id = benevole.id, let url = URL(string: "\(API)/\(id)") else {
-            completion(false)
-            return
+            return .failure(.urlNotFound(url))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
@@ -66,34 +77,52 @@ struct BenevoleDAO {
             let encoder = JSONEncoder()
             let jsonData = try encoder.encode(benevole)
             request.httpBody = jsonData
-            
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if let httpResponse = response as? HTTPURLResponse {
-                    completion(httpResponse.statusCode == 200)
-                } else {
-                    completion(false)
+            let (data, response) = try await URLSession.shared.data(for: request, delegate: nil)
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    return .success(true)
+                } 
+                else {
+                    return .failure(.httpResponseError(httpResponse.statusCode))
                 }
+            } 
+            else {
+                return .failure(.unknown)
             }
-            task.resume()
-        } catch {
-            completion(false)
+        } 
+        catch let error as APIError {
+            return .failure(error)
+        }
+        catch {
+            return .failure(.unknown)
         }
     }
     
-    func delete(benevoleId: String, completion: @escaping (Bool) -> Void) {
+    func delete(benevoleId: String) async -> Result<Bool,APIError> {
         guard let url = URL(string: "\(API)/\(benevoleId)") else {
-            completion(false)
-            return
+            return .failure(.urlNotFound(url))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request, delegate: nil)
             if let httpResponse = response as? HTTPURLResponse {
-                completion(httpResponse.statusCode == 204)
-            } else {
-                completion(false)
+                if httpResponse.statusCode == 200 {
+                    return .success(true)
+                } 
+                else {
+                    return .failure(.httpResponseError(httpResponse.statusCode))
+                }
+            } 
+            else {
+                return .failure(.unknown)
             }
         }
-        task.resume()
+        catch let error as APIError {
+            return .failure(error)
+        } 
+        catch {
+            return .failure(.unknown)
+        }
     }
 }
