@@ -1,37 +1,35 @@
 import SwiftUI
 import AlertToast
 
-struct BenevoleCreateView: View {
+struct ZoneCreateView: View {
     
-    @ObservedObject var benevoleViewModel: BenevoleViewModel
+    @ObservedObject var zoneViewModel: ZoneViewModel
     @Environment(\.presentationMode) var presentationMode
-    var intent : BenevoleIntent
+    var intent : ZoneIntent
     @State private var textAlert = ""
     @State private var errorAlert = false
     
-    init(benevolesViewModel: BenevolesViewModel) {
-        self.benevoleViewModel = BenevoleViewModel(model: Benevole(id: 0, nom: "", prenom: "", mail: ""))
-        self.intent = BenevoleIntent()
-        self.intent.addObserver(viewModel: benevoleViewModel)
-        self.intent.addListObserver(viewModel: benevolesViewModel)
+    init(zonesViewModel: ZonesViewModel) {
+        self.zoneViewModel = ZoneViewModel(model: Zone(id: 0, name: ""))
+        self.intent = ZoneIntent()
+        self.intent.addObserver(viewModel: zoneViewModel)
+        self.intent.addListObserver(viewModel: zonesViewModel)
     }
 
     var body: some View {
         VStack {
             Form {
-                FloatingTextField("Prenom", text: $benevoleViewModel.prenom)
-                FloatingTextField("Nom", text: $benevoleViewModel.nom)
-                FloatingTextField("Mail", text: $benevoleViewModel.mail)
+                FloatingTextField("Nom", text: $zoneViewModel.name)
                 Section {
                     Button("Créer") {
                         Task {
-                            intent.intentTestValidation(benevole: benevoleViewModel.getBenevoleFromViewModel())
-                            if benevoleViewModel.error == .noError {
-                                let data = await API.benevoleDAO().create(benevole: BenevoleDTO(benevoleViewModel.copyModel))
+                            intent.intentTestValidation(zone: zoneViewModel.getZoneFromViewModel())
+                            if zoneViewModel.error == .noError {
+                                let data = await API.zoneDAO().create(zone: ZoneDTO(zoneViewModel.copyModel))
                                 switch data{
                                     case .success(let id):
-                                        benevoleViewModel.copyModel.id = id
-                                        intent.intentCreateRequest(element: benevoleViewModel.copyModel)
+                                        zoneViewModel.copyModel.id = id
+                                        intent.intentCreateRequest(element: zoneViewModel.copyModel)
                                         self.presentationMode.wrappedValue.dismiss()
                                     case .failure(let err):
                                         errorAlert = true
@@ -43,7 +41,7 @@ struct BenevoleCreateView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
                 }
             }
-            .onChange(of: benevoleViewModel.error) { error in
+            .onChange(of: zoneViewModel.error) { error in
                 print(error)
                 if (error != .noError) {
                     textAlert = "\(error)"
@@ -54,7 +52,7 @@ struct BenevoleCreateView: View {
         .toast(isPresenting: $errorAlert, alert: {
             AlertToast(displayMode: .hud, type: .error(.red), title: textAlert)
         }, completion: {
-            benevoleViewModel.error = .noError
+            zoneViewModel.error = .noError
             errorAlert = false
         })
     }      
