@@ -1,54 +1,38 @@
 import SwiftUI
 import AlertToast
 
-struct JeuView: View {
+struct BenevoleView: View {
 
-    @ObservedObject var jeuViewModel: JeuViewModel
-    var intent : JeuIntent
-    var types: [String] = ["enfant","famille","initie","avance","expert"]
-    @State private var selectedType: Int
+    @ObservedObject var benevoleViewModel: BenevoleViewModel
+    var intent : BenevoleIntent
     @State private var showingAlert = false
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
     
-    init(jeu: Jeu, jeuxViewModel: JeuxViewModel){
-        self.jeuViewModel = JeuViewModel(model: jeu)
-        self.intent = JeuIntent()
-        if let type = jeu.type {
-            self.selectedType = types.firstIndex(of: type)
-        } 
-        else {
-            self.selectedType = 0
-        }
-        self.intent.addObserver(viewModel: jeuViewModel)
-        self.intent.addListObserver(viewModel: jeuxViewModel)
+    init(benevole: Benevole, benevolesViewModel: BenevolesViewModel){
+        self.benevoleViewModel = BenevoleViewModel(model: benevole)
+        self.intent = BenevoleIntent()
+        self.intent.addObserver(viewModel: benevoleViewModel)
+        self.intent.addListObserver(viewModel: benevolesViewModel)
     }
 
     var body: some View {
         VStack{
             Form {
-                FloatingTextField("Nom", text: $jeuViewModel.name)
-                Picker(selection: $selectedType, label: Text("Type")) {
-                    ForEach(types, id:\.self) { type in
-                        Text(type).tag(types.firstIndex(of: type))
-                    }
-                }
-                .onChange(of: self.selectedType, perform: { _ in
-                    print("Value \(selectedType)")
-                    let newValue = types[selectedType]
-                    jeuViewModel.type = newValue
-                })
+                FloatingTextField("Prenom", text: $benevoleViewModel.prenom)
+                FloatingTextField("Nom", text: $benevoleViewModel.nom)
+                FloatingTextField("Mail", text: $benevoleViewModel.mail)
                 Section {
                     Button("Enregistrer") {
                         Task {
-                            intent.intentTestValidation(jeu: jeuViewModel.getJeuFromViewModel())
-                            if jeuViewModel.error == .noError {
-                                let data = await intent.intentValidation(jeu: jeuViewModel.copyModel)
+                            intent.intentTestValidation(benevole: benevoleViewModel.getBenevoleFromViewModel())
+                            if benevoleViewModel.error == .noError {
+                                let data = await intent.intentValidation(benevole: benevoleViewModel.copyModel)
                                 switch data {
                                     case .success(_):
                                         showingAlert = true
-                                        textAlert = "Jeu mis à jour"
+                                        textAlert = "Benevole mis à jour"
                                     case .failure(let err):
                                         errorAlert = true
                                         textAlert = "Erreur \(err)"
@@ -59,7 +43,7 @@ struct JeuView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
                     Button("Supprimer") {
                         Task {
-                            let data = await intent.intentDeleteRequest(id: jeuViewModel.id)
+                            let data = await intent.intentDeleteRequest(id: benevoleViewModel.id)
                             switch data {
                                 case .success(_):
                                     break
@@ -71,7 +55,7 @@ struct JeuView: View {
                     }
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center).foregroundColor(.red)
                 }
-                .onChange(of: jeuViewModel.error) { error in
+                .onChange(of: benevoleViewModel.error) { error in
                     print(error)
                     if (error != .noError) {
                         textAlert = "\(error)"
@@ -88,7 +72,7 @@ struct JeuView: View {
         .toast(isPresenting: $errorAlert, alert: {
             AlertToast(displayMode: .hud, type: .error(.red), title: textAlert)
         }, completion: {
-            jeuViewModel.error = .noError
+            benevoleViewModel.error = .noError
             errorAlert = false
         })   
     }

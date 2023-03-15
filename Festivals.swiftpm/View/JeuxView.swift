@@ -3,7 +3,7 @@ import AlertToast
 
 struct JeuxView: View {
 
-    @ObservedObject var jeuxViewModel : jeuxViewModel = jeuxViewModel(jeux: [])
+    @ObservedObject var jeuxViewModel : JeuxViewModel = JeuxViewModel(jeux: [])
     @State private var searchText = ""
     @State private var createJeu = false
     @State private var dataIsLoad = false

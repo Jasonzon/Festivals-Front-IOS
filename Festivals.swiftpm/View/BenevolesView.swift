@@ -1,12 +1,66 @@
 import SwiftUI
+import AlertToast
 
-struct ContentView: View {
+struct BenevolesView: View {
+
+    @ObservedObject var benevolesViewModel : BenevolesViewModel = BenevolesViewModel(benevoles: [])
+    @State private var searchText = ""
+    @State private var createBenevole = false
+    @State private var dataIsLoad = false
+    private var searchResults: [Benevole] {
+        if searchText.isEmpty {
+            return benevolesViewModel.benevoles
+        } 
+        else {
+            return benevolesViewModel.benevoles.filter {
+                $0.nom.uppercased().contains(searchText.uppercased()) || $0.prenom.uppercased().contains(searchText.uppercased()) || $0.mail.uppercased().contains(searchText.uppercased())
+            }
+        }
+    }
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("BenevolesView")
+        VStack{
+            NavigationView {
+                VStack{
+                    NavigationLink(destination:BenevoleCreateView(benevolesViewModel: benevolesViewModel), isActive: $createBenevole){}
+                    List {
+                        ForEach(searchResults, id: \.id) { element in
+                            NavigationLink(destination:BenevoleView(benevole: element, benevolesViewModel: benevolesViewModel)) {
+                                HStack {
+                                    Text(element.prenom + " " + element.nom)
+                                }
+                            }
+                        }  
+                    }
+                    .searchable(text: $searchText)
+                    .onAppear() {
+                        loadData()
+                    }
+                    .toolbar {
+                        Button("+") {
+                            createBenevole = true
+                        }
+                    }
+                    .navigationTitle("Benevoles")
+                }
+            }
+            .overlay(Group {
+                ProgressView().opacity(dataIsLoad ? 0 : 1)
+            })
+            .toast(isPresenting: $benevolesViewModel.alert, alert: {
+                AlertToast(displayMode: .hud, type: .complete(.green), title: benevolesViewModel.textAlert)
+            }, completion: {
+                benevolesViewModel.alert = false
+            })
+        }
+    }
+    
+    func loadData(){
+        Task {
+            let benevoleDTOs = await API.benevoleDAO().getAll()
+            self.benevolesViewModel.benevoles = benevoleDTOs.map {
+                Benevole(benevoleDTO: $0)
+            }
         }
     }
 }

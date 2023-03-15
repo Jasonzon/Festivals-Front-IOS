@@ -21,7 +21,7 @@ struct JeuCreateView: View {
     var body: some View {
         VStack {
             Form {
-                FloatingTextField("Nom", text: $jeuxViewModel.name)
+                FloatingTextField("Nom", text: $jeuViewModel.name)
                 Picker(selection: $selectedType, label: Text("Type")) {
                     ForEach(types, id: \.self) { type in
                         Text(type).tag(types.firstIndex(of: type))
