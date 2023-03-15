@@ -11,7 +11,7 @@ enum CreneauxIntentState {
 
 struct CreneauxIntent {
 
-    private var listState = PassthroughSubject<CreneauxIntentState<Creneau>,Never>()
+    private var listState = PassthroughSubject<CreneauxIntentState,Never>()
 
     func addListObserver(viewModel: CreneauxViewModel){
         self.listState.subscribe(viewModel)
@@ -21,7 +21,7 @@ struct CreneauxIntent {
         let data = await API.creneauDAO().delete(creneauId: id)
         switch data {
             case .success(_):
-                self.listState.send(.deleteRequest(id: id))
+                self.listState.send(input: .deleteRequest(id: id))
                 return data
             case .failure(_):
                 return data
@@ -29,6 +29,6 @@ struct CreneauxIntent {
     }
 
     func intentCreateRequest(element: Creneau) {
-        self.listState.send(.createRequest(element: element))
+        self.listState.send(input: .createRequest(element: element))
     }
 }

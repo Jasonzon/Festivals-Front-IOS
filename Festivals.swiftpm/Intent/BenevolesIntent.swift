@@ -11,7 +11,7 @@ enum BenevolesIntentState {
 
 struct BenevolesIntent {
 
-    private var listState = PassthroughSubject<BenevolesIntentState<Benevole>,Never>()
+    private var listState = PassthroughSubject<BenevolesIntentState,Never>()
 
     func addListObserver(viewModel: BenevolesViewModel){
         self.listState.subscribe(viewModel)
@@ -21,7 +21,7 @@ struct BenevolesIntent {
         let data = await API.benevoleDAO().delete(benevoleId: id)
         switch data {
             case .success(_):
-                self.listState.send(.deleteRequest(id: id))
+                self.listState.send(input: .deleteRequest(id: id))
                 return data
             case .failure(_):
                 return data
@@ -29,6 +29,6 @@ struct BenevolesIntent {
     }
 
     func intentCreateRequest(element: Benevole) {
-        self.listState.send(.createRequest(element: element))
+        self.listState.send(input: .createRequest(element: element))
     }
 }

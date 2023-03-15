@@ -10,21 +10,21 @@ enum CreneauIntentState {
 
 struct CreneauIntent {
 
-    private var state = PassThroughSubject<CreneauIntentState,Never>()
+    private var state = PassthroughSubject<CreneauIntentState,Never>()
 
     func addObserver(viewModel: CreneauViewModel){
         self.state.subscribe(viewModel)
     }
 
     func intentTestValidation(creneau: Creneau){
-        self.state.send(.testValidation(creneau))
+        self.state.send(input: .testValidation(creneau))
     }
 
     func intentValidation(creneau: Creneau) async -> Result<Bool,APIError> {
-        let data = await API.creneauDAO().update(creneau: CreneauDTO(creneau))
+        let data = await API.creneauDAO().update(creneau: CreneauDTO(creneau: creneau))
         switch data {
             case .success(_):
-                self.state.send(.updateModel)
+                self.state.send(input: .updateModel)
                 return .success(true)
             case .failure(let err):
                 return .failure(err)

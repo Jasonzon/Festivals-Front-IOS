@@ -11,7 +11,7 @@ enum JeuxIntentState {
 
 struct JeuxIntent {
 
-    private var listState = PassthroughSubject<JeuxIntentState<Jeu>,Never>()
+    private var listState = PassthroughSubject<JeuxIntentState,Never>()
 
     func addListObserver(viewModel: JeuxViewModel){
         self.listState.subscribe(viewModel)
@@ -21,7 +21,7 @@ struct JeuxIntent {
         let data = await API.jeuDAO().delete(jeuId: id)
         switch data {
             case .success(_):
-                self.listState.send(.deleteRequest(id: id))
+                self.listState.send(input: .deleteRequest(id: id))
                 return data
             case .failure(_):
                 return data
@@ -29,6 +29,6 @@ struct JeuxIntent {
     }
 
     func intentCreateRequest(element: Jeu) {
-        self.listState.send(.createRequest(element: element))
+        self.listState.send(input: .createRequest(element: element))
     }
 }

@@ -10,21 +10,21 @@ enum JeuIntentState {
 
 struct JeuIntent {
 
-    private var state = PassThroughSubject<JeuIntentState,Never>()
+    private var state = PassthroughSubject<JeuIntentState,Never>()
 
     func addObserver(viewModel: JeuViewModel){
         self.state.subscribe(viewModel)
     }
 
     func intentTestValidation(jeu: Jeu){
-        self.state.send(.testValidation(jeu))
+        self.state.send(input: .testValidation(jeu))
     }
 
     func intentValidation(jeu: Jeu) async -> Result<Bool,APIError> {
-        let data = await API.jeuDAO().update(jeu: JeuDTO(jeu))
+        let data = await API.jeuDAO().update(jeu: JeuDTO(jeu: jeu))
         switch data {
             case .success(_):
-                self.state.send(.updateModel)
+                self.state.send(input: .updateModel)
                 return .success(true)
             case .failure(let err):
                 return .failure(err)

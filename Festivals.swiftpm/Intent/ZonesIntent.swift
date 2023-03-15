@@ -11,7 +11,7 @@ enum ZonesIntentState {
 
 struct ZonesIntent {
 
-    private var listState = PassthroughSubject<ZonesIntentState<Zone>,Never>()
+    private var listState = PassthroughSubject<ZonesIntentState,Never>()
 
     func addListObserver(viewModel: ZonesViewModel){
         self.listState.subscribe(viewModel)
@@ -21,7 +21,7 @@ struct ZonesIntent {
         let data = await API.zoneDAO().delete(zoneId: id)
         switch data {
             case .success(_):
-                self.listState.send(.deleteRequest(id: id))
+                self.listState.send(input: .deleteRequest(id: id))
                 return data
             case .failure(_):
                 return data
@@ -29,6 +29,6 @@ struct ZonesIntent {
     }
 
     func intentCreateRequest(element: Zone) {
-        self.listState.send(.createRequest(element: element))
+        self.listState.send(input: .createRequest(element: element))
     }
 }
