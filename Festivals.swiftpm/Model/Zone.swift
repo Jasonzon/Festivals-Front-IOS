@@ -26,4 +26,9 @@ class Zone : ObservableObject {
         self.name = name
         self.id = id
     }
+
+    init(zoneDTO: ZoneDTO) {
+        self.name = zoneDTO.name
+        self.id = zoneDTO.id
+    }
 }

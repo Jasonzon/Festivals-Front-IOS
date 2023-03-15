@@ -87,6 +87,15 @@ class User : ObservableObject {
         self.password = password
     }
 
+    init(userDTO: UserDTO) {
+        self.mail = userDTO.mail
+        self.nom = userDTO.nom
+        self.prenom = userDTO.prenom
+        self.role = userDTO.role
+        self.id = userDTO.id
+        self.password = userDTO.password
+    }
+
     func isMailValid() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)

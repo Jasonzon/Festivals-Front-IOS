@@ -42,6 +42,12 @@ class Creneau : ObservableObject {
         self.id = id
     }
 
+    init(creneauDTO: CreneauDTO) {
+        self.debut = creneauDTO.debut
+        self.fin = creneauDTO.fin
+        self.id = creneauDTO.id
+    }
+
     func isDebutValid() -> Bool {
         return true //Pour l'instant, à changer
     }

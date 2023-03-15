@@ -41,4 +41,10 @@ class Jeu : ObservableObject {
         self.type = type
         self.id = id
     }
+
+    init(jeuDTO: JeuDTO) {
+        self.name = jeuDTO.name
+        self.type = jeuDTO.type
+        self.id = jeuDTO.id
+    }
 }

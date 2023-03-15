@@ -57,6 +57,13 @@ class Benevole : ObservableObject {
         self.id = id
     }
 
+    init(benevoleDTO: BenevoleDTO) {
+        self.mail = benevoleDTO.mail
+        self.nom = benevoleDTO.nom
+        self.prenom = benevoleDTO.prenom
+        self.id = benevoleDTO.id
+    }
+
     func isMailValid() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
