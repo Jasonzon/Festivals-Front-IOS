@@ -2,7 +2,7 @@ import Foundation
 
 struct JeuDTO: Codable {
     
-    let id: String?
+    let id: String
     let name: String
     let type: JeuType
 

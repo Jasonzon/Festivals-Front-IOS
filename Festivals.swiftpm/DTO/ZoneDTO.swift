@@ -2,7 +2,7 @@ import Foundation
 
 struct ZoneDTO: Codable {
     
-    let id: String?
+    let id: String
     let name: String
 
     init(id: String, name: String) {

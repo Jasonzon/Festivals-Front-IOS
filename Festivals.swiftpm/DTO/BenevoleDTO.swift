@@ -2,7 +2,7 @@ import Foundation
 
 struct BenevoleDTO: Codable {
 
-    var id: String?
+    var id: String
     let nom: String
     let prenom: String
     let mail: String

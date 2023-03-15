@@ -2,12 +2,12 @@ import Foundation
 
 struct UserDTO: Codable {
 
-    let id: String?
+    let id: String
     let mail: String
     let nom: String
     let prenom: String
     let role: UserRole
-    let password: String?
+    let password: String
 
     init(id: String, mail: String, nom: String, prenom: String, role: UserRole, password: String) {
         self.id = id
