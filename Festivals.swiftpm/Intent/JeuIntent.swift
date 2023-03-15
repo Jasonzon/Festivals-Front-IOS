@@ -1,6 +1,6 @@
 import Foundation
 import Combine
-import SwiftUi
+import SwiftUI
 
 enum JeuIntentState {
     case ready
