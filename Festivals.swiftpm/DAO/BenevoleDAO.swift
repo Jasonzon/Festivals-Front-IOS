@@ -68,7 +68,7 @@ struct BenevoleDAO {
     
     func update(benevole: BenevoleDTO) async -> Result<Bool,APIError> {
         guard let id = benevole.id, let url = URL(string: "\(API)/\(id)") else {
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound("\(API)/\(id)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
@@ -100,7 +100,7 @@ struct BenevoleDAO {
     
     func delete(benevoleId: String) async -> Result<Bool,APIError> {
         guard let url = URL(string: "\(API)/\(benevoleId)") else {
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound("\(API)/\(benevoleId)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"

@@ -68,7 +68,7 @@ struct CreneauDAO {
     
     func update(creneau: CreneauDTO) async -> Result<Bool,APIError> {
         guard let id = creneau.id, let url = URL(string: "\(API)/\(id)") else {
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound("\(API)/\(id)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
@@ -100,7 +100,7 @@ struct CreneauDAO {
     
     func delete(creneauId: String) async -> Result<Bool,APIError> {
         guard let url = URL(string: "\(API)/\(creneauId)") else {
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound("\(API)/\(creneauId)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"

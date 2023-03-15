@@ -68,7 +68,7 @@ struct JeuDAO {
     
     func update(jeu: JeuDTO) async -> Result<Bool,APIError> {
         guard let id = jeu.id, let url = URL(string: "\(API)/\(id)") else {
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound("\(API)/\(id)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
@@ -100,7 +100,7 @@ struct JeuDAO {
     
     func delete(jeuId: String) async -> Result<Bool,APIError> {
         guard let url = URL(string: "\(API)/\(jeuId)") else {
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound("\(API)/\(jeuId)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"

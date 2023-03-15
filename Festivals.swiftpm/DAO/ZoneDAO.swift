@@ -68,7 +68,7 @@ struct ZoneDAO {
     
     func update(zone: ZoneDTO) async -> Result<Bool,APIError> {
         guard let id = zone.id, let url = URL(string: "\(API)/\(id)") else {
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound("\(API)/\(id)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
@@ -100,7 +100,7 @@ struct ZoneDAO {
     
     func delete(zoneId: String) async -> Result<Bool,APIError> {
         guard let url = URL(string: "\(API)/\(zoneId)") else {
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound("\(API)/\(zoneId)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
