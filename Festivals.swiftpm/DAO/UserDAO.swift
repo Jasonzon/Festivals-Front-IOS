@@ -67,8 +67,8 @@ struct UserDAO {
     }
     
     func update(user: UserDTO) async -> Result<Bool,APIError> {
-        guard let id = user.id, let url = URL(string: "\(API)/\(id)") else {
-            return .failure(.urlNotFound("\(API)/\(id)"))
+        guard let url = URL(string: "\(API)/\(user.id)") else {
+            return .failure(.urlNotFound("\(API)/\(user.id)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"

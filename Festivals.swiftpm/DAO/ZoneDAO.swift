@@ -67,8 +67,8 @@ struct ZoneDAO {
     }
     
     func update(zone: ZoneDTO) async -> Result<Bool,APIError> {
-        guard let id = zone.id, let url = URL(string: "\(API)/\(id)") else {
-            return .failure(.urlNotFound("\(API)/\(id)"))
+        guard let url = URL(string: "\(API)/\(zone.id)") else {
+            return .failure(.urlNotFound("\(API)/\(zone.id)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"

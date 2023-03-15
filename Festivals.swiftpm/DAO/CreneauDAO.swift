@@ -67,8 +67,8 @@ struct CreneauDAO {
     }
     
     func update(creneau: CreneauDTO) async -> Result<Bool,APIError> {
-        guard let id = creneau.id, let url = URL(string: "\(API)/\(id)") else {
-            return .failure(.urlNotFound("\(API)/\(id)"))
+        guard let url = URL(string: "\(API)/\(creneau.id)") else {
+            return .failure(.urlNotFound("\(API)/\(creneau.id)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"

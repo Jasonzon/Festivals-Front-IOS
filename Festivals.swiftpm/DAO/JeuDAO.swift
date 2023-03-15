@@ -67,8 +67,8 @@ struct JeuDAO {
     }
     
     func update(jeu: JeuDTO) async -> Result<Bool,APIError> {
-        guard let id = jeu.id, let url = URL(string: "\(API)/\(id)") else {
-            return .failure(.urlNotFound("\(API)/\(id)"))
+        guard let url = URL(string: "\(API)/\(jeu.id)") else {
+            return .failure(.urlNotFound("\(API)/\(jeu.id)"))
         }
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
