@@ -8,6 +8,8 @@ struct ConnectionView: View {
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
+    var isConnected: Bool
+    var isRegistering: Bool
 
     var body: some View {
         VStack {
