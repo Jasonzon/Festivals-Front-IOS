@@ -4,7 +4,6 @@ import Combine
 class JeuxViewModel: ObservableObject, Subscriber {
 
     @Published var jeux: [Jeu]
-    @Published var jeuTypes: [JeuType] = []
     @Published var alert = false
     @Published var textAlert = ""
     
