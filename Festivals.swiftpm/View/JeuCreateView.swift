@@ -12,7 +12,7 @@ struct JeuCreateView: View {
     @State private var errorAlert = false
     
     init(jeuxViewModel: JeuxViewModel) {
-        self.jeuViewModel = JeuViewModel(model: Jeu(name: "", type: JeuType.enfant, id: 0))
+        self.jeuViewModel = JeuViewModel(model: Jeu(name: "", type: JeuType.Enfant, id: 0))
         self.intent = JeuIntent()
         self.intent.addObserver(viewModel: jeuViewModel)
         self.intent.addListObserver(viewModel: jeuxViewModel)

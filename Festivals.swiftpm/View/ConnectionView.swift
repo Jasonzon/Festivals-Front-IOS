@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ConnectionView: View {
 
-    @ObservedObject var userViewModel: UserViewModel
+    @ObservedObject var benevoleViewModel: BenevoleViewModel
     var intent: BenevoleIntent
     @State private var showingAlert = false
     @State private var showingAlertNotDismiss = false

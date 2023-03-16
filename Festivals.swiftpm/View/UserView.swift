@@ -11,16 +11,18 @@ struct UserView: View {
     @State private var errorAlert = false
     @State private var textAlert = ""
 
-    init(benevole: Benevole) {
-        self.benevoleViewModel = BenevoleViewModel(model: benevole)
-        self.intent = BenevoleIntent()
-        self.intent.addObserver(viewModel: benevoleViewModel)
+    init() {
+        if isConnected {
+            self.benevoleViewModel = BenevoleViewModel(model: UserSession.shared.benevole!)
+            self.intent = BenevoleIntent()
+            self.intent.addObserver(viewModel: benevoleViewModel)
+        }
     }
 
     var body: some View {
         VStack {
             if isConnected {
-                Text(UserSession.shared.benevole.prenom + "  " + UserSession.shared.benevole.nom)
+                Text(UserSession.shared.benevole.prenom! + "  " + UserSession.shared.benevole.nom!)
             } 
             else if isRegistering {
                 RegisterView(isRegistering: $isRegistering)
