@@ -11,7 +11,7 @@ enum CreneauIntentState {
 enum CreneauxIntentState {
     case upToDate
     case listUpdated
-    case deleteRequest(id: String)
+    case deleteRequest(id: Int)
     case createRequest(element: Creneau)
 }
 
@@ -29,7 +29,7 @@ struct CreneauIntent {
     }
 
     func intentValidation(creneau: Creneau) async -> Result<Bool,APIError> {
-        let data = await API.creneauDAO().update(creneau: CreneauDTO(creneau: creneau))
+        let data = await API.creneauDAO().update(creneau: creneau)
         switch data {
             case .success(_):
                 self.state.send(.updateModel)
@@ -43,8 +43,8 @@ struct CreneauIntent {
         self.listState.subscribe(viewModel)
     }
 
-    func intentDeleteRequest(id: String) async -> Result<Bool,APIError> {
-        let data = await API.creneauDAO().delete(creneauId: id)
+    func intentDeleteRequest(id: Int) async -> Result<Bool,APIError> {
+        let data = await API.creneauDAO().delete(id: id)
         switch data {
             case .success(_):
                 self.listState.send(.deleteRequest(id: id))

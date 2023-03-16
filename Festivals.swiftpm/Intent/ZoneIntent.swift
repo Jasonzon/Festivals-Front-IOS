@@ -11,7 +11,7 @@ enum ZoneIntentState {
 enum ZonesIntentState {
     case upToDate
     case listUpdated
-    case deleteRequest(id: String)
+    case deleteRequest(id: Int)
     case createRequest(element: Zone)
 }
 
@@ -29,7 +29,7 @@ struct ZoneIntent {
     }
 
     func intentValidation(zone: Zone) async -> Result<Bool,APIError> {
-        let data = await API.zoneDAO().update(zone: ZoneDTO(zone: zone))
+        let data = await API.zoneDAO().update(zone: zone)
         switch data {
             case .success(_):
                 self.state.send(.updateModel)
@@ -43,8 +43,8 @@ struct ZoneIntent {
         self.listState.subscribe(viewModel)
     }
 
-    func intentDeleteRequest(id: String) async -> Result<Bool,APIError> {
-        let data = await API.zoneDAO().delete(zoneId: id)
+    func intentDeleteRequest(id: Int) async -> Result<Bool,APIError> {
+        let data = await API.zoneDAO().delete(id: id)
         switch data {
             case .success(_):
                 self.listState.send(.deleteRequest(id: id))

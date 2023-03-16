@@ -11,7 +11,7 @@ enum JeuIntentState {
 enum JeuxIntentState {
     case upToDate
     case listUpdated
-    case deleteRequest(id: String)
+    case deleteRequest(id: Int)
     case createRequest(element: Jeu)
 }
 
@@ -29,7 +29,7 @@ struct JeuIntent {
     }
 
     func intentValidation(jeu: Jeu) async -> Result<Bool,APIError> {
-        let data = await API.jeuDAO().update(jeu: JeuDTO(jeu: jeu))
+        let data = await API.jeuDAO().update(jeu: jeu)
         switch data {
             case .success(_):
                 self.state.send(.updateModel)
@@ -43,8 +43,8 @@ struct JeuIntent {
         self.listState.subscribe(viewModel)
     }
 
-    func intentDeleteRequest(id: String) async -> Result<Bool,APIError> {
-        let data = await API.jeuDAO().delete(jeuId: id)
+    func intentDeleteRequest(id: Int) async -> Result<Bool,APIError> {
+        let data = await API.jeuDAO().delete(id: id)
         switch data {
             case .success(_):
                 self.listState.send(.deleteRequest(id: id))

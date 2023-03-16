@@ -11,7 +11,7 @@ enum BenevoleIntentState {
 enum BenevolesIntentState {
     case upToDate
     case listUpdated
-    case deleteRequest(id: String)
+    case deleteRequest(id: Int)
     case createRequest(element: Benevole)
 }
 
@@ -33,7 +33,7 @@ struct BenevoleIntent {
     }
 
     func intentValidation(benevole: Benevole) async -> Result<Bool,APIError> {
-        let data = await API.benevoleDAO().update(benevole: BenevoleDTO(benevole: benevole))
+        let data = await API.benevoleDAO().update(benevole: benevole)
         switch data {
             case .success(_):
                 self.state.send(.updateModel)
@@ -47,8 +47,8 @@ struct BenevoleIntent {
         self.listState.send(.createRequest(element: element))
     }
 
-    func intentDeleteRequest(id: String) async -> Result<Bool,APIError> {
-        let data = await API.benevoleDAO().delete(benevoleId: id)
+    func intentDeleteRequest(id: Int) async -> Result<Bool,APIError> {
+        let data = await API.benevoleDAO().delete(id: id)
         switch data {
             case .success(_):
                 self.listState.send(.deleteRequest(id: id))
