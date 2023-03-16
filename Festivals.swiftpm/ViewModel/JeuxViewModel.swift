@@ -15,7 +15,7 @@ class JeuxViewModel: ObservableObject, Subscriber {
         subscription.request(.unlimited)
     }
     
-    func receive(input: JeuxIntentState) -> Subscribers.Demand {
+    func receive(_: JeuxIntentState) -> Subscribers.Demand {
         switch(input){
             case .upToDate:
                 break

@@ -25,7 +25,7 @@ class ZoneViewModel: Subscriber, ObservableObject, ZoneObserver {
         subscription.request(.unlimited)
     }
     
-    func receive(input: ZoneIntentState) -> Subscribers.Demand {
+    func receive(_: ZoneIntentState) -> Subscribers.Demand {
         switch(input){
             case .ready:
                 break

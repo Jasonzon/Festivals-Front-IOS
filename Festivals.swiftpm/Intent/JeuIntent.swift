@@ -25,14 +25,14 @@ struct JeuIntent {
     }
 
     func intentTestValidation(jeu: Jeu){
-        self.state.send(input: .testValidation(jeu))
+        self.state.send(.testValidation(jeu))
     }
 
     func intentValidation(jeu: Jeu) async -> Result<Bool,APIError> {
         let data = await API.jeuDAO().update(jeu: JeuDTO(jeu: jeu))
         switch data {
             case .success(_):
-                self.state.send(input: .updateModel)
+                self.state.send(.updateModel)
                 return .success(true)
             case .failure(let err):
                 return .failure(err)
@@ -47,7 +47,7 @@ struct JeuIntent {
         let data = await API.jeuDAO().delete(jeuId: id)
         switch data {
             case .success(_):
-                self.listState.send(input: .deleteRequest(id: id))
+                self.listState.send(.deleteRequest(id: id))
                 return data
             case .failure(_):
                 return data
@@ -55,6 +55,6 @@ struct JeuIntent {
     }
 
     func intentCreateRequest(element: Jeu) {
-        self.listState.send(input: .createRequest(element: element))
+        self.listState.send(.createRequest(element: element))
     }
 }

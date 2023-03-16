@@ -31,7 +31,7 @@ class CreneauViewModel: Subscriber, ObservableObject, CreneauObserver {
         subscription.request(.unlimited)
     }
     
-    func receive(input: CreneauIntentState) -> Subscribers.Demand {
+    func receive(_: CreneauIntentState) -> Subscribers.Demand {
         switch(input){
             case .ready:
                 break

@@ -15,7 +15,7 @@ class ZonesViewModel: ObservableObject, Subscriber {
         subscription.request(.unlimited)
     }
     
-    func receive(input: ZonesIntentState) -> Subscribers.Demand {
+    func receive(_: ZonesIntentState) -> Subscribers.Demand {
         switch(input){
             case .upToDate:
                 break

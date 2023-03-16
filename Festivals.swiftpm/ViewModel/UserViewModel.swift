@@ -49,7 +49,7 @@ class UserViewModel: Subscriber, ObservableObject, UserObserver {
         subscription.request(.unlimited)
     }
     
-    func receive(input: UserIntentState) -> Subscribers.Demand {
+    func receive(_: UserIntentState) -> Subscribers.Demand {
         switch(input){
             case .ready:
                 break

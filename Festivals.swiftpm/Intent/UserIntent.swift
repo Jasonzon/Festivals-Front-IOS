@@ -17,14 +17,14 @@ struct UserIntent {
     }
 
     func intentTestValidation(user: User) {
-        self.state.send(input: .testValidation(user))
+        self.state.send(.testValidation(user))
     }
 
     func intentValidation(user: User) async -> Result<Bool,APIError> {
         let data = await API.userDAO().update(user: UserDTO(user: user))
         switch data {
             case .success(_):
-                self.state.send(input: .updateModel)
+                self.state.send(.updateModel)
                 return .success(true)
             case .failure(let err):
                 return .failure(err)

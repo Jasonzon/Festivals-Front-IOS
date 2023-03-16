@@ -25,14 +25,14 @@ struct CreneauIntent {
     }
 
     func intentTestValidation(creneau: Creneau){
-        self.state.send(input: .testValidation(creneau))
+        self.state.send(.testValidation(creneau))
     }
 
     func intentValidation(creneau: Creneau) async -> Result<Bool,APIError> {
         let data = await API.creneauDAO().update(creneau: CreneauDTO(creneau: creneau))
         switch data {
             case .success(_):
-                self.state.send(input: .updateModel)
+                self.state.send(.updateModel)
                 return .success(true)
             case .failure(let err):
                 return .failure(err)
@@ -47,7 +47,7 @@ struct CreneauIntent {
         let data = await API.creneauDAO().delete(creneauId: id)
         switch data {
             case .success(_):
-                self.listState.send(input: .deleteRequest(id: id))
+                self.listState.send(.deleteRequest(id: id))
                 return data
             case .failure(_):
                 return data
@@ -55,6 +55,6 @@ struct CreneauIntent {
     }
 
     func intentCreateRequest(element: Creneau) {
-        self.listState.send(input: .createRequest(element: element))
+        self.listState.send(.createRequest(element: element))
     }
 }

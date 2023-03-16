@@ -15,7 +15,7 @@ class BenevolesViewModel: ObservableObject, Subscriber {
         subscription.request(.unlimited)
     }
     
-    func receive(input: BenevolesIntentState) -> Subscribers.Demand {
+    func receive(_: BenevolesIntentState) -> Subscribers.Demand {
         switch(input){
             case .upToDate:
                 break

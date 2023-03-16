@@ -29,14 +29,14 @@ struct BenevoleIntent {
     }
 
     func intentTestValidation(benevole: Benevole){
-        self.state.send(input: .testValidation(benevole))
+        self.state.send(.testValidation(benevole))
     }
 
     func intentValidation(benevole: Benevole) async -> Result<Bool,APIError> {
         let data = await API.benevoleDAO().update(benevole: BenevoleDTO(benevole: benevole))
         switch data {
             case .success(_):
-                self.state.send(input: .updateModel)
+                self.state.send(.updateModel)
                 return .success(true)
             case .failure(let err):
                 return .failure(err)
@@ -44,14 +44,14 @@ struct BenevoleIntent {
     }
 
     func intentCreateRequest(element: Benevole) {
-        self.listState.send(input: .createRequest(element: element))
+        self.listState.send(.createRequest(element: element))
     }
 
     func intentDeleteRequest(id: String) async -> Result<Bool,APIError> {
         let data = await API.benevoleDAO().delete(benevoleId: id)
         switch data {
             case .success(_):
-                self.listState.send(input: .deleteRequest(id: id))
+                self.listState.send(.deleteRequest(id: id))
                 return data
             case .failure(_):
                 return data
