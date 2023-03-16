@@ -12,11 +12,8 @@ struct ZoneDAO {
         let data:Result<[ZoneDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
         switch data {
             case .success(let DTO):
-                var zoneList: [Zone] = []
-                DTO.forEach { element in
-                    if let notNilElment = Zone(zoneDTO: element) {
-                        zoneList.append(notNilElment)
-                    }
+                var zoneList: [Zone] = DTO.compactMap { 
+                    Zone(zoneDTO: $0) 
                 }
                 return zoneList
             case .failure(let err):

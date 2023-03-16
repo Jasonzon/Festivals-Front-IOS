@@ -12,11 +12,8 @@ struct JeuDAO {
         let data:Result<[JeuDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
         switch data {
             case .success(let DTO):
-                var jeuList: [Jeu] = []
-                DTO.forEach { element in
-                    if let notNilElment = Jeu(jeuDTO: element) {
-                        ingredientList.append(notNilElment)
-                    }
+                var jeuList: [Jeu] = DTO.compactMap { 
+                    Jeu(jeuDTO: $0) 
                 }
                 return jeuList
             case .failure(let err):

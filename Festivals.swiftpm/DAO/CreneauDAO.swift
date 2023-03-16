@@ -12,11 +12,8 @@ struct CreneauDAO {
         let data:Result<[CreneauDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
         switch data {
             case .success(let DTO):
-                var creneauList: [Creneau] = []
-                DTO.forEach { element in
-                    if let notNilElment = Creneau(creneauDTO: element) {
-                        creneauList.append(notNilElment)
-                    }
+                var creneauList: [Creneau] = DTO.compactMap { 
+                    Creneau(creneauDTO: $0) 
                 }
                 return creneauList
             case .failure(let err):

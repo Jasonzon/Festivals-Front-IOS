@@ -12,13 +12,10 @@ struct BenevoleDAO {
         let data:Result<[BenevoleDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
         switch data {
             case .success(let DTO):
-                var benevoleList: [Benevole] = []
-                DTO.forEach { element in
-                    if let notNilElment = Benevole(benevoleDTO: element) {
-                        ingredientList.append(notNilElment)
-                    }
+                var benevoleList: [Benevole] = DTO.compactMap { 
+                    Benevole(benevoleDTO: $0) 
                 }
-                return ingredientList
+                return benevoleList
             case .failure(let err):
                 print("Erreur : \(err)")
                 return []

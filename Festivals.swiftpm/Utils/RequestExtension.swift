@@ -13,7 +13,7 @@ extension URLSession {
 
     func getJSON<T:Decodable>(from url:URL) async -> Result<T, APIError>{
         guard let(data,_) = try? await data(from: url) else {
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound(url.absoluteString))
         }
         guard let decoded = try? JSONDecoder().decode(T.self, from: data) else {
             print(String(decoding: data,as: UTF8.self))
@@ -43,7 +43,7 @@ extension URLSession {
             }       
         }
         catch{
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound(url.absoluteString))
         }
     }
 
@@ -65,7 +65,7 @@ extension URLSession {
             }       
         }
         catch{
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound(url.absoluteString))
         }
     }
 
@@ -87,7 +87,7 @@ extension URLSession {
             }
         }
         catch{
-            return .failure(.urlNotFound(url))
+            return .failure(.urlNotFound(url.absoluteString))
         }
     }
 }
