@@ -12,7 +12,7 @@ struct JeuCreateView: View {
     @State private var errorAlert = false
     
     init(jeuxViewModel: JeuxViewModel) {
-        self.jeuViewModel = JeuViewModel(model: Jeu(name: "", type: JeuType(rawValue: "enfant"), id: 0))
+        self.jeuViewModel = JeuViewModel(model: Jeu(name: "", type: JeuType.enfant, id: 0))
         self.intent = JeuIntent()
         self.intent.addObserver(viewModel: jeuViewModel)
         self.intent.addListObserver(viewModel: jeuxViewModel)
@@ -30,14 +30,14 @@ struct JeuCreateView: View {
                 .onChange(of: self.selectedType, perform: { _ in
                     print("Value \(selectedType)")
                     let newValue = types[selectedType]
-                    jeuViewModel.type = newValue
+                    jeuViewModel.type = JeuType(rawValue: newValue)!
                 })
                 Section {
                     Button("Créer") {
                         Task {
                             intent.intentTestValidation(jeu: jeuViewModel.getJeuFromViewModel())
                             if jeuViewModel.error == .noError {
-                                let data = await API.jeuDAO().create(jeu: JeuDTO(jeuViewModel.copyModel))
+                                let data = await API.jeuDAO().create(jeu: jeuViewModel.copyModel)
                                 switch data{
                                     case .success(let id):
                                         jeuViewModel.copyModel.id = id

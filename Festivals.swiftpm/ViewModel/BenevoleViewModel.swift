@@ -68,6 +68,6 @@ class BenevoleViewModel: Subscriber, ObservableObject, BenevoleObserver {
     }
 
     func getBenevoleFromViewModel() -> Benevole {
-        return Benevole(mail: mail, nom: nom, prenom: prenom, id: id)
+        return Benevole(mail: mail, nom: nom, prenom: prenom, id: id, role: UserRole, password: String)
     }
 }

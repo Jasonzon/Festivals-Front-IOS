@@ -26,7 +26,7 @@ struct CreneauCreateView: View {
                         Task {
                             intent.intentTestValidation(creneau: creneauViewModel.getCreneauFromViewModel())
                             if creneauViewModel.error == .noError {
-                                let data = await API.creneauDAO().create(creneau: CreneauDTO(creneauViewModel.copyModel))
+                                let data = await API.creneauDAO().create(creneau: creneauViewModel.copyModel)
                                 switch data{
                                     case .success(let id):
                                         creneauViewModel.copyModel.id = id

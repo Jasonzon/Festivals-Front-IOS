@@ -10,7 +10,7 @@ struct BenevoleCreateView: View {
     @State private var errorAlert = false
     
     init(benevolesViewModel: BenevolesViewModel) {
-        self.benevoleViewModel = BenevoleViewModel(model: Benevole(mail: "", nom: "", prenom: "", id: 0, role: UserRole.Basic, password: "")
+        self.benevoleViewModel = BenevoleViewModel(model: Benevole(mail: "", nom: "", prenom: "", id: 0, role: UserRole.Basic, password: ""))
         self.intent = BenevoleIntent()
         self.intent.addObserver(viewModel: benevoleViewModel)
         self.intent.addListObserver(viewModel: benevolesViewModel)

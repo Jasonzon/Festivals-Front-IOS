@@ -3,24 +3,24 @@ import SwiftUI
 struct UserView: View {
 
     @State private var isRegistering = false
-    @State private var isConnected: Bool = UserSession.shared.user != nil
-    @ObservedObject var userViewModel: UserViewModel
-    var intent: UserIntent
+    @State private var isConnected: Bool = UserSession.shared.benevole != nil
+    @ObservedObject var benevoleViewModel: BenevoleViewModel
+    var intent: BenevoleIntent
     @State private var showingAlert = false
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
 
-    init(user: User) {
-        self.userViewModel = UserViewModel(model: user)
-        self.intent = UserIntent()
-        self.intent.addObserver(viewModel: userViewModel)
+    init(benevole: Benevole) {
+        self.benevoleViewModel = BenevoleViewModel(model: benevole)
+        self.intent = BenevoleIntent()
+        self.intent.addObserver(viewModel: benevoleViewModel)
     }
 
     var body: some View {
         VStack {
             if isConnected {
-                Text(UserSession.shared.user.prenom + "  " + UserSession.shared.user.nom)
+                Text(UserSession.shared.benevole.prenom + "  " + UserSession.shared.benevole.nom)
             } 
             else if isRegistering {
                 RegisterView(isRegistering: $isRegistering)

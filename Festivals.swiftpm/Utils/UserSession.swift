@@ -4,7 +4,7 @@ class UserSession {
 
     static let shared = UserSession()
     
-    var user: Benevole?
+    var benevole: Benevole?
     
     private init() {}
 }

@@ -25,7 +25,7 @@ struct ZoneCreateView: View {
                         Task {
                             intent.intentTestValidation(zone: zoneViewModel.getZoneFromViewModel())
                             if zoneViewModel.error == .noError {
-                                let data = await API.zoneDAO().create(zone: ZoneDTO(zone: zoneViewModel.copyModel))
+                                let data = await API.zoneDAO().create(zone: zoneViewModel.copyModel)
                                 switch data{
                                     case .success(let id):
                                         zoneViewModel.copyModel.id = id

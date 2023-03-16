@@ -2,8 +2,8 @@ import SwiftUI
 
 struct RegisterView: View {
 
-    @ObservedObject var userViewModel: UserViewModel
-    var intent: UserIntent
+    @ObservedObject var benevoleViewModel: BenevoleViewModel
+    var intent: BenevoleIntent
     @State private var showingAlert = false
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
