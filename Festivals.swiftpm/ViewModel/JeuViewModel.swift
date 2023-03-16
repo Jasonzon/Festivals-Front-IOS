@@ -31,7 +31,7 @@ class JeuViewModel: Subscriber, ObservableObject, JeuObserver {
         subscription.request(.unlimited)
     }
     
-    func receive(_: JeuIntentState) -> Subscribers.Demand {
+    func receive(_ input: JeuIntentState) -> Subscribers.Demand {
         switch(input){
             case .ready:
                 break

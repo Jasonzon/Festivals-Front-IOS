@@ -37,7 +37,7 @@ class BenevoleViewModel: Subscriber, ObservableObject, BenevoleObserver {
         subscription.request(.unlimited)
     }
     
-    func receive(_: BenevoleIntentState) -> Subscribers.Demand {
+    func receive(_ input: BenevoleIntentState) -> Subscribers.Demand {
         switch(input){
             case .ready:
                 break

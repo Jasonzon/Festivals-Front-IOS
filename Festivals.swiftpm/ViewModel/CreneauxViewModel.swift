@@ -15,7 +15,7 @@ class CreneauxViewModel: ObservableObject, Subscriber {
         subscription.request(.unlimited)
     }
     
-    func receive(_: CreneauxIntentState) -> Subscribers.Demand {
+    func receive(_ input: CreneauxIntentState) -> Subscribers.Demand {
         switch(input){
             case .upToDate:
                 break
