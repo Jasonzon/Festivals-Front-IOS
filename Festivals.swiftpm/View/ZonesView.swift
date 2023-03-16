@@ -25,7 +25,7 @@ struct ZonesView: View {
                     NavigationLink(destination:ZoneCreateView(zonesViewModel: zonesViewModel), isActive: $createZone){}
                     List{
                         ForEach(searchResults, id: \.id) { element in
-                            NavigationLink(destination: ZonesView(zone: element, zonesViewModel: zonesViewModel)) {
+                            NavigationLink(destination: ZoneView(zone: element, zonesViewModel: zonesViewModel)) {
                                 HStack {
                                     Text(element.name)
                                 }
@@ -57,7 +57,11 @@ struct ZonesView: View {
     
     func loadData(){
         Task {
-            let zoneDTOs = await API.zoneDAO().getAll()
+            let zoneDTOs = try? await API.zoneDAO().getAll()
+            guard let zoneDTOs = zoneDTOs else {
+                print("Failed to load data")
+                return
+            }
             self.zonesViewModel.zones = zoneDTOs.map {
                 Zone(zoneDTO: $0)
             }

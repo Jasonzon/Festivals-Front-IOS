@@ -25,7 +25,7 @@ struct CreneauxView: View {
                     NavigationLink(destination: CreneauCreateView(creneauxViewModel: creneauxViewModel), isActive: $createCreneau){}
                     List{
                         ForEach(searchResults, id: \.id) { element in
-                            NavigationLink(destination: CreneauxView(creneau: element, creneauxViewModel: creneauxViewModel)) {
+                            NavigationLink(destination: CreneauView(creneau: element, creneauxViewModel: creneauxViewModel)) {
                                 HStack {
                                     Text(element.debut + " " + element.fin)
                                 }
@@ -57,7 +57,11 @@ struct CreneauxView: View {
     
     func loadData(){
         Task {
-            let creneauDTOs = await API.creneauDAO().getAll()
+            let creneauDTOs = try? await API.creneauDAO().getAll()
+            guard let creneauDTOs = creneauDTOs else {
+                print("Failed to load data")
+                return
+            }
             self.creneauxViewModel.creneaux = creneauDTOs.map {
                 Creneau(creneauDTO: $0)
             }

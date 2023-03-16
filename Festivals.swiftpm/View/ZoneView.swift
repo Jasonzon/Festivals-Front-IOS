@@ -20,7 +20,7 @@ struct ZoneView: View {
     var body: some View {
         VStack{
             Form {
-                FloatingTextField("Nom", text: $zoneViewModel.name)
+                TextField("Nom", text: $zoneViewModel.name)
                 Section {
                     Button("Enregistrer") {
                         Task {

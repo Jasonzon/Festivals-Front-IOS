@@ -8,12 +8,24 @@ enum BenevoleIntentState {
     case updateModel
 }
 
+enum BenevolesIntentState {
+    case upToDate
+    case listUpdated
+    case deleteRequest(id: String)
+    case createRequest(element: Benevole)
+}
+
 struct BenevoleIntent {
 
     private var state = PassthroughSubject<BenevoleIntentState,Never>()
+    private var listState = PassthroughSubject<BenevolesIntentState,Never>()
 
     func addObserver(viewModel: BenevoleViewModel){
         self.state.subscribe(viewModel)
+    }
+
+    func addListObserver(viewModel: BenevolesViewModel){
+        self.listState.subscribe(viewModel)
     }
 
     func intentTestValidation(benevole: Benevole){
@@ -28,6 +40,21 @@ struct BenevoleIntent {
                 return .success(true)
             case .failure(let err):
                 return .failure(err)
+        }
+    }
+
+    func intentCreateRequest(element: Benevole) {
+        self.listState.send(input: .createRequest(element: element))
+    }
+
+    func intentDeleteRequest(id: String) async -> Result<Bool,APIError> {
+        let data = await API.benevoleDAO().delete(benevoleId: id)
+        switch data {
+            case .success(_):
+                self.listState.send(input: .deleteRequest(id: id))
+                return data
+            case .failure(_):
+                return data
         }
     }
 }

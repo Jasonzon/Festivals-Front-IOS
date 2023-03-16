@@ -10,7 +10,7 @@ struct BenevoleCreateView: View {
     @State private var errorAlert = false
     
     init(benevolesViewModel: BenevolesViewModel) {
-        self.benevoleViewModel = BenevoleViewModel(model: Benevole(id: 0, nom: "", prenom: "", mail: ""))
+        self.benevoleViewModel = BenevoleViewModel(model: Benevole(mail: "", nom: "", prenom: "", id: "0"))
         self.intent = BenevoleIntent()
         self.intent.addObserver(viewModel: benevoleViewModel)
         self.intent.addListObserver(viewModel: benevolesViewModel)
@@ -19,9 +19,9 @@ struct BenevoleCreateView: View {
     var body: some View {
         VStack {
             Form {
-                FloatingTextField("Prenom", text: $benevoleViewModel.prenom)
-                FloatingTextField("Nom", text: $benevoleViewModel.nom)
-                FloatingTextField("Mail", text: $benevoleViewModel.mail)
+                TextField("Prenom", text: $benevoleViewModel.prenom)
+                TextField("Nom", text: $benevoleViewModel.nom)
+                TextField("Mail", text: $benevoleViewModel.mail)
                 Section {
                     Button("Créer") {
                         Task {

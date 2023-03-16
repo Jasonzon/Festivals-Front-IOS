@@ -3,8 +3,7 @@ import SwiftUI
 struct UserView: View {
 
     @State private var isRegistering = false
-    @State private var isConnected: Bool {
-        return UserSession.shared.user != nil
+    @State private var isConnected: Bool = UserSession.shared.user != nil
     }
     @ObservedObject var userViewModel: UserViewModel
     var intent: UserIntent
@@ -16,7 +15,7 @@ struct UserView: View {
     var body: some View {
         VStack {
             if isConnected {
-                Text(selfUserSession.shared.user.prenom + "  " + UserSession.shared.user.nom)
+                Text(UserSession.shared.user.prenom + "  " + UserSession.shared.user.nom)
             } 
             else if isRegistering {
                 RegisterView(isRegistering: $isRegistering)

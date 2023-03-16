@@ -20,8 +20,8 @@ struct CreneauView: View {
     var body: some View {
         VStack{
             Form {
-                FloatingTextField("Debut", text: $creneauViewModel.debut)
-                FloatingTextField("Fin", text: $creneauViewModel.fin)
+                TextField("Debut", text: $creneauViewModel.debut)
+                TextField("Fin", text: $creneauViewModel.fin)
                 Section {
                     Button("Enregistrer") {
                         Task {

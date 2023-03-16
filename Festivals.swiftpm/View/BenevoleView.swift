@@ -20,9 +20,9 @@ struct BenevoleView: View {
     var body: some View {
         VStack{
             Form {
-                FloatingTextField("Prenom", text: $benevoleViewModel.prenom)
-                FloatingTextField("Nom", text: $benevoleViewModel.nom)
-                FloatingTextField("Mail", text: $benevoleViewModel.mail)
+                TextField("Prenom", text: $benevoleViewModel.prenom)
+                TextField("Nom", text: $benevoleViewModel.nom)
+                TextField("Mail", text: $benevoleViewModel.mail)
                 Section {
                     Button("Enregistrer") {
                         Task {

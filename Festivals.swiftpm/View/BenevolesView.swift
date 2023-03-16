@@ -57,7 +57,11 @@ struct BenevolesView: View {
     
     func loadData(){
         Task {
-            let benevoleDTOs = await API.benevoleDAO().getAll()
+            let benevoleDTOs = try? await API.benevoleDAO().getAll()
+            guard let benevoleDTOs = benevoleDTOs else {
+                print("Failed to load data")
+                return
+            }
             self.benevolesViewModel.benevoles = benevoleDTOs.map {
                 Benevole(benevoleDTO: $0)
             }

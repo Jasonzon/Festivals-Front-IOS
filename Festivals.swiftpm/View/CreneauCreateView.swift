@@ -10,7 +10,7 @@ struct CreneauCreateView: View {
     @State private var errorAlert = false
     
     init(creneauxViewModel: CreneauxViewModel) {
-        self.creneauViewModel = CreneauViewModel(model: Creneau(id: 0, debut: "", fin: ""))
+        self.creneauViewModel = CreneauViewModel(model: Creneau(debut: "", fin: "", id: "0"))
         self.intent = CreneauIntent()
         self.intent.addObserver(viewModel: creneauViewModel)
         self.intent.addListObserver(viewModel: creneauxViewModel)
@@ -19,8 +19,8 @@ struct CreneauCreateView: View {
     var body: some View {
         VStack {
             Form {
-                FloatingTextField("Debut", text: $creneauViewModel.debut)
-                FloatingTextField("Fin", text: $creneauViewModel.fin)
+                TextField("Debut", text: $creneauViewModel.debut)
+                TextField("Fin", text: $creneauViewModel.fin)
                 Section {
                     Button("Créer") {
                         Task {

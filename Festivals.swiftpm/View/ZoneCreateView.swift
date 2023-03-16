@@ -10,7 +10,7 @@ struct ZoneCreateView: View {
     @State private var errorAlert = false
     
     init(zonesViewModel: ZonesViewModel) {
-        self.zoneViewModel = ZoneViewModel(model: Zone(id: 0, name: ""))
+        self.zoneViewModel = ZoneViewModel(model: Zone(name: "", id: "0"))
         self.intent = ZoneIntent()
         self.intent.addObserver(viewModel: zoneViewModel)
         self.intent.addListObserver(viewModel: zonesViewModel)
@@ -19,7 +19,7 @@ struct ZoneCreateView: View {
     var body: some View {
         VStack {
             Form {
-                FloatingTextField("Nom", text: $zoneViewModel.name)
+                TextField("Nom", text: $zoneViewModel.name)
                 Section {
                     Button("Créer") {
                         Task {

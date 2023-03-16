@@ -12,7 +12,7 @@ struct JeuCreateView: View {
     @State private var errorAlert = false
     
     init(jeuxViewModel: JeuxViewModel) {
-        self.jeuViewModel = JeuViewModel(model: Jeu(id: 0, name: "", type: "enfant"))
+        self.jeuViewModel = JeuViewModel(model: Jeu(name: "", type: JeuType(rawValue: "enfant"), id: "0"))
         self.intent = JeuIntent()
         self.intent.addObserver(viewModel: jeuViewModel)
         self.intent.addListObserver(viewModel: jeuxViewModel)
@@ -21,7 +21,7 @@ struct JeuCreateView: View {
     var body: some View {
         VStack {
             Form {
-                FloatingTextField("Nom", text: $jeuViewModel.name)
+                TextField("Nom", text: $jeuViewModel.name)
                 Picker(selection: $selectedType, label: Text("Type")) {
                     ForEach(types, id: \.self) { type in
                         Text(type).tag(types.firstIndex(of: type))
