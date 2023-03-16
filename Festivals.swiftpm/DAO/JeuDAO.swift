@@ -8,7 +8,7 @@ struct JeuDAO {
         self.API = api + "/jeu"
     }
     
-    func getAll() async -> [JeuDTO] {
+    func getAll() async -> [Jeu] {
         let data:Result<[JeuDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
         switch data {
             case .success(let DTO):

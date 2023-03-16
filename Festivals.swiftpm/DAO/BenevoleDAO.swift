@@ -8,7 +8,7 @@ struct BenevoleDAO {
         self.API = api + "/benevole"
     }
     
-    func getAll() async -> [BenevoleDTO] {
+    func getAll() async -> [Benevole] {
         let data:Result<[BenevoleDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
         switch data {
             case .success(let DTO):

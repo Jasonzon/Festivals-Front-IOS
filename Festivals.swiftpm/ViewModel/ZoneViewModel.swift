@@ -5,7 +5,7 @@ class ZoneViewModel: Subscriber, ObservableObject, ZoneObserver {
 
     private var model: Zone
     var copyModel: Zone
-    var id: String
+    var id: Int
     @Published var name: String
     @Published var error : INPUTError = .noError
     

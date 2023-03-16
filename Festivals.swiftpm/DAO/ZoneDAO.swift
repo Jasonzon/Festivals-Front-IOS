@@ -8,7 +8,7 @@ struct ZoneDAO {
         self.API = api + "/zone"
     }
     
-    func getAll() async -> [ZoneDTO] {
+    func getAll() async -> [Zone] {
         let data:Result<[ZoneDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
         switch data {
             case .success(let DTO):

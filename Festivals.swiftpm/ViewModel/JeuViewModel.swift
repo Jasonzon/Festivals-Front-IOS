@@ -5,7 +5,7 @@ class JeuViewModel: Subscriber, ObservableObject, JeuObserver {
 
     private var model: Jeu
     var copyModel: Jeu
-    var id: String
+    var id: Int
     @Published var name: String
     @Published var type: JeuType
     @Published var error : INPUTError = .noError

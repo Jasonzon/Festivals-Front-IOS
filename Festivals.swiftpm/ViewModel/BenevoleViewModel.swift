@@ -5,10 +5,12 @@ class BenevoleViewModel: Subscriber, ObservableObject, BenevoleObserver {
 
     private var model: Benevole
     var copyModel: Benevole
-    var id: String
+    var id: Int
     @Published var nom: String
     @Published var prenom: String
     @Published var mail: String
+    @Published var role: UserRole
+    @Published var password: String
     @Published var error : INPUTError = .noError
     
     init(model: Benevole){
@@ -18,7 +20,9 @@ class BenevoleViewModel: Subscriber, ObservableObject, BenevoleObserver {
         self.prenom = copyModel.prenom
         self.mail = copyModel.mail
         self.model = model
-        self.copyModel.observer = self  
+        self.copyModel.observer = self
+        self.role = copyModel.role
+        self.password = copyModel.password
     }
 
     func change(nom: String) {
@@ -31,6 +35,14 @@ class BenevoleViewModel: Subscriber, ObservableObject, BenevoleObserver {
 
     func change(mail: String) {
         self.mail = mail
+    }
+
+    func change(role: UserRole) {
+        self.role = role
+    }
+
+    func change(password: String) {
+        self.password = password
     }
     
     func receive(subscription: Subscription) {

@@ -5,7 +5,7 @@ class CreneauViewModel: Subscriber, ObservableObject, CreneauObserver {
 
     private var model: Creneau
     var copyModel: Creneau
-    var id: String
+    var id: Int
     @Published var debut: String
     @Published var fin: String
     @Published var error : INPUTError = .noError

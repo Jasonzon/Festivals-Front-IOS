@@ -19,22 +19,24 @@ struct ContentView: View {
         }
     }
 
+    @State private var selection = 1
+
     var body: some View {
-        TabView(selection: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Selection@*/.constant(1)/*@END_MENU_TOKEN@*/) {
+        TabView(selection: $selection) {
             JeuxView().tabItem {
-                Label("Jeux") 
+                Label("Jeux", systemImage: "gamecontroller") 
             }.tag(1)
             ZonesView().tabItem {
-                Label("Zones")
+                Label("Zones", systemImage: "map.fill")
             }.tag(2)
             BenevolesView().tabItem { 
-                Label("Bénévoles") 
+                Label("Bénévoles", systemImage: "person.3.fill") 
             }.tag(3)
             CreneauxView().tabItem {
-                Label("Créneaux")
+                Label("Créneaux", systemImage: "calendar")
             }.tag(4)
             UserView().tabItem {
-                Label("Compte")
+                Label("Compte", systemImage: "person.circle")
             }.tag(5)
         }
     }

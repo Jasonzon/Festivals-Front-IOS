@@ -10,7 +10,7 @@ struct BenevoleCreateView: View {
     @State private var errorAlert = false
     
     init(benevolesViewModel: BenevolesViewModel) {
-        self.benevoleViewModel = BenevoleViewModel(model: Benevole(mail: "", nom: "", prenom: "", id: 0))
+        self.benevoleViewModel = BenevoleViewModel(model: Benevole(mail: "", nom: "", prenom: "", id: 0, role: UserRole.Basic, password: "")
         self.intent = BenevoleIntent()
         self.intent.addObserver(viewModel: benevoleViewModel)
         self.intent.addListObserver(viewModel: benevolesViewModel)
@@ -27,7 +27,7 @@ struct BenevoleCreateView: View {
                         Task {
                             intent.intentTestValidation(benevole: benevoleViewModel.getBenevoleFromViewModel())
                             if benevoleViewModel.error == .noError {
-                                let data = await API.benevoleDAO().create(benevole: BenevoleDTO(benevole: benevoleViewModel.copyModel))
+                                let data = await API.benevoleDAO().create(benevole: benevoleViewModel.copyModel)
                                 switch data{
                                     case .success(let id):
                                         benevoleViewModel.copyModel.id = id

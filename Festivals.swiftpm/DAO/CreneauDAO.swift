@@ -8,7 +8,7 @@ struct CreneauDAO {
         self.API = api + "/creneau"
     }
     
-    func getAll() async -> [CreneauDTO] {
+    func getAll() async -> [Creneau] {
         let data:Result<[CreneauDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
         switch data {
             case .success(let DTO):
