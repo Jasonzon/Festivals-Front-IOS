@@ -19,8 +19,4 @@ class API {
     static func benevoleDAO() -> BenevoleDAO {
         return BenevoleDAO(api: self.API)
     }
-
-    static func userDAO() -> UserDAO {
-        return UserDAO(api: self.API)
-    }
 }
