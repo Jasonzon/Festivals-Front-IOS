@@ -36,7 +36,7 @@ class JeuViewModel: Subscriber, ObservableObject, JeuObserver {
             case .ready:
                 break
             case .updateModel:
-                self.model.paste(self.copyModel)
+                self.model.paste(jeu: self.copyModel)
             case .testValidation(let jeu):
                 self.copyModel.name = jeu.name
                 self.copyModel.type = jeu.type

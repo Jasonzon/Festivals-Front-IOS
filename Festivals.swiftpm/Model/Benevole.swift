@@ -1,21 +1,21 @@
 import Foundation 
 
 protocol BenevoleObserver {
-    func changed(nom : String)
-    func changed(prenom : String)
-    func changed(mail : String)
+    func change(nom : String)
+    func change(prenom : String)
+    func change(mail : String)
 }
 
-class Benevole : ObservableObject {
+class Benevole {
 
     var observer : BenevoleObserver?
-    var id : String = UUID().uuidString
+    var id: String
 
-    var mail : String {
+    var mail: String {
         didSet {
             if mail != oldValue {
                 if isMailValid() {
-                    self.observer?.changed(mail : self.mail)
+                    self.observer?.change(mail : self.mail)
                 } 
                 else {
                     self.mail = oldValue
@@ -24,11 +24,11 @@ class Benevole : ObservableObject {
         }
     }
     
-    var nom : String {
+    var nom: String {
         didSet {
             if nom != oldValue {
                 if nom.count >= 1 {
-                    self.observer?.changed(nom: self.nom)
+                    self.observer?.change(nom: self.nom)
                 }
                 else {
                     self.nom = oldValue
@@ -37,11 +37,11 @@ class Benevole : ObservableObject {
         }
     }
 
-    var prenom : String{
+    var prenom: String{
         didSet {
             if prenom != oldValue {
                 if prenom.count >= 1 {
-                    self.observer?.changed(prenom: self.prenom)
+                    self.observer?.change(prenom: self.prenom)
                 }
                 else {
                     self.nom = oldValue
@@ -50,7 +50,7 @@ class Benevole : ObservableObject {
         }
     }
 
-    init(mail : String, nom : String, prenom : String, id : String) {
+    init(mail: String, nom: String, prenom: String, id: String) {
         self.mail = mail
         self.nom = nom
         self.prenom = prenom
@@ -68,5 +68,16 @@ class Benevole : ObservableObject {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: self.mail)
+    }
+
+    func copy() -> Benevole {
+        return Benevole(mail: self.mail, nom: self.nom, prenom: self.prenom, id: self.id)
+    }
+
+    func paste(benevole: Benevole) {
+        self.mail = benevole.mail
+        self.nom = benevole.nom
+        self.prenom = benevole.prenom
+        self.id = benevole.id
     }
 }

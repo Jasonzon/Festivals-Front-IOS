@@ -1,19 +1,19 @@
 import Foundation
 
 protocol ZoneObserver {
-    func changed(name: String)
+    func change(name: String)
 }
 
-class Zone : ObservableObject {
+class Zone {
 
     var observer : ZoneObserver?
-    var id : String = UUID().uuidString
+    var id: String
 
-    var name : String {
+    var name: String {
         didSet {
             if name != oldValue {
                 if name.count >= 1 {
-                    self.observer?.changed(name: self.name)
+                    self.observer?.change(name: self.name)
                 }
                 else {
                     self.name = oldValue
@@ -30,5 +30,14 @@ class Zone : ObservableObject {
     init(zoneDTO: ZoneDTO) {
         self.name = zoneDTO.name
         self.id = zoneDTO.id
+    }
+
+    func copy() -> Zone {
+        return Zone(name: self.name, id: self.id)
+    }
+
+    func paste(zone: Zone) {
+        self.name = zone.name
+        self.id = zone.id
     }
 }

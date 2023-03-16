@@ -1,8 +1,8 @@
 import Foundation
 
 protocol JeuObserver {
-    func changed(name: String)
-    func changed(type: JeuType)
+    func change(name: String)
+    func change(type: JeuType)
 }
 
 enum JeuType : String, CaseIterable, Identifiable, Codable {
@@ -10,16 +10,16 @@ enum JeuType : String, CaseIterable, Identifiable, Codable {
     var id: Self {self}
 }
 
-class Jeu : ObservableObject {
+class Jeu {
 
     var observer : JeuObserver?
-    var id : String = UUID().uuidString
+    var id: String
 
-    var name : String {
+    var name: String {
         didSet {
             if name != oldValue {
                 if name.count >= 1 {
-                    self.observer?.changed(name: self.name)
+                    self.observer?.change(name: self.name)
                 }
                 else {
                     self.name = oldValue
@@ -28,10 +28,10 @@ class Jeu : ObservableObject {
         }
     }
 
-    var type : JeuType {
+    var type: JeuType {
         didSet {
             if type != oldValue {
-                self.observer?.changed(type : self.type)
+                self.observer?.change(type : self.type)
             }
         }
     }
@@ -46,5 +46,15 @@ class Jeu : ObservableObject {
         self.name = jeuDTO.name
         self.type = jeuDTO.type
         self.id = jeuDTO.id
+    }
+
+    func copy() -> Jeu {
+        return Jeu(name: self.name, type: self.type, id: self.id)
+    }
+
+    func paste(jeu: Jeu) {
+        self.name = jeu.name
+        self.type = jeu.type
+        self.id = jeu.id
     }
 }

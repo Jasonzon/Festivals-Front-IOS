@@ -1,11 +1,11 @@
 import Foundation 
 
 protocol UserObserver {
-    func changed(nom : String)
-    func changed(prenom : String)
-    func changed(role : UserRole)
-    func changed(mail : String)
-    func changed(password : String)
+    func change(nom : String)
+    func change(prenom : String)
+    func change(role : UserRole)
+    func change(mail : String)
+    func change(password : String)
 }
 
 enum UserRole : String, CaseIterable, Identifiable, Codable {
@@ -13,16 +13,16 @@ enum UserRole : String, CaseIterable, Identifiable, Codable {
     var id: Self {self}
 }
 
-class User : ObservableObject {
+class User {
 
     var observer : UserObserver?
-    var id : String = UUID().uuidString
+    var id: String
 
-    var mail : String {
+    var mail: String {
         didSet {
             if mail != oldValue {
                 if isMailValid() {
-                    self.observer?.changed(mail : self.mail)
+                    self.observer?.change(mail : self.mail)
                 } 
                 else {
                     self.mail = oldValue
@@ -31,11 +31,11 @@ class User : ObservableObject {
         }
     }
     
-    var nom : String {
+    var nom: String {
         didSet {
             if nom != oldValue {
                 if nom.count >= 1 {
-                    self.observer?.changed(nom: self.nom)
+                    self.observer?.change(nom: self.nom)
                 }
                 else {
                     self.nom = oldValue
@@ -44,11 +44,11 @@ class User : ObservableObject {
         }
     }
 
-    var prenom : String{
+    var prenom: String{
         didSet {
             if prenom != oldValue {
                 if prenom.count >= 1 {
-                    self.observer?.changed(prenom: self.prenom)
+                    self.observer?.change(prenom: self.prenom)
                 }
                 else {
                     self.nom = oldValue
@@ -57,19 +57,19 @@ class User : ObservableObject {
         }
     }
     
-    var role : UserRole {
+    var role: UserRole {
         didSet {
             if role != oldValue {
-                self.observer?.changed(role : self.role)
+                self.observer?.change(role : self.role)
             }
         }
     }
     
-    var password : String {
+    var password: String {
         didSet {
             if password != oldValue {
                 if password.count >= 1 {
-                    self.observer?.changed(password: self.password)
+                    self.observer?.change(password: self.password)
                 }
                 else {
                     self.password = oldValue
@@ -104,5 +104,18 @@ class User : ObservableObject {
 
     func isAdmin() -> Bool {
         return self.role == .Admin
+    }
+
+    func copy() -> User {
+        return User(mail: self.mail, nom: self.nom, prenom: self.prenom, role: self.role, id: self.id, password: self.password)
+    }
+
+    func paste(user: User) {
+        self.mail = user.mail
+        self.nom = user.nom
+        self.prenom = user.prenom
+        self.role = user.role
+        self.id = user.id
+        self.password = user.password
     }
 }

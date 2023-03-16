@@ -54,7 +54,7 @@ class UserViewModel: Subscriber, ObservableObject, UserObserver {
             case .ready:
                 break
             case .updateModel:
-                self.model.paste(self.copyModel)
+                self.model.paste(user: self.copyModel)
             case .testValidation(let user):
                 self.copyModel.nom = user.nom
                 self.copyModel.prenom = user.prenom

@@ -1,20 +1,20 @@
 import Foundation
 
 protocol CreneauObserver {
-    func changed(debut: String)
-    func changed(fin: String)
+    func change(debut: String)
+    func change(fin: String)
 }
 
-class Creneau : ObservableObject {
+class Creneau {
 
     var observer : CreneauObserver?
-    var id : String = UUID().uuidString
+    var id: String
 
-    var debut : String {
+    var debut: String {
         didSet {
             if debut != oldValue {
                 if isDebutValid() {
-                    self.observer?.changed(debut: self.debut)
+                    self.observer?.change(debut: self.debut)
                 }
                 else {
                     self.debut = oldValue
@@ -23,11 +23,11 @@ class Creneau : ObservableObject {
         }
     }
 
-    var fin : String {
+    var fin: String {
         didSet {
             if fin != oldValue {
                 if isFinValid() {
-                    self.observer?.changed(fin: self.fin)
+                    self.observer?.change(fin: self.fin)
                 }
                 else {
                     self.fin = oldValue
@@ -54,5 +54,15 @@ class Creneau : ObservableObject {
 
     func isFinValid() -> Bool {
         return true //Pour l'instant, à changer
+    }
+
+    func copy() -> Creneau {
+        return Benevole(debut: self.debut, fin: self.fin, id: self.id)
+    }
+
+    func paste(creneau: Creneau) {
+        self.debut = creneau.debut
+        self.fin = creneau.fin
+        self.id = creneau.id
     }
 }

@@ -42,7 +42,7 @@ class BenevoleViewModel: Subscriber, ObservableObject, BenevoleObserver {
             case .ready:
                 break
             case .updateModel:
-                self.model.paste(self.copyModel)
+                self.model.paste(benevole: self.copyModel)
             case .testValidation(let benevole):
                 self.copyModel.nom = benevole.nom
                 self.copyModel.prenom = benevole.prenom

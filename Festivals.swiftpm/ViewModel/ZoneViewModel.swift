@@ -30,7 +30,7 @@ class ZoneViewModel: Subscriber, ObservableObject, ZoneObserver {
             case .ready:
                 break
             case .updateModel:
-                self.model.paste(self.copyModel)
+                self.model.paste(zone: self.copyModel)
             case .testValidation(let zone):
                 self.copyModel.name = zone.name
         }

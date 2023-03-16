@@ -36,7 +36,7 @@ class CreneauViewModel: Subscriber, ObservableObject, CreneauObserver {
             case .ready:
                 break
             case .updateModel:
-                self.model.paste(self.copyModel)
+                self.model.paste(creneau: self.copyModel)
             case .testValidation(let creneau):
                 self.copyModel.debut = creneau.debut
                 self.copyModel.fin = creneau.fin
