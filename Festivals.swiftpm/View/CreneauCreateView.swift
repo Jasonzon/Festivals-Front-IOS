@@ -10,7 +10,7 @@ struct CreneauCreateView: View {
     @State private var errorAlert = false
     
     init(creneauxViewModel: CreneauxViewModel) {
-        self.creneauViewModel = CreneauViewModel(model: Creneau(debut: "", fin: "", id: "0"))
+        self.creneauViewModel = CreneauViewModel(model: Creneau(debut: "", fin: "", id: 0))
         self.intent = CreneauIntent()
         self.intent.addObserver(viewModel: creneauViewModel)
         self.intent.addListObserver(viewModel: creneauxViewModel)

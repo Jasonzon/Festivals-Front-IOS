@@ -8,7 +8,7 @@ protocol CreneauObserver {
 class Creneau {
 
     var observer : CreneauObserver?
-    var id: String
+    var id: Int
 
     var debut: String {
         didSet {
@@ -36,7 +36,7 @@ class Creneau {
         }
     }
 
-    init(debut: String, fin: String, id: String) {
+    init(debut: String, fin: String, id: Int) {
         self.debut = debut
         self.fin = fin
         self.id = id

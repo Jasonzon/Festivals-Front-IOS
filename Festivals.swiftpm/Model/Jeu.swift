@@ -13,7 +13,7 @@ enum JeuType : String, CaseIterable, Identifiable, Codable {
 class Jeu {
 
     var observer : JeuObserver?
-    var id: String
+    var id: Int
 
     var name: String {
         didSet {
@@ -36,7 +36,7 @@ class Jeu {
         }
     }
 
-    init(name: String, type: JeuType, id: String) {
+    init(name: String, type: JeuType, id: Int) {
         self.name = name
         self.type = type
         self.id = id

@@ -1,15 +1,22 @@
 import Foundation 
 
 protocol BenevoleObserver {
-    func change(nom : String)
-    func change(prenom : String)
-    func change(mail : String)
+    func change(nom: String)
+    func change(prenom: String)
+    func change(mail: String)
+    func change(role: UserRole)
+    func change(password: String)
+}
+
+enum UserRole : String, CaseIterable, Identifiable, Codable {
+    case Basic, Admin
+    var id: Self {self}
 }
 
 class Benevole {
 
     var observer : BenevoleObserver?
-    var id: String
+    var id: Int
 
     var mail: String {
         didSet {
@@ -37,6 +44,14 @@ class Benevole {
         }
     }
 
+    var role: UserRole {
+        didSet {
+            if role != oldValue {
+                self.observer?.change(role : self.role)
+            }
+        }
+    }
+
     var prenom: String{
         didSet {
             if prenom != oldValue {
@@ -50,11 +65,26 @@ class Benevole {
         }
     }
 
-    init(mail: String, nom: String, prenom: String, id: String) {
+    var password: String {
+        didSet {
+            if password != oldValue {
+                if password.count >= 1 {
+                    self.observer?.change(password: self.password)
+                }
+                else {
+                    self.password = oldValue
+                }
+            }
+        }
+    }
+
+    init(mail: String, nom: String, prenom: String, id: Int, role: UserRole, password: String) {
         self.mail = mail
         self.nom = nom
         self.prenom = prenom
         self.id = id
+        self.role = role
+        self.password = password
     }
 
     init(benevoleDTO: BenevoleDTO) {
@@ -62,6 +92,8 @@ class Benevole {
         self.nom = benevoleDTO.nom
         self.prenom = benevoleDTO.prenom
         self.id = benevoleDTO.id
+        self.role = benevoleDTO.role
+        self.password = benevoleDTO.password
     }
 
     func isMailValid() -> Bool {
@@ -70,8 +102,12 @@ class Benevole {
         return emailPred.evaluate(with: self.mail)
     }
 
+    func isAdmin() -> Bool {
+        return self.role == .Admin
+    }
+
     func copy() -> Benevole {
-        return Benevole(mail: self.mail, nom: self.nom, prenom: self.prenom, id: self.id)
+        return Benevole(mail: self.mail, nom: self.nom, prenom: self.prenom, id: self.id, role: self.role, password: self.password)
     }
 
     func paste(benevole: Benevole) {
@@ -79,5 +115,7 @@ class Benevole {
         self.nom = benevole.nom
         self.prenom = benevole.prenom
         self.id = benevole.id
+        self.role = benevole.role
+        self.password = benevole.password
     }
 }

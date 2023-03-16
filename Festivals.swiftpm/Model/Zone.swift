@@ -7,7 +7,7 @@ protocol ZoneObserver {
 class Zone {
 
     var observer : ZoneObserver?
-    var id: String
+    var id: Int
 
     var name: String {
         didSet {
@@ -22,7 +22,7 @@ class Zone {
         }
     }
 
-    init(name: String, id: String) {
+    init(name: String, id: Int) {
         self.name = name
         self.id = id
     }

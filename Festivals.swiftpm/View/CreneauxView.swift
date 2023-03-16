@@ -56,15 +56,9 @@ struct CreneauxView: View {
     }
     
     func loadData(){
-        Task {
-            let creneauDTOs = try? await API.creneauDAO().getAll()
-            guard let creneauDTOs = creneauDTOs else {
-                print("Failed to load data")
-                return
-            }
-            self.creneauxViewModel.creneaux = creneauDTOs.map {
-                Creneau(creneauDTO: $0)
-            }
+        Task{
+            self.creneauxViewModel.creneaux = await API.creneauDAO().getAll()
+            dataIsLoad = true
         }
     }
 }

@@ -63,15 +63,9 @@ struct JeuxView: View {
     }
     
     func loadData(){
-        Task {
-            let jeuDTOs = try? await API.jeuDAO().getAll()
-            guard let jeuDTOs = jeuDTOs else {
-                print("Failed to load data")
-                return
-            }
-            self.jeuxViewModel.jeux = jeuDTOs.map {
-                Jeu(jeuDTO: $0)
-            }
+        Task{
+            self.jeuxViewModel.jeux = await API.jeuDAO().getAll()
+            dataIsLoad = true
         }
     }
 }

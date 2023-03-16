@@ -2,11 +2,11 @@ import Foundation
 
 struct CreneauDTO: Codable {
 
-    let id: String
+    let id: Int
     let debut: String
     let fin: String
 
-    init(id: String, debut: String, fin: String) {
+    init(id: Int, debut: String, fin: String) {
         self.id = id
         self.debut = debut
         self.fin = fin

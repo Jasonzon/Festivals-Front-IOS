@@ -10,7 +10,7 @@ struct ZoneCreateView: View {
     @State private var errorAlert = false
     
     init(zonesViewModel: ZonesViewModel) {
-        self.zoneViewModel = ZoneViewModel(model: Zone(name: "", id: "0"))
+        self.zoneViewModel = ZoneViewModel(model: Zone(name: "", id: 0))
         self.intent = ZoneIntent()
         self.intent.addObserver(viewModel: zoneViewModel)
         self.intent.addListObserver(viewModel: zonesViewModel)

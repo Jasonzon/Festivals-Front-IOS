@@ -56,15 +56,9 @@ struct ZonesView: View {
     }
     
     func loadData(){
-        Task {
-            let zoneDTOs = try? await API.zoneDAO().getAll()
-            guard let zoneDTOs = zoneDTOs else {
-                print("Failed to load data")
-                return
-            }
-            self.zonesViewModel.zones = zoneDTOs.map {
-                Zone(zoneDTO: $0)
-            }
+        Task{
+            self.zonesViewModel.zones = await API.zoneDAO().getAll()
+            dataIsLoad = true
         }
     }
 }

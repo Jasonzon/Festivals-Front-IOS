@@ -2,11 +2,11 @@ import Foundation
 
 struct JeuDTO: Codable {
     
-    let id: String
+    let id: Int
     let name: String
     let type: JeuType
 
-    init(id: String, name: String, type: JeuType) {
+    init(id: Int, name: String, type: JeuType) {
         self.id = id
         self.name = name
         self.type = type
