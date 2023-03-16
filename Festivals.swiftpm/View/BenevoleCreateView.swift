@@ -27,7 +27,7 @@ struct BenevoleCreateView: View {
                         Task {
                             intent.intentTestValidation(benevole: benevoleViewModel.getBenevoleFromViewModel())
                             if benevoleViewModel.error == .noError {
-                                let data = await API.benevoleDAO().create(benevole: BenevoleDTO(benevoleViewModel.copyModel))
+                                let data = await API.benevoleDAO().create(benevole: BenevoleDTO(benevole: benevoleViewModel.copyModel))
                                 switch data{
                                     case .success(let id):
                                         benevoleViewModel.copyModel.id = id

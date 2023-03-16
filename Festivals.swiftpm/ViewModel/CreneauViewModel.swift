@@ -49,6 +49,6 @@ class CreneauViewModel: Subscriber, ObservableObject, CreneauObserver {
     }
 
     func getCreneauFromViewModel() -> Creneau {
-        return Creneau(id: id, debut: debut, fin: fin)
+        return Creneau(debut: debut, fin: fin, id: id)
     }
 }

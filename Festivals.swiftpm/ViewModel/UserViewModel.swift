@@ -70,6 +70,6 @@ class UserViewModel: Subscriber, ObservableObject, UserObserver {
     }
 
     func getUserFromViewModel() -> User {
-        return User(id: id, nom: nom, prenom: prenom, role: role, mail: mail, password: password)
+        return User(mail: mail, nom: nom, prenom: prenom, role: role, id: id, password: password)
     }
 }

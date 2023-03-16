@@ -15,7 +15,7 @@ struct JeuView: View {
     init(jeu: Jeu, jeuxViewModel: JeuxViewModel){
         self.jeuViewModel = JeuViewModel(model: jeu)
         self.intent = JeuIntent()
-        self.selectedType = types.firstIndex(of: type.rawValue)
+        self.selectedType = types.firstIndex(of: jeu.type.rawValue)
         self.intent.addObserver(viewModel: jeuViewModel)
         self.intent.addListObserver(viewModel: jeuxViewModel)
     }
@@ -32,7 +32,7 @@ struct JeuView: View {
                 .onChange(of: self.selectedType, perform: { _ in
                     print("Value \(selectedType)")
                     let newValue = types[selectedType]
-                    jeuViewModel.type = newValue
+                    jeuViewModel.type = JeuType(rawValue: newValue)
                 })
                 Section {
                     Button("Enregistrer") {

@@ -49,6 +49,6 @@ class JeuViewModel: Subscriber, ObservableObject, JeuObserver {
     }
 
     func getJeuFromViewModel() -> Jeu {
-        return Jeu(id: id, name: name, type: type)
+        return Jeu(name: name, type: type, id: id)
     }
 }

@@ -42,6 +42,6 @@ class ZoneViewModel: Subscriber, ObservableObject, ZoneObserver {
     }
 
     func getZoneFromViewModel() -> Zone {
-        return Zone(id: id, name: name)
+        return Zone(name: name, id: id)
     }
 }

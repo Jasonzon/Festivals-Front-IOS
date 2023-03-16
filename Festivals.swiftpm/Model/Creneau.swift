@@ -57,7 +57,7 @@ class Creneau {
     }
 
     func copy() -> Creneau {
-        return Benevole(debut: self.debut, fin: self.fin, id: self.id)
+        return Creneau(debut: self.debut, fin: self.fin, id: self.id)
     }
 
     func paste(creneau: Creneau) {
