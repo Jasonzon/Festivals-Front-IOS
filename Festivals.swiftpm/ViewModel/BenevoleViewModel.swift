@@ -20,9 +20,9 @@ class BenevoleViewModel: Subscriber, ObservableObject, BenevoleObserver {
         self.prenom = copyModel.prenom
         self.mail = copyModel.mail
         self.model = model
-        self.copyModel.observer = self
         self.role = copyModel.role
         self.password = copyModel.password
+        self.copyModel.observer = self
     }
 
     func change(nom: String) {

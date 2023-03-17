@@ -12,11 +12,9 @@ struct UserView: View {
     @State private var textAlert = ""
 
     init() {
-        if isConnected {
-            self.benevoleViewModel = BenevoleViewModel(model: UserSession.shared.benevole!)
-            self.intent = BenevoleIntent()
-            self.intent.addObserver(viewModel: benevoleViewModel)
-        }
+        self.benevoleViewModel = BenevoleViewModel(model: UserSession.shared.benevole ?? Benevole(mail: "", nom: "", prenom: "", id: 0, role: .Basic, password: ""))
+        self.intent = BenevoleIntent()
+        self.intent.addObserver(viewModel: benevoleViewModel)
     }
 
     var body: some View {
