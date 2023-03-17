@@ -24,17 +24,11 @@ struct JeuxView: View {
             NavigationView {
                 VStack{
                     NavigationLink(destination:JeuCreateView(jeuxViewModel: jeuxViewModel), isActive: $createJeu){}
-                    List{
-                        ForEach(types, id: \.self) { type in
-                            Section(type) {
-                                ForEach(searchResults, id: \.id) { element in
-                                    if (element.type == type) {
-                                        NavigationLink(destination:JeuxView(jeu: element, jeuxViewModel: jeuxViewModel)) {
-                                            HStack {
-                                                Text(element.name)
-                                            }
-                                        }
-                                    }
+                    List {
+                        ForEach(searchResults, id: \.id) { element in
+                            NavigationLink(destination:JeuxView(jeu: element, jeuxViewModel: jeuxViewModel)) {
+                                HStack {
+                                    Text(element.name)
                                 }
                             }
                         }  

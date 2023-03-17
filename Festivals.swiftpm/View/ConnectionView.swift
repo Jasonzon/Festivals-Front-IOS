@@ -2,14 +2,8 @@ import SwiftUI
 
 struct ConnectionView: View {
 
-    @ObservedObject var benevoleViewModel: BenevoleViewModel
-    var intent: BenevoleIntent
-    @State private var showingAlert = false
-    @State private var showingAlertNotDismiss = false
-    @State private var errorAlert = false
-    @State private var textAlert = ""
-    @Binding var isConnected: Bool
     @Binding var isRegistering: Bool
+    @Binding var isConnected: Bool
 
     var body: some View {
         VStack {
