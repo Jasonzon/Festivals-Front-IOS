@@ -28,7 +28,7 @@ struct UserView: View {
                 RegisterView(isRegistering: $isRegistering)
             } 
             else {
-                ConnectionView(isConnected: $isConnected, isRegistering: $isRegistering)
+                ConnectionView(isRegistering: $isRegistering, isConnected: $isConnected)
             }
         }
     }

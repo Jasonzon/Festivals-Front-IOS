@@ -26,7 +26,7 @@ struct JeuxView: View {
                     NavigationLink(destination:JeuCreateView(jeuxViewModel: jeuxViewModel), isActive: $createJeu){}
                     List {
                         ForEach(searchResults, id: \.id) { element in
-                            NavigationLink(destination:JeuxView(jeu: element, jeuxViewModel: jeuxViewModel)) {
+                            NavigationLink(destination: JeuView(jeu: element, jeuxViewModel: jeuxViewModel)) {
                                 HStack {
                                     Text(element.name)
                                 }
