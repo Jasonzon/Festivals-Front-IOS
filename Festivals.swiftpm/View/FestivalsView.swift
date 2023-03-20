@@ -38,8 +38,8 @@ struct FestivalsView: View {
                     .onAppear() {
                         loadData()
                     }
-                    if (UserSession.shared.user?.role == .Admin) {
-                        .toolbar {
+                    .toolbar {
+                        if (UserSession.shared.user?.role == .Admin) { 
                             Button("+") {
                                 createFestival = true
                             }
