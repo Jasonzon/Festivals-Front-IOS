@@ -91,6 +91,7 @@ extension URLSession {
         }
     }
 
+    /*
     func auth(from url: URL,token: String) async -> Result<Bool, APIError> {
         var request: URLRequest = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -108,5 +109,5 @@ extension URLSession {
         catch{
             return .failure(.urlNotFound(url.absoluteString))
         }
-    }
+    }*/
 }
