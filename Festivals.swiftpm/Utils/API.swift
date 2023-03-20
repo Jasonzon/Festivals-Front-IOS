@@ -3,10 +3,6 @@ import Foundation
 class API {
     
     static var API = ""
-    
-    static func jeuDAO() -> JeuDAO {
-        return JeuDAO(api: self.API)
-    }
 
     static func zoneDAO() -> ZoneDAO {
         return ZoneDAO(api: self.API)
@@ -18,5 +14,13 @@ class API {
 
     static func benevoleDAO() -> BenevoleDAO {
         return BenevoleDAO(api: self.API)
+    }
+
+    static func festivalDAO() -> FestivalDAO {
+        return FestivalDAO(api: self.API)
+    }
+
+    static func jourDAO() -> JourDAO {
+        return JourDAO(api: self.API)
     }
 }

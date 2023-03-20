@@ -28,6 +28,10 @@ class FestivalViewModel: Subscriber, ObservableObject, FestivalObserver {
     func change(year: String) {
         self.year = year
     }
+
+    func change(opened: Bool) {
+        self.opened = opened
+    }
     
     func receive(subscription: Subscription) {
         subscription.request(.unlimited)

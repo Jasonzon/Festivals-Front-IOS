@@ -20,7 +20,7 @@ struct FestivalCreateView: View {
         VStack {
             Form {
                 TextField("Nom", text: $festivalViewModel.name)
-                TextField("Année", text: $festivalsViewModel.year)
+                TextField("Année", text: $festivalViewModel.year)
                 Picker(selection: $festivalViewModel.opened, label: Text("Statut")) {
                     Text("Ouvert").tag(0)
                     Text("Fermé").tag(1)
