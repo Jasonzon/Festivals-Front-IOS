@@ -4,7 +4,7 @@ import AlertToast
 struct JoursView: View {
 
     @ObservedObject var joursViewModel : JoursViewModel = JoursViewModel(jours: [])
-    @Binding private var festivalId: Int
+    @Binding var festivalId: Int
     @State private var searchText = ""
     @State private var createJour = false
     @State private var dataIsLoad = false

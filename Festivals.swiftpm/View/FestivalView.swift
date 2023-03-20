@@ -68,7 +68,7 @@ struct FestivalView: View {
                     }   
                 }
             }
-            JoursView(festivalId: festivalId)
+            JoursView(festivalId: $festivalId)
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)
