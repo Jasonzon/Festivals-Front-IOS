@@ -25,8 +25,8 @@ struct FestivalView: View {
                 TextField("Nom", text: $festivalViewModel.name)
                 TextField("Année", text: $festivalViewModel.year)
                 Picker(selection: $festivalViewModel.opened, label: Text("Statut")) {
-                    Text("Ouvert").tag(0)
-                    Text("Fermé").tag(1)
+                    Text("Ouvert").tag(true)
+                    Text("Fermé").tag(false)
                 }
                 Section {
                     Button("Enregistrer") {
