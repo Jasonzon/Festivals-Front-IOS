@@ -9,7 +9,7 @@ struct FestivalView: View {
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
-    @State festivalId: Int
+    @State var festivalId: Int
     
     init(festival: Festival, festivalsViewModel: FestivalsViewModel){
         self.festivalViewModel = FestivalViewModel(model: festival)
