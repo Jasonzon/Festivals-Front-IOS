@@ -3,7 +3,7 @@ import SwiftUI
 struct UserView: View {
 
     @State private var isRegistering = false
-    @State private var isConnected: Bool = UserSession.shared.benevole != nil
+    @State private var isConnected: Bool = UserSession.shared.user != nil
     @ObservedObject var benevoleViewModel: BenevoleViewModel
     var intent: BenevoleIntent
     @State private var showingAlert = false
@@ -12,7 +12,7 @@ struct UserView: View {
     @State private var textAlert = ""
 
     init() {
-        self.benevoleViewModel = BenevoleViewModel(model: UserSession.shared.benevole ?? Benevole(mail: "", nom: "", prenom: "", id: 0, role: .Basic, password: ""))
+        self.benevoleViewModel = BenevoleViewModel(model: UserSession.shared.user ?? Benevole(mail: "", nom: "", prenom: "", id: 0, role: .Basic, password: ""))
         self.intent = BenevoleIntent()
         self.intent.addObserver(viewModel: benevoleViewModel)
     }
