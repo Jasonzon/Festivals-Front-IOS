@@ -9,12 +9,14 @@ struct FestivalView: View {
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
+    @State festivalId: Int
     
     init(festival: Festival, festivalsViewModel: FestivalsViewModel){
         self.festivalViewModel = FestivalViewModel(model: festival)
         self.intent = FestivalIntent()
         self.intent.addObserver(viewModel: festivalViewModel)
         self.intent.addListObserver(viewModel: festivalsViewModel)
+        self.festivalId = festival.id
     }
 
     var body: some View {
@@ -66,7 +68,7 @@ struct FestivalView: View {
                     }   
                 }
             }
-            JoursView(festival: festivalViewModel.id)
+            JoursView(festivalId: festivalId)
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)

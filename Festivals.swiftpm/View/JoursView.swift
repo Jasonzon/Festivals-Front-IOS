@@ -4,7 +4,7 @@ import AlertToast
 struct JoursView: View {
 
     @ObservedObject var joursViewModel : JoursViewModel = JoursViewModel(jours: [])
-    private var festival
+    @Binding private var festivalId: Int
     @State private var searchText = ""
     @State private var createJour = false
     @State private var dataIsLoad = false
@@ -58,7 +58,7 @@ struct JoursView: View {
     
     func loadData(){
         Task{
-            self.joursViewModel.jours = await API.jourDAO().getAll(url: "/festival/\(festival)")
+            self.joursViewModel.jours = await API.jourDAO().getAll(url: "/festival/\(festivalId)")
             dataIsLoad = true
         }
     }
