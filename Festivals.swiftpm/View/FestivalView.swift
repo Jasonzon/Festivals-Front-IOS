@@ -66,6 +66,7 @@ struct FestivalView: View {
                     }   
                 }
             }
+            JoursView(festival: festivalViewModel.id)
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)

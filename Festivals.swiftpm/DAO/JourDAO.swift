@@ -8,8 +8,8 @@ struct JourDAO {
         self.API = api + "/jour"
     }
     
-    func getAll() async -> [Jour] {
-        let data:Result<[JourDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
+    func getAll(url: String) async -> [Jour] {
+        let data:Result<[JourDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API + url)!)
         switch data {
             case .success(let DTO):
                 var jourList: [Jour] = DTO.compactMap { 

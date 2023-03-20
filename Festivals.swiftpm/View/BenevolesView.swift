@@ -41,7 +41,7 @@ struct BenevolesView: View {
                             createBenevole = true
                         }
                     }
-                    .navigationTitle("Benevoles")
+                    .navigationTitle("Bénévoles")
                 }
             }
             .overlay(Group {
