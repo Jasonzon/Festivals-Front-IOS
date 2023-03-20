@@ -22,7 +22,9 @@ struct BenevolesView: View {
         VStack{
             NavigationView {
                 VStack{
-                    NavigationLink(destination:BenevoleCreateView(benevolesViewModel: benevolesViewModel), isActive: $createBenevole){}
+                    if (UserSession.shared.user?.role == .Admin) {
+                        NavigationLink(destination:BenevoleCreateView(benevolesViewModel: benevolesViewModel), isActive: $createBenevole){}
+                    }
                     List {
                         ForEach(searchResults, id: \.id) { element in
                             NavigationLink(destination:BenevoleView(benevole: element, benevolesViewModel: benevolesViewModel)) {

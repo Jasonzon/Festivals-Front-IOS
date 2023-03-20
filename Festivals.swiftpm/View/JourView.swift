@@ -18,51 +18,59 @@ struct JourView: View {
     }
 
     var body: some View {
-        VStack{
-            Form {
-                TextField("Nom", text: $jourViewModel.name)
-                TextField("Début", text: $jourViewModel.debut)
-                TextField("Fin", text: $jourViewModel.fin)
-                TextField("Date", text: $jourViewModel.date)
-                Section {
-                    Button("Enregistrer") {
-                        Task {
-                            intent.intentTestValidation(jour: jourViewModel.getJourFromViewModel())
-                            if jourViewModel.error == .noError {
-                                let data = await intent.intentValidation(jour: jourViewModel.copyModel)
-                                switch data {
-                                    case .success(_):
-                                        showingAlert = true
-                                        textAlert = "Jour mis à jour"
-                                    case .failure(let err):
-                                        errorAlert = true
-                                        textAlert = "Erreur \(err)"
+        VStack {
+            if (UserSession.shared.user?.role == .Admin) {
+                Form {
+                    TextField("Nom", text: $jourViewModel.name)
+                    TextField("Début", text: $jourViewModel.debut)
+                    TextField("Fin", text: $jourViewModel.fin)
+                    TextField("Date", text: $jourViewModel.date)
+                    Section {
+                        Button("Enregistrer") {
+                            Task {
+                                intent.intentTestValidation(jour: jourViewModel.getJourFromViewModel())
+                                if jourViewModel.error == .noError {
+                                    let data = await intent.intentValidation(jour: jourViewModel.copyModel)
+                                    switch data {
+                                        case .success(_):
+                                            showingAlert = true
+                                            textAlert = "Jour mis à jour"
+                                        case .failure(let err):
+                                            errorAlert = true
+                                            textAlert = "Erreur \(err)"
+                                    }
                                 }
                             }
                         }
-                    }
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
-                    Button("Supprimer") {
-                        Task {
-                            let data = await intent.intentDeleteRequest(id: jourViewModel.id)
-                            switch data {
-                                case .success(_):
-                                    break
-                                case .failure(let err):
-                                    errorAlert = true
-                                    textAlert = "Erreur \(err)" 
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+                        Button("Supprimer") {
+                            Task {
+                                let data = await intent.intentDeleteRequest(id: jourViewModel.id)
+                                switch data {
+                                    case .success(_):
+                                        break
+                                    case .failure(let err):
+                                        errorAlert = true
+                                        textAlert = "Erreur \(err)" 
+                                }
                             }
                         }
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center).foregroundColor(.red)
                     }
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center).foregroundColor(.red)
+                    .onChange(of: jourViewModel.error) { error in
+                        print(error)
+                        if (error != .noError) {
+                            textAlert = "\(error)"
+                            errorAlert = true
+                        }   
+                    }
                 }
-                .onChange(of: jourViewModel.error) { error in
-                    print(error)
-                    if (error != .noError) {
-                        textAlert = "\(error)"
-                        errorAlert = true
-                    }   
-                }
+            }
+            else {
+                Text("Nom : \(jourViewModel.name)")
+                Text("Début : \(jourViewModel.debut)")
+                Text("Fin : \(jourViewModel.fin)")
+                Text("Date : \(jourViewModel.date)")
             }
         }
         .toast(isPresenting: $showingAlert, alert: {

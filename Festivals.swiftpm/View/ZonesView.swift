@@ -21,8 +21,10 @@ struct ZonesView: View {
     var body: some View {
         VStack{
             NavigationView {
-                VStack{
-                    NavigationLink(destination:ZoneCreateView(zonesViewModel: zonesViewModel), isActive: $createZone){}
+                VStack {
+                    if (UserSession.shared.user?.role == .Admin) {
+                        NavigationLink(destination:ZoneCreateView(zonesViewModel: zonesViewModel), isActive: $createZone){}
+                    }
                     List{
                         ForEach(searchResults, id: \.id) { element in
                             NavigationLink(destination: ZoneView(zone: element, zonesViewModel: zonesViewModel)) {

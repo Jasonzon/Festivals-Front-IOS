@@ -22,8 +22,10 @@ struct JoursView: View {
     var body: some View {
         VStack{
             NavigationView {
-                VStack{
-                    NavigationLink(destination: JourCreateView(joursViewModel: joursViewModel), isActive: $createJour){}
+                VStack {
+                    if (UserSession.shared.user?.role == .Admin) {
+                        NavigationLink(destination: JourCreateView(joursViewModel: joursViewModel), isActive: $createJour){}
+                    }
                     List {
                         ForEach(searchResults, id: \.id) { element in
                             NavigationLink(destination: JourView(jour: element, joursViewModel: joursViewModel)) {

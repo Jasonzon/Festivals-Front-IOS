@@ -21,8 +21,10 @@ struct FestivalsView: View {
     var body: some View {
         VStack{
             NavigationView {
-                VStack{
-                    NavigationLink(destination: FestivalCreateView(festivalsViewModel: festivalsViewModel), isActive: $createFestival){}
+                VStack {
+                    if (UserSession.shared.user?.role == .Admin) {
+                        NavigationLink(destination: FestivalCreateView(festivalsViewModel: festivalsViewModel), isActive: $createFestival){}
+                    }
                     List {
                         ForEach(searchResults, id: \.id) { element in
                             NavigationLink(destination: FestivalView(festival: element, festivalsViewModel: festivalsViewModel)) {

@@ -18,50 +18,57 @@ struct BenevoleView: View {
     }
 
     var body: some View {
-        VStack{
-            Form {
-                TextField("Prenom", text: $benevoleViewModel.prenom)
-                TextField("Nom", text: $benevoleViewModel.nom)
-                TextField("Mail", text: $benevoleViewModel.mail)
-                Section {
-                    Button("Enregistrer") {
-                        Task {
-                            intent.intentTestValidation(benevole: benevoleViewModel.getBenevoleFromViewModel())
-                            if benevoleViewModel.error == .noError {
-                                let data = await intent.intentValidation(benevole: benevoleViewModel.copyModel)
-                                switch data {
-                                    case .success(_):
-                                        showingAlert = true
-                                        textAlert = "Benevole mis à jour"
-                                    case .failure(let err):
-                                        errorAlert = true
-                                        textAlert = "Erreur \(err)"
+        VStack {
+            if (UserSession.shared.user?.role == .Admin) {
+                Form {
+                    TextField("Prenom", text: $benevoleViewModel.prenom)
+                    TextField("Nom", text: $benevoleViewModel.nom)
+                    TextField("Mail", text: $benevoleViewModel.mail)
+                    Section {
+                        Button("Enregistrer") {
+                            Task {
+                                intent.intentTestValidation(benevole: benevoleViewModel.getBenevoleFromViewModel())
+                                if benevoleViewModel.error == .noError {
+                                    let data = await intent.intentValidation(benevole: benevoleViewModel.copyModel)
+                                    switch data {
+                                        case .success(_):
+                                            showingAlert = true
+                                            textAlert = "Benevole mis à jour"
+                                        case .failure(let err):
+                                            errorAlert = true
+                                            textAlert = "Erreur \(err)"
+                                    }
                                 }
                             }
                         }
-                    }
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
-                    Button("Supprimer") {
-                        Task {
-                            let data = await intent.intentDeleteRequest(id: benevoleViewModel.id)
-                            switch data {
-                                case .success(_):
-                                    break
-                                case .failure(let err):
-                                    errorAlert = true
-                                    textAlert = "Erreur \(err)" 
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+                        Button("Supprimer") {
+                            Task {
+                                let data = await intent.intentDeleteRequest(id: benevoleViewModel.id)
+                                switch data {
+                                    case .success(_):
+                                        break
+                                    case .failure(let err):
+                                        errorAlert = true
+                                        textAlert = "Erreur \(err)" 
+                                }
                             }
                         }
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center).foregroundColor(.red)
                     }
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center).foregroundColor(.red)
+                    .onChange(of: benevoleViewModel.error) { error in
+                        print(error)
+                        if (error != .noError) {
+                            textAlert = "\(error)"
+                            errorAlert = true
+                        }   
+                    }
                 }
-                .onChange(of: benevoleViewModel.error) { error in
-                    print(error)
-                    if (error != .noError) {
-                        textAlert = "\(error)"
-                        errorAlert = true
-                    }   
-                }
+            }
+            else {
+                Text("Prenom : \(benevoleViewModel.prenom)")
+                Text("Nom : `\(benevoleViewModel.nom)")
+                Text("Mail : \(benevoleViewModel.mail)")
             }
         }
         .toast(isPresenting: $showingAlert, alert: {

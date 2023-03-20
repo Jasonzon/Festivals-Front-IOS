@@ -21,8 +21,10 @@ struct CreneauxView: View {
     var body: some View {
         VStack{
             NavigationView {
-                VStack{
-                    NavigationLink(destination: CreneauCreateView(creneauxViewModel: creneauxViewModel), isActive: $createCreneau){}
+                VStack {
+                    if (UserSession.shared.user?.role == .Admin) {
+                        NavigationLink(destination: CreneauCreateView(creneauxViewModel: creneauxViewModel), isActive: $createCreneau){}
+                    }
                     List{
                         ForEach(searchResults, id: \.id) { element in
                             NavigationLink(destination: CreneauView(creneau: element, creneauxViewModel: creneauxViewModel)) {
