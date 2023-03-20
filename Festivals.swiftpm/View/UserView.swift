@@ -20,7 +20,7 @@ struct UserView: View {
     var body: some View {
         VStack {
             if isConnected {
-                Text(UserSession.shared.benevole!.prenom + "  " + UserSession.shared.benevole!.nom)
+                Text(UserSession.shared.user!.prenom + "  " + UserSession.shared.user!.nom)
             } 
             else if isRegistering {
                 RegisterView(isRegistering: $isRegistering)

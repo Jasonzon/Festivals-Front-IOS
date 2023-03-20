@@ -37,6 +37,6 @@ struct BenevoleDAO {
     }
 
     func auth(token: String) async -> Result<Bool,APIError> {
-        return await URLSession.shared.connect(from: URL(string: self.API + "/auth")!, token: token)
+        return await URLSession.shared.auth(from: URL(string: self.API + "/auth")!, token: token)
     }
 }
