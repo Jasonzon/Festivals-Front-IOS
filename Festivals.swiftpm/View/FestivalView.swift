@@ -5,18 +5,18 @@ struct FestivalView: View {
 
     @ObservedObject var festivalViewModel: FestivalViewModel
     var intent : FestivalIntent
+    @State var festivalId: Int
     @State private var showingAlert = false
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
-    @State var festivalId: Int
     
     init(festival: Festival, festivalsViewModel: FestivalsViewModel){
         self.festivalViewModel = FestivalViewModel(model: festival)
         self.intent = FestivalIntent()
+        self.festivalId = festival.id
         self.intent.addObserver(viewModel: festivalViewModel)
         self.intent.addListObserver(viewModel: festivalsViewModel)
-        self.festivalId = festival.id
     }
 
     var body: some View {
