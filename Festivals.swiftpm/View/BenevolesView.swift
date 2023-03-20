@@ -38,9 +38,11 @@ struct BenevolesView: View {
                     .onAppear() {
                         loadData()
                     }
-                    .toolbar {
-                        Button("+") {
-                            createBenevole = true
+                    if (UserSession.shared.user?.role == .Admin) {
+                        .toolbar {
+                            Button("+") {
+                                createBenevole = true
+                            }
                         }
                     }
                     .navigationTitle("Bénévoles")

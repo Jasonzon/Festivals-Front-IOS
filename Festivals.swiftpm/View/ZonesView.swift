@@ -38,9 +38,11 @@ struct ZonesView: View {
                     .onAppear() {
                         loadData()
                     }
-                    .toolbar {
-                        Button("+") {
-                            createZone = true
+                    if (UserSession.shared.user?.role == .Admin) {
+                        .toolbar {
+                            Button("+") {
+                                createZone = true
+                            }
                         }
                     }
                     .navigationTitle("Zones")

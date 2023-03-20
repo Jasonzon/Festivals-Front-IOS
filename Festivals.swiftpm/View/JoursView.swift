@@ -39,9 +39,11 @@ struct JoursView: View {
                     .onAppear() {
                         loadData()
                     }
-                    .toolbar {
-                        Button("+") {
-                            createJour = true
+                    if (UserSession.shared.user?.role == .Admin) {
+                        .toolbar {
+                            Button("+") {
+                                createJour = true
+                            }
                         }
                     }
                     .navigationTitle("Jours")

@@ -38,9 +38,11 @@ struct FestivalsView: View {
                     .onAppear() {
                         loadData()
                     }
-                    .toolbar {
-                        Button("+") {
-                            createFestival = true
+                    if (UserSession.shared.user?.role == .Admin) {
+                        .toolbar {
+                            Button("+") {
+                                createFestival = true
+                            }
                         }
                     }
                     .navigationTitle("Festivals")
