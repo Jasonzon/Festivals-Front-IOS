@@ -6,8 +6,8 @@ struct ContentView: View {
         Task {
             if let token = UserDefaults.standard.string(forKey: "token") {
                 do {
-                    let userDTO = try await API.userDAO().connect(token: token)
-                    UserSession.shared.user = User(userDTO: userDTO)
+                    //let benevoleDTO = try await API.benevoleDAO().connect(token: token)
+                    //UserSession.shared.user = Benevole(benevoleDTO: benevoleDTO)
                 } 
                 catch {
                     print(error)

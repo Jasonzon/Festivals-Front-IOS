@@ -35,4 +35,8 @@ struct BenevoleDAO {
     func delete(id: Int) async -> Result<Bool,APIError>{
         return await URLSession.shared.delete(from: URL(string: self.API)!, id: id)
     }
+
+    func auth(token: String) async -> Result<Bool,APIError> {
+        return await URLSession.shared.connect(from: URL(string: self.API + "/auth")!, token: token)
+    }
 }

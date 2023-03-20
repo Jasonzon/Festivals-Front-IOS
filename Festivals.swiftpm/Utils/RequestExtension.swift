@@ -90,4 +90,23 @@ extension URLSession {
             return .failure(.urlNotFound(url.absoluteString))
         }
     }
+
+    func auth(from url: URL,token: String) async -> Result<Bool, APIError> {
+        var request: URLRequest = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue(token, forHTTPHeaderField: "token")
+        do{
+            let (_,response) = try await upload(for: request, delegate: nil)
+            let httpResponse = response as! HTTPURLResponse
+            if httpResponse.statusCode == 201 || httpResponse.statusCode == 200 {
+                return .success(true)
+            }
+            else {
+                return .failure(.httpResponseError(httpResponse.statusCode))
+            }
+        }
+        catch{
+            return .failure(.urlNotFound(url.absoluteString))
+        }
+    }
 }
