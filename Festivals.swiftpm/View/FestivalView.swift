@@ -1,49 +1,41 @@
 import SwiftUI
 import AlertToast
 
-struct JeuView: View {
+struct FestivalView: View {
 
-    @ObservedObject var jeuViewModel: JeuViewModel
-    var intent : JeuIntent
-    var types: [String] = ["enfant","famille","initie","avance","expert"]
-    @State private var selectedType: Int
+    @ObservedObject var festivalViewModel: FestivalViewModel
+    var intent : FestivalIntent
     @State private var showingAlert = false
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
     
-    init(jeu: Jeu, jeuxViewModel: JeuxViewModel){
-        self.jeuViewModel = JeuViewModel(model: jeu)
-        self.intent = JeuIntent()
-        self.selectedType = types.firstIndex(of: jeu.type.rawValue)!
-        self.intent.addObserver(viewModel: jeuViewModel)
-        self.intent.addListObserver(viewModel: jeuxViewModel)
+    init(festival: Festival, festivalsViewModel: FestivalsViewModel){
+        self.festivalViewModel = FestivalViewModel(model: festival)
+        self.intent = FestivalIntent()
+        self.intent.addObserver(viewModel: festivalViewModel)
+        self.intent.addListObserver(viewModel: festivalsViewModel)
     }
 
     var body: some View {
         VStack{
             Form {
-                TextField("Nom", text: $jeuViewModel.name)
-                Picker(selection: $selectedType, label: Text("Type")) {
-                    ForEach(types, id:\.self) { type in
-                        Text(type).tag(types.firstIndex(of: type))
-                    }
+                TextField("Nom", text: $festivalViewModel.name)
+                TextField("Année", text: $festivalViewModel.year)
+                Picker(selection: $festivalViewModel.opened, label: Text("Statut")) {
+                    Text("Ouvert").tag(0)
+                    Text("Fermé").tag(1)
                 }
-                .onChange(of: self.selectedType, perform: { _ in
-                    print("Value \(selectedType)")
-                    let newValue = types[selectedType]
-                    jeuViewModel.type = JeuType(rawValue: newValue)!
-                })
                 Section {
                     Button("Enregistrer") {
                         Task {
-                            intent.intentTestValidation(jeu: jeuViewModel.getJeuFromViewModel())
-                            if jeuViewModel.error == .noError {
-                                let data = await intent.intentValidation(jeu: jeuViewModel.copyModel)
+                            intent.intentTestValidation(festival: festivalViewModel.getFestivalFromViewModel())
+                            if festivalViewModel.error == .noError {
+                                let data = await intent.intentValidation(festival: festivalViewModel.copyModel)
                                 switch data {
                                     case .success(_):
                                         showingAlert = true
-                                        textAlert = "Jeu mis à jour"
+                                        textAlert = "Festival mis à jour"
                                     case .failure(let err):
                                         errorAlert = true
                                         textAlert = "Erreur \(err)"
@@ -54,7 +46,7 @@ struct JeuView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
                     Button("Supprimer") {
                         Task {
-                            let data = await intent.intentDeleteRequest(id: jeuViewModel.id)
+                            let data = await intent.intentDeleteRequest(id: festivalViewModel.id)
                             switch data {
                                 case .success(_):
                                     break
@@ -66,7 +58,7 @@ struct JeuView: View {
                     }
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center).foregroundColor(.red)
                 }
-                .onChange(of: jeuViewModel.error) { error in
+                .onChange(of: festivalViewModel.error) { error in
                     print(error)
                     if (error != .noError) {
                         textAlert = "\(error)"
@@ -83,7 +75,7 @@ struct JeuView: View {
         .toast(isPresenting: $errorAlert, alert: {
             AlertToast(displayMode: .hud, type: .error(.red), title: textAlert)
         }, completion: {
-            jeuViewModel.error = .noError
+            festivalViewModel.error = .noError
             errorAlert = false
         })   
     }

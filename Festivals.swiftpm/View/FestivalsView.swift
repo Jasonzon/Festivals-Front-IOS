@@ -1,19 +1,18 @@
 import SwiftUI
 import AlertToast
 
-struct JeuxView: View {
+struct FestivalsView: View {
 
-    @ObservedObject var jeuxViewModel : JeuxViewModel = JeuxViewModel(jeux: [])
+    @ObservedObject var festivalsViewModel : FestivalsViewModel = FestivalsViewModel(festivals: [])
     @State private var searchText = ""
-    @State private var createJeu = false
+    @State private var createFestival = false
     @State private var dataIsLoad = false
-    var types: [String] = ["enfant","famille","initie","avance","expert"]
-    private var searchResults: [Jeu] {
+    private var searchResults: [Festival] {
         if searchText.isEmpty {
-            return jeuxViewModel.jeux
+            return festivalsViewModel.festivals
         } 
         else {
-            return jeuxViewModel.jeux.filter {
+            return festivalsViewModel.festivals.filter {
                 $0.name.uppercased().contains(searchText.uppercased()) 
             }
         }
@@ -23,10 +22,10 @@ struct JeuxView: View {
         VStack{
             NavigationView {
                 VStack{
-                    NavigationLink(destination:JeuCreateView(jeuxViewModel: jeuxViewModel), isActive: $createJeu){}
+                    NavigationLink(destination: FestivalCreateView(festivalsViewModel: festivalsViewModel), isActive: $createFestival){}
                     List {
                         ForEach(searchResults, id: \.id) { element in
-                            NavigationLink(destination: JeuView(jeu: element, jeuxViewModel: jeuxViewModel)) {
+                            NavigationLink(destination: FestivalView(festival: element, festivalsViewModel: festivalsViewModel)) {
                                 HStack {
                                     Text(element.name)
                                 }
@@ -39,26 +38,26 @@ struct JeuxView: View {
                     }
                     .toolbar {
                         Button("+") {
-                            createJeu = true
+                            createFestival = true
                         }
                     }
-                    .navigationTitle("Jeux")
+                    .navigationTitle("Festivals")
                 }
             }
             .overlay(Group {
                 ProgressView().opacity(dataIsLoad ? 0 : 1)
             })
-            .toast(isPresenting: $jeuxViewModel.alert, alert: {
-                AlertToast(displayMode: .hud, type: .complete(.green), title: jeuxViewModel.textAlert)
+            .toast(isPresenting: $festivalsViewModel.alert, alert: {
+                AlertToast(displayMode: .hud, type: .complete(.green), title: festivalsViewModel.textAlert)
             }, completion: {
-                jeuxViewModel.alert = false
+                festivalsViewModel.alert = false
             })
         }
     }
     
     func loadData(){
         Task{
-            self.jeuxViewModel.jeux = await API.jeuDAO().getAll()
+            self.festivalsViewModel.festivals = await API.festivalDAO().getAll()
             dataIsLoad = true
         }
     }

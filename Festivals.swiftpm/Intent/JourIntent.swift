@@ -2,34 +2,34 @@ import Foundation
 import Combine
 import SwiftUI
 
-enum JeuIntentState {
+enum JourIntentState {
     case ready
-    case testValidation(Jeu)
+    case testValidation(Jour)
     case updateModel
 }
 
-enum JeuxIntentState {
+enum JoursIntentState {
     case upToDate
     case listUpdated
     case deleteRequest(id: Int)
-    case createRequest(element: Jeu)
+    case createRequest(element: Jour)
 }
 
-struct JeuIntent {
+struct JourIntent {
 
-    private var state = PassthroughSubject<JeuIntentState,Never>()
-    private var listState = PassthroughSubject<JeuxIntentState,Never>()
+    private var state = PassthroughSubject<JourIntentState,Never>()
+    private var listState = PassthroughSubject<JoursIntentState,Never>()
 
-    func addObserver(viewModel: JeuViewModel){
+    func addObserver(viewModel: JourViewModel){
         self.state.subscribe(viewModel)
     }
 
-    func intentTestValidation(jeu: Jeu){
-        self.state.send(.testValidation(jeu))
+    func intentTestValidation(jour: Jour){
+        self.state.send(.testValidation(jour))
     }
 
-    func intentValidation(jeu: Jeu) async -> Result<Bool,APIError> {
-        let data = await API.jeuDAO().update(jeu: jeu)
+    func intentValidation(jour: Jour) async -> Result<Bool,APIError> {
+        let data = await API.jourDAO().update(jour: jour)
         switch data {
             case .success(_):
                 self.state.send(.updateModel)
@@ -39,12 +39,12 @@ struct JeuIntent {
         }
     }
 
-    func addListObserver(viewModel: JeuxViewModel){
+    func addListObserver(viewModel: JoursViewModel){
         self.listState.subscribe(viewModel)
     }
 
     func intentDeleteRequest(id: Int) async -> Result<Bool,APIError> {
-        let data = await API.jeuDAO().delete(id: id)
+        let data = await API.jourDAO().delete(id: id)
         switch data {
             case .success(_):
                 self.listState.send(.deleteRequest(id: id))
@@ -54,7 +54,7 @@ struct JeuIntent {
         }
     }
 
-    func intentCreateRequest(element: Jeu) {
+    func intentCreateRequest(element: Jour) {
         self.listState.send(.createRequest(element: element))
     }
 }

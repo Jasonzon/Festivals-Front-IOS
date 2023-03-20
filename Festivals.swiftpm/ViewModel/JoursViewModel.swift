@@ -1,36 +1,36 @@
 import Foundation
 import Combine
 
-class JeuxViewModel: ObservableObject, Subscriber {
+class JoursViewModel: ObservableObject, Subscriber {
 
-    @Published var jeux: [Jeu]
+    @Published var jours: [Jour]
     @Published var alert = false
     @Published var textAlert = ""
     
-    init(jeux: [Jeu]){
-        self.jeux = jeux
+    init(jours: [Jour]){
+        self.jours = jours
     }
 
     func receive(subscription: Subscription) {
         subscription.request(.unlimited)
     }
     
-    func receive(_ input: JeuxIntentState) -> Subscribers.Demand {
+    func receive(_ input: JoursIntentState) -> Subscribers.Demand {
         switch(input){
             case .upToDate:
                 break
             case .listUpdated:
                 self.objectWillChange.send()
             case .deleteRequest(let id):
-                self.jeux.removeAll(where: {
+                self.jours.removeAll(where: {
                     element in
                     return element.id == id
                 })
-                self.textAlert = "Jeu supprimé"
+                self.textAlert = "Jour supprimé"
                 self.alert = true  
-            case .createRequest(let jeu):
-                self.jeux.append(jeu)
-                self.textAlert = "Jeu créé"
+            case .createRequest(let jour):
+                self.jours.append(jour)
+                self.textAlert = "Jour créé"
                 self.alert = true
         }
         return .none
