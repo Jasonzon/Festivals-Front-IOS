@@ -44,6 +44,10 @@ struct RegisterView: View {
                         }
                     }
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+                    Button("Déjà un compte ? Se connecter") {
+                        isRegistering = false
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
                 }
             }
             .onChange(of: benevoleViewModel.error) { error in
@@ -52,9 +56,6 @@ struct RegisterView: View {
                     textAlert = "\(error)"
                     errorAlert = true
                 } 
-            }
-            Button("Se connecter") {
-                isRegistering = false
             }
         }
         .toast(isPresenting: $errorAlert, alert: {

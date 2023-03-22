@@ -63,4 +63,15 @@ struct BenevoleDAO {
                 return .failure(err)
         }
     }
+
+    func connect(mail: String, password: String) async -> Result<Ben,APIError> {
+        let data:Result<Ben,APIError> = await URLSession.shared.connect(from: URL(string: self.API + "/connect")!, mail: mail, password: password)
+        switch data {
+            case .success(let ben):
+                return .success(ben)
+            case .failure(let err):
+                print("Erreur : \(err)")
+                return .failure(err)
+        }
+    }
 }

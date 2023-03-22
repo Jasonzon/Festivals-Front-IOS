@@ -13,6 +13,21 @@ struct BenevoleId: Codable {
     let id: Int
 }
 
+struct Ben: Codable {
+    let token: String
+    let benevole: Benevole
+
+    init(token: String, benevole: Benevole) {
+        self.token = token
+        self.benevole = benevole
+    }
+}
+
+struct Connect: Codable {
+    let mail: String
+    let password: String
+}
+
 extension URLSession {
 
     func getJSON<T:Decodable>(from url:URL) async -> Result<T, APIError>{
@@ -110,6 +125,31 @@ extension URLSession {
             return .success(benevole.id)
         }
         catch {
+            return .failure(.urlNotFound(url.absoluteString))
+        }
+    }
+
+    func connect(from url:URL, mail: String, password: String) async -> Result<Ben, APIError>{
+        guard let encoded :Data = try? JSONEncoder().encode(Connect(mail: mail, password: password))else {
+            return .failure(.JsonEncodingFailed)
+        }
+        var request :URLRequest = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        do {
+            let (data,response) = try await upload(for: request, from: encoded, delegate: nil)
+            let httpResponse = response as! HTTPURLResponse
+            if httpResponse.statusCode == 201 || httpResponse.statusCode == 200 {
+                guard let ben = try? JSONDecoder().decode(Ben.self, from: data) else{
+                    return .failure(.JsonDecodingFailed)
+                }
+                return .success(ben)
+            }
+            else {
+                return .failure(.httpResponseError(httpResponse.statusCode))
+            }       
+        }
+        catch{
             return .failure(.urlNotFound(url.absoluteString))
         }
     }
