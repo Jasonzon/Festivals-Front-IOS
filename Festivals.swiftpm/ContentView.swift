@@ -3,11 +3,17 @@ import SwiftUI
 struct ContentView: View {
 
     init() {
-        Task {
+        super.init()
+        async {
             if let token = UserDefaults.standard.string(forKey: "token") {
                 do {
-                    //let benevoleDTO = try await API.benevoleDAO().auth(token: token)
-                    //UserSession.shared.user = Benevole(benevoleDTO: benevoleDTO)
+                    let benevoleResult = try await API.benevoleDAO().auth(token: token)
+                    switch benevoleResult {
+                        case .success(let benevole):
+                            UserSession.shared.user = benevole
+                        case .failure(let error):
+                            print(error)
+                    }
                 } 
                 catch {
                     print(error)

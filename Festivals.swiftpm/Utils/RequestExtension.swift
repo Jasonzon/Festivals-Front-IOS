@@ -9,6 +9,10 @@ struct IdDTO: Codable {
     }
 }
 
+struct BenevoleId: Codable {
+    let id: Int
+}
+
 extension URLSession {
 
     func getJSON<T:Decodable>(from url:URL) async -> Result<T, APIError>{
@@ -91,23 +95,22 @@ extension URLSession {
         }
     }
 
-    /*
-    func auth(from url: URL,token: String) async -> Result<Bool, APIError> {
+    func auth(from url: URL,token: String) async -> Result<Int, APIError> {
         var request: URLRequest = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue(token, forHTTPHeaderField: "token")
-        do{
-            let (_,response) = try await upload(for: request, delegate: nil)
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
             let httpResponse = response as! HTTPURLResponse
-            if httpResponse.statusCode == 201 || httpResponse.statusCode == 200 {
-                return .success(true)
-            }
-            else {
+            guard httpResponse.statusCode == 200 else {
                 return .failure(.httpResponseError(httpResponse.statusCode))
             }
+            let decoder = JSONDecoder()
+            let benevole = try decoder.decode(BenevoleId.self, from: data)
+            return .success(benevole.id)
         }
-        catch{
+        catch {
             return .failure(.urlNotFound(url.absoluteString))
         }
-    }*/
+    }
 }
