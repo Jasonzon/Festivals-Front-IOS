@@ -2,7 +2,7 @@ import SwiftUI
 
 struct RegisterView: View {
 
-    @Binding var isRegistering: Bool
+    @State private var isRegistering: Bool
 
     @ObservedObject var benevoleViewModel: BenevoleViewModel
     @Environment(\.presentationMode) var presentationMode
@@ -10,11 +10,11 @@ struct RegisterView: View {
     @State private var textAlert = ""
     @State private var errorAlert = false
     
-    init(benevolesViewModel: BenevolesViewModel) {
+    init(isRegistering: Bool) {
         self.benevoleViewModel = BenevoleViewModel(model: Benevole(mail: "", nom: "", prenom: "", id: 0, role: UserRole.Basic, password: ""))
         self.intent = BenevoleIntent()
+        self.isRegistering = isRegistering
         self.intent.addObserver(viewModel: benevoleViewModel)
-        self.intent.addListObserver(viewModel: benevolesViewModel)
     }
 
     var body: some View {
