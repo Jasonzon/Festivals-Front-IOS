@@ -3,7 +3,6 @@ import SwiftUI
 struct ContentView: View {
 
     init() {
-        super.init()
         async {
             if let token = UserDefaults.standard.string(forKey: "token") {
                 do {
