@@ -10,7 +10,7 @@ struct RegisterView: View {
     @State private var textAlert = ""
     @State private var errorAlert = false
     
-    init(isRegistering: Binding<String>) {
+    init(isRegistering: Binding<Bool>) {
         self._isRegistering = isRegistering
         self.benevoleViewModel = BenevoleViewModel(model: Benevole(mail: "", nom: "", prenom: "", id: 0, role: UserRole.Basic, password: ""))
         self.intent = BenevoleIntent()
