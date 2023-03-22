@@ -3,7 +3,7 @@ import SwiftUI
 struct ContentView: View {
 
     init() {
-        async {
+        Task {
             if let token = UserDefaults.standard.string(forKey: "token") {
                 do {
                     let benevoleResult = try await API.benevoleDAO().auth(token: token)

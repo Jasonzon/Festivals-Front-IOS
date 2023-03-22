@@ -5,7 +5,6 @@ struct BenevolesView: View {
 
     @ObservedObject var benevolesViewModel : BenevolesViewModel = BenevolesViewModel(benevoles: [])
     @State private var searchText = ""
-    @State private var createBenevole = false
     @State private var dataIsLoad = false
     private var searchResults: [Benevole] {
         if searchText.isEmpty {
@@ -22,9 +21,6 @@ struct BenevolesView: View {
         VStack{
             NavigationView {
                 VStack{
-                    if (UserSession.shared.user?.role == .Admin) {
-                        NavigationLink(destination:BenevoleCreateView(benevolesViewModel: benevolesViewModel), isActive: $createBenevole){}
-                    }
                     List {
                         ForEach(searchResults, id: \.id) { element in
                             NavigationLink(destination:BenevoleView(benevole: element, benevolesViewModel: benevolesViewModel)) {
@@ -37,13 +33,6 @@ struct BenevolesView: View {
                     .searchable(text: $searchText)
                     .onAppear() {
                         loadData()
-                    }
-                    .toolbar {
-                        if (UserSession.shared.user?.role == .Admin) {
-                            Button("+") {
-                                createBenevole = true
-                            }
-                        }
                     }
                     .navigationTitle("Bénévoles")
                 }
