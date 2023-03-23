@@ -2,7 +2,7 @@ import Foundation
 
 struct Ben: Codable {
     let token: String
-    let benevole: Benevole
+    let benevole: BenevoleDTO
 
     init(token: String, benevole: Benevole) {
         self.token = token
@@ -55,8 +55,8 @@ struct BenevoleDAO {
         return await URLSession.shared.delete(from: URL(string: self.API)!, id: id)
     }
 
-    func auth(from url: URL,token: String) async -> Result<Int, APIError> {
-        var request: URLRequest = URLRequest(url: url)
+    func auth(token: String) async -> Result<Int, APIError> {
+        var request: URLRequest = URLRequest(url: URL(string: self.API + "/auth")!)
         request.httpMethod = "GET"
         request.addValue(token, forHTTPHeaderField: "token")
         do {

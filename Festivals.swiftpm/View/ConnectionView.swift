@@ -7,6 +7,8 @@ struct ConnectionView: View {
 
     @State private var mail: String = ""
     @State private var password: String = ""
+    @State private var textAlert = ""
+    @State private var errorAlert = false
 
     var body: some View {
         VStack {
@@ -36,5 +38,11 @@ struct ConnectionView: View {
                 }
             }
         }
+        .toast(isPresenting: $errorAlert, alert: {
+            AlertToast(displayMode: .hud, type: .error(.red), title: textAlert)
+        }, completion: {
+            creneauViewModel.error = .noError
+            errorAlert = false
+        })
     }
 }
