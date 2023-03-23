@@ -56,7 +56,7 @@ struct BenevoleDAO {
     }
 
     func auth(token: String) async -> Result<Int, APIError> {
-        let url: URL = URL(string: self.API + "/auth")
+        let url: URL = URL(string: self.API + "/auth")!
         var request: URLRequest = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue(token, forHTTPHeaderField: "token")
