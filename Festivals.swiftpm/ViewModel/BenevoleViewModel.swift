@@ -59,6 +59,7 @@ class BenevoleViewModel: Subscriber, ObservableObject, BenevoleObserver {
                 self.copyModel.nom = benevole.nom
                 self.copyModel.prenom = benevole.prenom
                 self.copyModel.mail = benevole.mail
+                self.copyModel.password = benevole.password
         }
         return .none
     }
