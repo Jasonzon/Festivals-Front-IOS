@@ -55,7 +55,7 @@ extension URLSession {
         request.httpMethod = "PUT"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         do {
-            let (_,response) = try await upload(for: request, from: encoded, delegate: nil)
+            let (_,response) = try await URLSession.shared.upload(for: request, from: encoded, delegate: nil)
             let httpResponse = response as! HTTPURLResponse
             if httpResponse.statusCode == 201 || httpResponse.statusCode == 200 {
                 return .success(true)

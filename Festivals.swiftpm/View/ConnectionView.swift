@@ -1,4 +1,5 @@
 import SwiftUI
+import AlertToast
 
 struct ConnectionView: View {
 
@@ -41,7 +42,6 @@ struct ConnectionView: View {
         .toast(isPresenting: $errorAlert, alert: {
             AlertToast(displayMode: .hud, type: .error(.red), title: textAlert)
         }, completion: {
-            creneauViewModel.error = .noError
             errorAlert = false
         })
     }

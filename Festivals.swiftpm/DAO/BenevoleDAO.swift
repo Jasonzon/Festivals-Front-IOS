@@ -2,9 +2,9 @@ import Foundation
 
 struct Ben: Codable {
     let token: String
-    let benevole: BenevoleDTO
+    let benevole: Int
 
-    init(token: String, benevole: Benevole) {
+    init(token: String, benevole: Int) {
         self.token = token
         self.benevole = benevole
     }
@@ -56,7 +56,8 @@ struct BenevoleDAO {
     }
 
     func auth(token: String) async -> Result<Int, APIError> {
-        var request: URLRequest = URLRequest(url: URL(string: self.API + "/auth")!)
+        let url: URL = URL(string: self.API + "/auth")
+        var request: URLRequest = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue(token, forHTTPHeaderField: "token")
         do {
