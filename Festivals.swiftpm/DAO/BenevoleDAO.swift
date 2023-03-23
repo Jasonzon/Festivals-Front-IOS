@@ -76,7 +76,7 @@ struct BenevoleDAO {
     }
 
     func getOne(id: Int) async -> Result<Benevole,APIError> {
-        let data:Result<BenevoleDTO,APIError> = await URLSession.shared.getJSON(from: URL(string: self.API + "/" + id)!)
+        let data:Result<BenevoleDTO,APIError> = await URLSession.shared.getJSON(from: URL(string: self.API + "/" + String(id))!)
         switch data {
             case .success(let DTO):
                 let benevole: Benevole = Benevole(benevoleDTO: DTO) 
@@ -88,7 +88,7 @@ struct BenevoleDAO {
     }
 
     func connect(mail: String, password: String) async -> Result<Ben, APIError> {
-        let url: URL = URL(string: self.API + "/connect")
+        let url: URL = URL(string: self.API + "/connect")!
         guard let encoded :Data = try? JSONEncoder().encode(Connect(mail: mail, password: password))else {
             return .failure(.JsonEncodingFailed)
         }

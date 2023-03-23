@@ -9,7 +9,7 @@ struct ContentView: View {
                     let benevoleResult = try await API.benevoleDAO().auth(token: token)
                     switch benevoleResult {
                         case .success(let id):
-                            let benevoleResult2 = try await API.benevoleDAO().getOne(id)
+                            let benevoleResult2 = try await API.benevoleDAO().getOne(id: id)
                             switch benevoleResult2 {
                                 case .success(let benevole):
                                     UserSession.shared.user = benevole

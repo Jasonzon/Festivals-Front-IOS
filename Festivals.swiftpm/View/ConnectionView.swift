@@ -23,7 +23,7 @@ struct ConnectionView: View {
                             switch data{
                                 case .success(let ben):
                                     UserDefaults.standard.set(ben.token, forKey: "token")
-                                    UserSession.shared.user = ben.benevole
+                                    UserSession.shared.user = Benevole(benevoleDTO: ben.benevole)
                                     isConnected = true
                                 case .failure(let err):
                                     errorAlert = true
