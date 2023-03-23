@@ -1,5 +1,24 @@
 import Foundation
 
+struct Ben: Codable {
+    let token: String
+    let benevole: Benevole
+
+    init(token: String, benevole: Benevole) {
+        self.token = token
+        self.benevole = benevole
+    }
+}
+
+struct Connect: Codable {
+    let mail: String
+    let password: String
+}
+
+struct BenevoleId: Codable {
+    let id: Int
+}
+
 struct BenevoleDAO {
 
     var API: String
@@ -36,19 +55,22 @@ struct BenevoleDAO {
         return await URLSession.shared.delete(from: URL(string: self.API)!, id: id)
     }
 
-    func auth(token: String) async -> Result<Benevole,APIError> {
-        let data: Result<Int,APIError> = await URLSession.shared.auth(from: URL(string: self.API + "/auth")!, token: token)
-        switch data {
-            case .success(let id):
-                let benevoleData = await self.getOne(id: String(id))
-                switch benevoleData {
-                    case .success(let benevole):
-                        return .success(benevole)
-                    case .failure(let err):
-                        return .failure(err)
-                }
-            case .failure(let err):
-                return .failure(err)
+    func auth(from url: URL,token: String) async -> Result<Int, APIError> {
+        var request: URLRequest = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue(token, forHTTPHeaderField: "token")
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            let httpResponse = response as! HTTPURLResponse
+            guard httpResponse.statusCode == 200 else {
+                return .failure(.httpResponseError(httpResponse.statusCode))
+            }
+            let decoder = JSONDecoder()
+            let benevole = try decoder.decode(BenevoleId.self, from: data)
+            return .success(benevole.id)
+        }
+        catch {
+            return .failure(.urlNotFound(url.absoluteString))
         }
     }
 
@@ -64,14 +86,28 @@ struct BenevoleDAO {
         }
     }
 
-    func connect(mail: String, password: String) async -> Result<Ben,APIError> {
-        let data:Result<Ben,APIError> = await URLSession.shared.connect(from: URL(string: self.API + "/connect")!, mail: mail, password: password)
-        switch data {
-            case .success(let ben):
+    func connect(mail: String, password: String) async -> Result<Ben, APIError> {
+        guard let encoded :Data = try? JSONEncoder().encode(Connect(mail: mail, password: password))else {
+            return .failure(.JsonEncodingFailed)
+        }
+        var request :URLRequest = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        do {
+            let (data,response) = try await upload(for: request, from: encoded, delegate: nil)
+            let httpResponse = response as! HTTPURLResponse
+            if httpResponse.statusCode == 201 || httpResponse.statusCode == 200 {
+                guard let ben = try? JSONDecoder().decode(Ben.self, from: data) else{
+                    return .failure(.JsonDecodingFailed)
+                }
                 return .success(ben)
-            case .failure(let err):
-                print("Erreur : \(err)")
-                return .failure(err)
+            }
+            else {
+                return .failure(.httpResponseError(httpResponse.statusCode))
+            }       
+        }
+        catch{
+            return .failure(.urlNotFound(url.absoluteString))
         }
     }
 }

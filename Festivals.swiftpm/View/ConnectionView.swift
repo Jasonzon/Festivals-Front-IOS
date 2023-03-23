@@ -5,8 +5,8 @@ struct ConnectionView: View {
     @Binding var isRegistering: Bool
     @Binding var isConnected: Bool
 
-    private var mail: String = ""
-    private var password: String = ""
+    @State private var mail: String = ""
+    @State private var password: String = ""
 
     var body: some View {
         VStack {
