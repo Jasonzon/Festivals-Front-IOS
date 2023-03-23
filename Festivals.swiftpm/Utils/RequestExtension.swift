@@ -26,6 +26,8 @@ extension URLSession {
         guard let encoded :Data = try? JSONEncoder().encode(element)else {
             return .failure(.JsonEncodingFailed)
         }
+        print("ok")
+        print(encoded)
         var request :URLRequest = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
