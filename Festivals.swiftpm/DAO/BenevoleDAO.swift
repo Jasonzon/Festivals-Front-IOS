@@ -2,9 +2,9 @@ import Foundation
 
 struct Ben: Codable {
     let token: String
-    let benevole: Int
+    let benevole: BenevoleDTO
 
-    init(token: String, benevole: Int) {
+    init(token: String, benevole: BenevoleDTO) {
         self.token = token
         self.benevole = benevole
     }
@@ -75,7 +75,7 @@ struct BenevoleDAO {
         }
     }
 
-    func getOne(id: String) async -> Result<Benevole,APIError> {
+    func getOne(id: Int) async -> Result<Benevole,APIError> {
         let data:Result<BenevoleDTO,APIError> = await URLSession.shared.getJSON(from: URL(string: self.API + "/" + id)!)
         switch data {
             case .success(let DTO):
@@ -88,6 +88,7 @@ struct BenevoleDAO {
     }
 
     func connect(mail: String, password: String) async -> Result<Ben, APIError> {
+        let url: URL = URL(string: self.API + "/connect")
         guard let encoded :Data = try? JSONEncoder().encode(Connect(mail: mail, password: password))else {
             return .failure(.JsonEncodingFailed)
         }
@@ -95,7 +96,7 @@ struct BenevoleDAO {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         do {
-            let (data,response) = try await upload(for: request, from: encoded, delegate: nil)
+            let (data,response) = try await URLSession.shared.upload(for: request, from: encoded, delegate: nil)
             let httpResponse = response as! HTTPURLResponse
             if httpResponse.statusCode == 201 || httpResponse.statusCode == 200 {
                 guard let ben = try? JSONDecoder().decode(Ben.self, from: data) else{

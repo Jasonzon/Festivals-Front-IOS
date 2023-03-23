@@ -8,8 +8,14 @@ struct ContentView: View {
                 do {
                     let benevoleResult = try await API.benevoleDAO().auth(token: token)
                     switch benevoleResult {
-                        case .success(let benevole):
-                            UserSession.shared.user = benevole
+                        case .success(let id):
+                            let benevoleResult2 = try await API.benevoleDAO().getOne(id)
+                            switch benevoleResult2 {
+                                case .success(let benevole):
+                                    UserSession.shared.user = benevole
+                                case .failure(let error):
+                                    print(error)
+                            }
                         case .failure(let error):
                             print(error)
                     }
