@@ -21,6 +21,12 @@ struct UserView: View {
         VStack {
             if isConnected {
                 Text(UserSession.shared.user!.prenom + "  " + UserSession.shared.user!.nom)
+                Button("Se déconnecter") {
+                    UserDefaults.standard.removeObject(forKey: "myKey")
+                    UserSession.shared.user = nil
+                    isConnected = false
+                    isRegistering = false
+                }
             } 
             else if isRegistering {
                 RegisterView(isRegistering: $isRegistering)

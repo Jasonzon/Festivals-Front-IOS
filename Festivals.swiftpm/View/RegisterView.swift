@@ -35,6 +35,7 @@ struct RegisterView: View {
                                     case .success(let id):
                                         benevoleViewModel.copyModel.id = id
                                         intent.intentCreateRequest(element: benevoleViewModel.copyModel)
+                                        isRegistering = false
                                         self.presentationMode.wrappedValue.dismiss()
                                     case .failure(let err):
                                         errorAlert = true
