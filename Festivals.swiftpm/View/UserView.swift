@@ -3,7 +3,7 @@ import SwiftUI
 struct UserView: View {
 
     @State var isRegistering: Bool = false
-    @State var isConnected: Bool = UserSession.shared.user != nil
+    @State var isConnected: Bool = false
     @ObservedObject var benevoleViewModel: BenevoleViewModel
     var intent: BenevoleIntent
     @State private var showingAlert = false
@@ -19,7 +19,7 @@ struct UserView: View {
 
     var body: some View {
         VStack {
-            if isConnected {
+            if (UserSession.shared.user != nil) {
                 Text(UserSession.shared.user!.prenom + "  " + UserSession.shared.user!.nom)
                 Button("Se déconnecter") {
                     UserDefaults.standard.removeObject(forKey: "myKey")
