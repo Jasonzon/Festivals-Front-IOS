@@ -3,7 +3,11 @@ import SwiftUI
 struct ContentView: View {
 
     @State private var selection = 1
-    @State private var isInitialized = false
+    @State private var initialized = false
+
+    var isInitialized: Bool {
+        return initialized
+    }
 
     init() {
         Task {
@@ -30,7 +34,7 @@ struct ContentView: View {
             else {
                 print("Aucun token trouvé")
             }
-            isInitialized = true
+            self.initialized = true
         }
     }
     
