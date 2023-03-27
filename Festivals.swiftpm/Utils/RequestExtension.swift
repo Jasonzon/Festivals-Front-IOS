@@ -71,10 +71,7 @@ extension URLSession {
         }
     }
 
-    func delete(from url:URL,id:Int)async -> Result<Bool, APIError>{
-        guard let encoded :Data = try? JSONEncoder().encode(IdDTO(ID: id))else {
-            return .failure(.JsonEncodingFailed)
-        }
+    func delete(from url:URL)async -> Result<Bool, APIError>{
         var request :URLRequest = URLRequest(url: url)
         request.httpMethod = "DELETE"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

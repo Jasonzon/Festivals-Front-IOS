@@ -29,10 +29,10 @@ struct FestivalDAO {
     
     func update(festival: Festival) async -> Result<Bool,APIError> {
         let festivalDTO = FestivalDTO(festival: festival)
-        return await URLSession.shared.update(from: URL(string: self.API)!, element: festivalDTO)
+        return await URLSession.shared.update(from: URL(string: self.API + "/" + String(festival.id))!, element: festivalDTO)
     }
     
     func delete(id: Int) async -> Result<Bool,APIError>{
-        return await URLSession.shared.delete(from: URL(string: self.API)!, id: id)
+        return await URLSession.shared.delete(from: URL(string: self.API + "/" + String(id))!, id: id)
     }
 }

@@ -7,6 +7,7 @@ struct FestivalsView: View {
     @State private var searchText = ""
     @State private var createFestival = false
     @State private var dataIsLoad = false
+    @State private var isConnected = false
     private var searchResults: [Festival] {
         if searchText.isEmpty {
             return festivalsViewModel.festivals
@@ -22,7 +23,7 @@ struct FestivalsView: View {
         VStack{
             NavigationView {
                 VStack {
-                    if (UserSession.shared.user?.role == .Admin) {
+                    if isConnected {
                         NavigationLink(destination: FestivalCreateView(festivalsViewModel: festivalsViewModel), isActive: $createFestival){}
                     }
                     List {
@@ -56,6 +57,11 @@ struct FestivalsView: View {
             }, completion: {
                 festivalsViewModel.alert = false
             })
+        }
+        .onAppear() {
+            if (UserSession.shared.user?.role == .Admin) {
+                isConnected = true
+            }
         }
     }
     

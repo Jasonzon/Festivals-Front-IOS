@@ -29,10 +29,10 @@ struct JourDAO {
     
     func update(jour: Jour) async -> Result<Bool,APIError> {
         let jourDTO = JourDTO(jour: jour)
-        return await URLSession.shared.update(from: URL(string: self.API)!, element: jourDTO)
+        return await URLSession.shared.update(from: URL(string: self.API + "/" + String(jour.id))!, element: jourDTO)
     }
     
     func delete(id: Int) async -> Result<Bool,APIError>{
-        return await URLSession.shared.delete(from: URL(string: self.API)!, id: id)
+        return await URLSession.shared.delete(from: URL(string: self.API + "/" + String(id))!, id: id)
     }
 }

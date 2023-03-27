@@ -29,10 +29,10 @@ struct CreneauDAO {
     
     func update(creneau: Creneau) async -> Result<Bool,APIError> {
         let creneauDTO = CreneauDTO(creneau: creneau)
-        return await URLSession.shared.update(from: URL(string: self.API)!, element: creneauDTO)
+        return await URLSession.shared.update(from: URL(string: self.API + "/" + String(creneau.id)))!, element: creneauDTO)
     }
     
     func delete(id: Int) async -> Result<Bool,APIError>{
-        return await URLSession.shared.delete(from: URL(string: self.API)!, id: id)
+        return await URLSession.shared.delete(from: URL(string: self.API + "/" + String(id))!, id: id)
     }
 }

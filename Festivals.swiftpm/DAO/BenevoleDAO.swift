@@ -48,11 +48,11 @@ struct BenevoleDAO {
     
     func update(benevole: Benevole) async -> Result<Bool,APIError> {
         let benevoleDTO = BenevoleDTO(benevole: benevole)
-        return await URLSession.shared.update(from: URL(string: self.API)!, element: benevoleDTO)
+        return await URLSession.shared.update(from: URL(string: self.API + "/" + String(benevole.id))!, element: benevoleDTO)
     }
     
     func delete(id: Int) async -> Result<Bool,APIError>{
-        return await URLSession.shared.delete(from: URL(string: self.API)!, id: id)
+        return await URLSession.shared.delete(from: URL(string: self.API + "/" + String(id))!, id: id)
     }
 
     func auth(token: String) async -> Result<Int, APIError> {

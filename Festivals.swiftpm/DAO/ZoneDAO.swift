@@ -29,10 +29,10 @@ struct ZoneDAO {
     
     func update(zone: Zone) async -> Result<Bool,APIError> {
         let zoneDTO = ZoneDTO(zone: zone)
-        return await URLSession.shared.update(from: URL(string: self.API)!, element: zoneDTO)
+        return await URLSession.shared.update(from: URL(string: self.API + "/" + String(zone.id))!, element: zoneDTO)
     }
     
     func delete(id: Int) async -> Result<Bool,APIError>{
-        return await URLSession.shared.delete(from: URL(string: self.API)!, id: id)
+        return await URLSession.shared.delete(from: URL(string: self.API + "/" + String(id))!, id: id)
     }
 }
