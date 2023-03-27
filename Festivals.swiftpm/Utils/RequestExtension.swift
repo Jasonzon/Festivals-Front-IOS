@@ -76,7 +76,7 @@ extension URLSession {
             return .failure(.JsonEncodingFailed)
         }
         var request :URLRequest = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = "DELETE"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(UserDefaults.standard.string(forKey: "token")!, forHTTPHeaderField: "token")
         do{
