@@ -19,7 +19,7 @@ struct UserView: View {
 
     var body: some View {
         VStack {
-            if (UserSession.shared.user != nil) {
+            if isConnected {
                 Text(UserSession.shared.user!.prenom + "  " + UserSession.shared.user!.nom)
                 Button("Se déconnecter") {
                     UserDefaults.standard.removeObject(forKey: "myKey")
@@ -33,6 +33,11 @@ struct UserView: View {
             } 
             else {
                 ConnectionView(isRegistering: $isRegistering, isConnected: $isConnected)
+            }
+        }
+        .onAppear() {
+            if (UserSession.shared.user != nil) {
+                isConnected = true
             }
         }
     }
