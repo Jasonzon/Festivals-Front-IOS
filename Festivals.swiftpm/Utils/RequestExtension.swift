@@ -77,7 +77,7 @@ extension URLSession {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(UserDefaults.standard.string(forKey: "token")!, forHTTPHeaderField: "token")
         do{
-            let (_,response) = try await upload(for: request, from: encoded, delegate: nil)
+            let (_,response) = try await upload(for: request, from: nil, delegate: nil)
             let httpResponse = response as! HTTPURLResponse
             if httpResponse.statusCode == 201 || httpResponse.statusCode == 200 {
                 return .success(true)

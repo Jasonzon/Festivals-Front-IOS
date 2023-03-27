@@ -33,6 +33,6 @@ struct ZoneDAO {
     }
     
     func delete(id: Int) async -> Result<Bool,APIError>{
-        return await URLSession.shared.delete(from: URL(string: self.API + "/" + String(id))!, id: id)
+        return await URLSession.shared.delete(from: URL(string: self.API + "/" + String(id))!)
     }
 }
