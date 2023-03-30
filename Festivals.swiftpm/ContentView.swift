@@ -5,43 +5,9 @@ struct ContentView: View {
     @State private var selection = 1
     @State private var initialized = false
 
-    var isInitialized: Bool {
-        return initialized
-    }
-
-    init() {
-        Task {
-            if let token = UserDefaults.standard.string(forKey: "token") {
-                do {
-                    let benevoleResult = try await API.benevoleDAO().auth(token: token)
-                    switch benevoleResult {
-                        case .success(let id):
-                            let benevoleResult2 = try await API.benevoleDAO().getOne(id: id)
-                            switch benevoleResult2 {
-                                case .success(let benevole):
-                                    UserSession.shared.user = benevole
-                                case .failure(let error):
-                                    print(error)
-                            }
-                        case .failure(let error):
-                            print(error)
-                    }
-                } 
-                catch {
-                    print(error)
-                }
-            } 
-            else {
-                print("Aucun token trouvé")
-            }
-            self.initialized = true
-        }
-    }
-    
-
     var body: some View {
         Group {
-            if isInitialized {
+            if initialized {
                 TabView(selection: $selection) {
                     FestivalsView().tabItem {
                         Label("Festivals", systemImage: "gamecontroller") 
@@ -56,6 +22,38 @@ struct ContentView: View {
             }
             else {
                 Text("Chargement...")
+                .onAppear() {
+                    Task {
+                        do {
+                            if let token = UserDefaults.standard.string(forKey: "token") {
+                                let benevoleResult = try await API.benevoleDAO().auth(token: token)
+                                switch benevoleResult {
+                                    case .success(let id):
+                                        let benevoleResult2 = try await API.benevoleDAO().getOne(id: id)
+                                        switch benevoleResult2 {
+                                        case .success(let benevole):
+                                            UserSession.shared.user = benevole
+                                            self.initialized = true
+                                        case .failure(let error):
+                                            print(error)
+                                            self.initialized = true
+                                        }
+                                    case .failure(let error):
+                                        print(error)
+                                        self.initialized = true
+                                }
+                            } 
+                            else {
+                                print("Aucun token trouvé")
+                                self.initialized = true
+                            }
+                        } 
+                        catch {
+                            print(error)
+                            self.initialized = true
+                        }
+                    }
+                }
             }
         }
     }
