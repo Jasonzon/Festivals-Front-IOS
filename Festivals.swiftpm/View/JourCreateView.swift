@@ -33,23 +33,45 @@ struct JourCreateView: View {
             Form {
                 TextField("Nom", text: $jourViewModel.name)
                 DatePicker("Date", selection: $jourViewModel.date, displayedComponents: .date)
-                .datePickerStyle(.compact)
-                .environment(\.locale, Locale(identifier: "fr"))
-                .onChange(of: jourViewModel.date, perform: { value in
-                    jourViewModel.dateString = dateFormatter.string(from: value)
-                })
+                    .datePickerStyle(.compact)
+                    .environment(\.locale, Locale(identifier: "fr"))
+                    .onChange(of: jourViewModel.date, perform: { value in
+                        jourViewModel.dateString = dateFormatter.string(from: value)
+                    })
+                
                 DatePicker("Heure de début", selection: $jourViewModel.debut, displayedComponents: .hourAndMinute)
-                .datePickerStyle(.compact)
-                .environment(\.locale, Locale(identifier: "fr"))
-                .onChange(of: jourViewModel.debut, perform: { value in
-                    jourViewModel.debutString = timeFormatter.string(from: value)
-                })
+                    .datePickerStyle(.compact)
+                    .environment(\.locale, Locale(identifier: "fr"))
+                    .onChange(of: jourViewModel.debut, perform: { value in
+                        jourViewModel.debutString = timeFormatter.string(from: value)
+                    })
+                
                 DatePicker("Heure de fin", selection: $jourViewModel.fin, displayedComponents: .hourAndMinute)
-                .datePickerStyle(.compact)
-                .environment(\.locale, Locale(identifier: "fr"))
-                .onChange(of: jourViewModel.fin, perform: { value in
-                    jourViewModel.finString = timeFormatter.string(from: value)
-                })
+                    .datePickerStyle(.compact)
+                    .environment(\.locale, Locale(identifier: "fr"))
+                    .onChange(of: jourViewModel.fin, perform: { value in
+                        jourViewModel.finString = timeFormatter.string(from: value)
+                    })
+                Section {
+                    Button("Créer") {
+                        Task {
+                            intent.intentTestValidation(jour: jourViewModel.getJourFromViewModel())
+                            if jourViewModel.error == .noError {
+                                let data = await API.jourDAO().create(jour: jourViewModel.copyModel)
+                                switch data{
+                                    case .success(let id):
+                                        jourViewModel.copyModel.id = id
+                                        intent.intentCreateRequest(element: jourViewModel.copyModel)
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    case .failure(let err):
+                                        errorAlert = true
+                                        textAlert = "Erreur \(err)"     
+                                }
+                            }
+                        }
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+                }
             }
             .onChange(of: jourViewModel.error) { error in
                 print(error)
@@ -57,26 +79,6 @@ struct JourCreateView: View {
                     textAlert = "\(error)"
                     errorAlert = true
                 } 
-            }
-            Section {
-                Button("Créer") {
-                    Task {
-                        intent.intentTestValidation(jour: jourViewModel.getJourFromViewModel())
-                        if jourViewModel.error == .noError {
-                            let data = await API.jourDAO().create(jour: jourViewModel.copyModel)
-                            switch data{
-                                case .success(let id):
-                                    jourViewModel.copyModel.id = id
-                                    intent.intentCreateRequest(element: jourViewModel.copyModel)
-                                    self.presentationMode.wrappedValue.dismiss()
-                                case .failure(let err):
-                                    errorAlert = true
-                                    textAlert = "Erreur \(err)"     
-                            }
-                        }
-                    }
-                }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
             }
         }
         .toast(isPresenting: $errorAlert, alert: {
