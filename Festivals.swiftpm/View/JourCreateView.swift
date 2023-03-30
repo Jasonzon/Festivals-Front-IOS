@@ -50,26 +50,6 @@ struct JourCreateView: View {
                 .onChange(of: jourViewModel.fin, perform: { value in
                     jourViewModel.finString = timeFormatter.string(from: value)
                 })
-                Section {
-                    Button("Créer") {
-                        Task {
-                            intent.intentTestValidation(jour: jourViewModel.getJourFromViewModel())
-                            if jourViewModel.error == .noError {
-                                let data = await API.jourDAO().create(jour: jourViewModel.copyModel)
-                                switch data{
-                                    case .success(let id):
-                                        jourViewModel.copyModel.id = id
-                                        intent.intentCreateRequest(element: jourViewModel.copyModel)
-                                        self.presentationMode.wrappedValue.dismiss()
-                                    case .failure(let err):
-                                        errorAlert = true
-                                        textAlert = "Erreur \(err)"     
-                                }
-                            }
-                        }
-                    }
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
-                }
             }
             .onChange(of: jourViewModel.error) { error in
                 print(error)
@@ -77,6 +57,26 @@ struct JourCreateView: View {
                     textAlert = "\(error)"
                     errorAlert = true
                 } 
+            }
+            Section {
+                Button("Créer") {
+                    Task {
+                        intent.intentTestValidation(jour: jourViewModel.getJourFromViewModel())
+                        if jourViewModel.error == .noError {
+                            let data = await API.jourDAO().create(jour: jourViewModel.copyModel)
+                            switch data{
+                                case .success(let id):
+                                    jourViewModel.copyModel.id = id
+                                    intent.intentCreateRequest(element: jourViewModel.copyModel)
+                                    self.presentationMode.wrappedValue.dismiss()
+                                case .failure(let err):
+                                    errorAlert = true
+                                    textAlert = "Erreur \(err)"     
+                            }
+                        }
+                    }
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
             }
         }
         .toast(isPresenting: $errorAlert, alert: {
