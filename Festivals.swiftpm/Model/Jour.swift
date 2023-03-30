@@ -11,6 +11,7 @@ class Jour {
 
     var observer : JourObserver?
     var id: Int
+    var festival: Int
 
     var name: String {
         didSet {
@@ -49,12 +50,13 @@ class Jour {
         }
     }
 
-    init(name: String, debut: String, fin: String, date: String, id: Int) {
+    init(name: String, debut: String, fin: String, date: String, id: Int, festival: Int) {
         self.name = name
         self.debut = debut
         self.fin = fin
         self.date = date
         self.id = id
+        self.festival = festival
     }
 
     init(jourDTO: JourDTO) {
@@ -63,10 +65,11 @@ class Jour {
         self.fin = jourDTO.fin
         self.date = jourDTO.date
         self.id = jourDTO.id
+        self.festival = jourDTO.festival
     }
 
     func copy() -> Jour {
-        return Jour(name: self.name, debut: self.debut, fin: self.fin, date: self.date, id: self.id)
+        return Jour(name: self.name, debut: self.debut, fin: self.fin, date: self.date, id: self.id, festival: self.festival)
     }
 
     func paste(jour: Jour) {
@@ -75,5 +78,6 @@ class Jour {
         self.fin = jour.fin
         self.date = jour.date
         self.id = jour.id
+        self.festival = jour.festival
     }
 }

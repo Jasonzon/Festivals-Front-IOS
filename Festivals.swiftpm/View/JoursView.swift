@@ -24,7 +24,7 @@ struct JoursView: View {
             NavigationView {
                 VStack {
                     if (UserSession.shared.user?.role == .Admin) {
-                        NavigationLink(destination: JourCreateView(joursViewModel: joursViewModel), isActive: $createJour){}
+                        NavigationLink(destination: JourCreateView(joursViewModel: joursViewModel, festival: festivalId), isActive: $createJour){}
                     }
                     List {
                         ForEach(searchResults, id: \.id) { element in

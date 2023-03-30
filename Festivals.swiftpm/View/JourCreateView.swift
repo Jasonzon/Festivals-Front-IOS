@@ -8,9 +8,21 @@ struct JourCreateView: View {
     var intent : JourIntent
     @State private var textAlert = ""
     @State private var errorAlert = false
+
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }
     
-    init(joursViewModel: JoursViewModel) {
-        self.jourViewModel = JourViewModel(model: Jour(name: "", debut: "", fin: "", date: "", id: 0))
+    var timeFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter
+    }
+    
+    init(joursViewModel: JoursViewModel, festival: Int) {
+        self.jourViewModel = JourViewModel(model: Jour(name: "", debut: "", fin: "", date: "", id: 0, festival: festival))
         self.intent = JourIntent()
         self.intent.addObserver(viewModel: jourViewModel)
         self.intent.addListObserver(viewModel: joursViewModel)
@@ -20,9 +32,24 @@ struct JourCreateView: View {
         VStack {
             Form {
                 TextField("Nom", text: $jourViewModel.name)
-                TextField("Début", text: $jourViewModel.debut)
-                TextField("Fin", text: $jourViewModel.fin)
-                TextField("Date", text: $jourViewModel.date)
+                DatePicker("Date", selection: $jourViewModel.date, displayedComponents: .date)
+                .datePickerStyle(.compact)
+                .environment(\.locale, Locale(identifier: "fr"))
+                .onChange(of: jourViewModel.date, perform: { value in
+                    jourViewModel.dateString = dateFormatter.string(from: value)
+                })
+                DatePicker("Heure de début", selection: $jourViewModel.debut, displayedComponents: .hourAndMinute)
+                .datePickerStyle(.compact)
+                .environment(\.locale, Locale(identifier: "fr"))
+                .onChange(of: jourViewModel.debut, perform: { value in
+                    jourViewModel.debutString = timeFormatter.string(from: value)
+                })
+                DatePicker("Heure de fin", selection: $jourViewModel.fin, displayedComponents: .hourAndMinute)
+                .datePickerStyle(.compact)
+                .environment(\.locale, Locale(identifier: "fr"))
+                .onChange(of: jourViewModel.fin, perform: { value in
+                    jourViewModel.finString = timeFormatter.string(from: value)
+                })
                 Section {
                     Button("Créer") {
                         Task {

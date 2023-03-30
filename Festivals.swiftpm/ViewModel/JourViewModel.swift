@@ -6,6 +6,7 @@ class JourViewModel: Subscriber, ObservableObject, JourObserver {
     private var model: Jour
     var copyModel: Jour
     var id: Int
+    var festival: Int
     @Published var name: String
     @Published var debut: String
     @Published var fin: String
@@ -14,6 +15,7 @@ class JourViewModel: Subscriber, ObservableObject, JourObserver {
     
     init(model: Jour){
         self.copyModel = model.copy()
+        self.festival = copyModel.festival
         self.id = copyModel.id
         self.name = copyModel.name
         self.debut = copyModel.debut
@@ -63,6 +65,6 @@ class JourViewModel: Subscriber, ObservableObject, JourObserver {
     }
 
     func getJourFromViewModel() -> Jour {
-        return Jour(name: name, debut: debut, fin: fin, date: date, id: id)
+        return Jour(name: name, debut: debut, fin: fin, date: date, id: id, festival: festival)
     }
 }
