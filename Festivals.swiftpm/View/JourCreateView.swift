@@ -33,25 +33,16 @@ struct JourCreateView: View {
             Form {
                 TextField("Nom", text: $jourViewModel.name)
                 DatePicker("Date", selection: $jourViewModel.date, displayedComponents: .date)
-                    .datePickerStyle(.compact)
-                    .environment(\.locale, Locale(identifier: "fr"))
-                    .onChange(of: jourViewModel.date, perform: { value in
-                        jourViewModel.dateString = dateFormatter.string(from: value)
-                    })
+                .datePickerStyle(.compact)
+                .environment(\.locale, Locale(identifier: "fr"))
                 
                 DatePicker("Heure de début", selection: $jourViewModel.debut, displayedComponents: .hourAndMinute)
-                    .datePickerStyle(.compact)
-                    .environment(\.locale, Locale(identifier: "fr"))
-                    .onChange(of: jourViewModel.debut, perform: { value in
-                        jourViewModel.debutString = timeFormatter.string(from: value)
-                    })
+                .datePickerStyle(.compact)
+                .environment(\.locale, Locale(identifier: "fr"))
                 
                 DatePicker("Heure de fin", selection: $jourViewModel.fin, displayedComponents: .hourAndMinute)
-                    .datePickerStyle(.compact)
-                    .environment(\.locale, Locale(identifier: "fr"))
-                    .onChange(of: jourViewModel.fin, perform: { value in
-                        jourViewModel.finString = timeFormatter.string(from: value)
-                    })
+                .datePickerStyle(.compact)
+                .environment(\.locale, Locale(identifier: "fr"))
                 Section {
                     Button("Créer") {
                         Task {
@@ -73,7 +64,16 @@ struct JourCreateView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
                 }
             }
-            .onChange(of: jourViewModel.error) { error in
+            .onReceive(jourViewModel.$date) { date in
+                jourViewModel.dateString = dateFormatter.string(from: date)
+            }
+            .onReceive(jourViewModel.$debut) { debut in
+                jourViewModel.debutString = timeFormatter.string(from: debut)
+            }
+            .onReceive(jourViewModel.$fin) { fin in
+                jourViewModel.finString = timeFormatter.string(from: fin)
+            }
+            .onReceive(jourViewModel.$error) { error in
                 print(error)
                 if (error != .noError) {
                     textAlert = "\(error)"
