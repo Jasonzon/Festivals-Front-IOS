@@ -8,9 +8,9 @@ class JourViewModel: Subscriber, ObservableObject, JourObserver {
     var id: Int
     var festival: Int
     @Published var name: String
-    @Published var debut: String
-    @Published var fin: String
-    @Published var date: String
+    @Published var debut: Date
+    @Published var fin: Date
+    @Published var date: Date
     @Published var error : INPUTError = .noError
     
     init(model: Jour){
@@ -29,15 +29,15 @@ class JourViewModel: Subscriber, ObservableObject, JourObserver {
         self.name = name
     }
 
-    func change(debut: String) {
+    func change(debut: Date) {
         self.debut = debut
     }
 
-    func change(fin: String) {
+    func change(fin: Date) {
         self.fin = fin
     }
 
-    func change(date: String) {
+    func change(date: Date) {
         self.date = date
     }
     

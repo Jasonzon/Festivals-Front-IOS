@@ -75,7 +75,7 @@ struct FestivalView: View {
                 Text("Année : \(festivalViewModel.year)")
                 Text("Statut : \(festivalViewModel.opened ? "Ouvert" : "Fermé")")
             }
-            JoursView(festivalId: $festivalId)
+            JoursView(festival: $festivalViewModel.copyModel)
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)
