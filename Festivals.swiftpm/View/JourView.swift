@@ -14,8 +14,8 @@ struct JourView: View {
     
     init(jour: Jour, joursViewModel: JoursViewModel, festival: Festival) {
         self.jourViewModel = JourViewModel(model: jour)
-        self.startDate = Calendar.current.date(DateComponents(year: Int(festival.year)!, month: 1, day: 1))!
-        self.endDate = Calendar.current.date(DateComponents(year: Int(festival.year)!, month: 12, day: 31))!
+        self.startDate = Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1))!
+        self.endDate = Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 12, day: 31))!
         self.intent = JourIntent()
         self.intent.addObserver(viewModel: jourViewModel)
         self.intent.addListObserver(viewModel: joursViewModel)
