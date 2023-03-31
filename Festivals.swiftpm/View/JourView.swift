@@ -9,10 +9,14 @@ struct JourView: View {
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
+    @State private var startDate: DateComponents
+    @State private var endDate: DateComponents
     
-    init(jour: Jour, joursViewModel: JoursViewModel){
+    init(jour: Jour, joursViewModel: JoursViewModel, festival: Festival){
         self.jourViewModel = JourViewModel(model: jour)
         self.intent = JourIntent()
+        self.startDate = DateComponents(year: festival.year, month: 1, day: 1)
+        self.endDate = DateComponents(year: festival.year, month: 12, day: 31)
         self.intent.addObserver(viewModel: jourViewModel)
         self.intent.addListObserver(viewModel: joursViewModel)
     }
@@ -22,9 +26,15 @@ struct JourView: View {
             if (UserSession.shared.user?.role == .Admin) {
                 Form {
                     TextField("Nom", text: $jourViewModel.name)
-                    TextField("Début", text: $jourViewModel.debut)
-                    TextField("Fin", text: $jourViewModel.fin)
-                    TextField("Date", text: $jourViewModel.date)
+                    DatePicker("Date", selection: $jourViewModel.date, in: startDate.date!...endDate.date!, displayedComponents: [.date])
+                    HStack {
+                        Text("Début")
+                        DatePicker("", selection: $jourViewModel.debut, displayedComponents: [.hourAndMinute])
+                    }
+                    HStack {
+                        Text("Fin")
+                        DatePicker("", selection: $jourViewModel.fin, displayedComponents: [.hourAndMinute])
+                    }
                     Section {
                         Button("Enregistrer") {
                             Task {

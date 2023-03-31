@@ -2,9 +2,9 @@ import Foundation
 
 protocol JourObserver {
     func change(name: String)
-    func change(debut: String)
-    func change(fin: String)
-    func change(date: String)
+    func change(debut: Date)
+    func change(fin: Date)
+    func change(date: Date)
 }
 
 class Jour {
@@ -26,7 +26,7 @@ class Jour {
         }
     }
 
-    var debut: String {
+    var debut: Date {
         didSet {
             if debut != oldValue {
                 self.observer?.change(debut: self.debut)
@@ -34,7 +34,7 @@ class Jour {
         }
     }
 
-    var fin: String {
+    var fin: Date {
         didSet {
             if fin != oldValue {
                 self.observer?.change(fin: self.fin)
@@ -42,7 +42,7 @@ class Jour {
         }
     }
 
-    var date: String {
+    var date: Date {
         didSet {
             if fin != oldValue {
                 self.observer?.change(date: self.date)
@@ -50,7 +50,7 @@ class Jour {
         }
     }
 
-    init(name: String, debut: String, fin: String, date: String, id: Int, festival: Int) {
+    init(name: String, debut: Date, fin: Date, date: Date, id: Int, festival: Int) {
         self.name = name
         self.debut = debut
         self.fin = fin

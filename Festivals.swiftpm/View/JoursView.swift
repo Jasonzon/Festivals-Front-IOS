@@ -4,7 +4,7 @@ import AlertToast
 struct JoursView: View {
 
     @ObservedObject var joursViewModel : JoursViewModel = JoursViewModel(jours: [])
-    @Binding var festivalId: Int
+    @Binding var festival: Festival
     @State private var searchText = ""
     @State private var createJour = false
     @State private var dataIsLoad = false
@@ -24,11 +24,11 @@ struct JoursView: View {
             NavigationView {
                 VStack {
                     if (UserSession.shared.user?.role == .Admin) {
-                        NavigationLink(destination: JourCreateView(joursViewModel: joursViewModel, festival: festivalId), isActive: $createJour){}
+                        NavigationLink(destination: JourCreateView(joursViewModel: joursViewModel, festival: festival), isActive: $createJour){}
                     }
                     List {
                         ForEach(searchResults, id: \.id) { element in
-                            NavigationLink(destination: JourView(jour: element, joursViewModel: joursViewModel)) {
+                            NavigationLink(destination: JourView(jour: element, joursViewModel: joursViewModel, festival: festival)) {
                                 HStack {
                                     Text(element.name)
                                 }
@@ -62,7 +62,7 @@ struct JoursView: View {
     
     func loadData(){
         Task{
-            self.joursViewModel.jours = await API.jourDAO().getAll(url: "/festival/\(festivalId)")
+            self.joursViewModel.jours = await API.jourDAO().getAll(url: "/festival/\(festival.id)")
             dataIsLoad = true
         }
     }

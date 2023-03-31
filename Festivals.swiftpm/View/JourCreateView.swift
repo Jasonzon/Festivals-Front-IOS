@@ -8,22 +8,14 @@ struct JourCreateView: View {
     var intent : JourIntent
     @State private var textAlert = ""
     @State private var errorAlert = false
-
-    var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        return formatter
-    }
+    @State private var startDate: DateComponents
+    @State private var endDate: DateComponents
     
-    var timeFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return formatter
-    }
-    
-    init(joursViewModel: JoursViewModel, festival: Int) {
-        self.jourViewModel = JourViewModel(model: Jour(name: "", debut: "", fin: "", date: "", id: 0, festival: festival))
+    init(joursViewModel: JoursViewModel, festival: Festival) {
+        self.jourViewModel = JourViewModel(model: Jour(name: "", debut: "", fin: "", date: "", id: 0, festival: festival.id))
         self.intent = JourIntent()
+        self.startDate = DateComponents(year: festival.year, month: 1, day: 1)
+        self.endDate = DateComponents(year: festival.year, month: 12, day: 31)
         self.intent.addObserver(viewModel: jourViewModel)
         self.intent.addListObserver(viewModel: joursViewModel)
     }
@@ -32,17 +24,15 @@ struct JourCreateView: View {
         VStack {
             Form {
                 TextField("Nom", text: $jourViewModel.name)
-                DatePicker("Date", selection: $jourViewModel.date, displayedComponents: .date)
-                .datePickerStyle(.compact)
-                .environment(\.locale, Locale(identifier: "fr"))
-                
-                DatePicker("Heure de début", selection: $jourViewModel.debut, displayedComponents: .hourAndMinute)
-                .datePickerStyle(.compact)
-                .environment(\.locale, Locale(identifier: "fr"))
-                
-                DatePicker("Heure de fin", selection: $jourViewModel.fin, displayedComponents: .hourAndMinute)
-                .datePickerStyle(.compact)
-                .environment(\.locale, Locale(identifier: "fr"))
+                DatePicker("Date", selection: $jourViewModel.date, in: startDate.date!...endDate.date!, displayedComponents: [.date])
+                HStack {
+                    Text("Début")
+                    DatePicker("", selection: $jourViewModel.debut, displayedComponents: [.hourAndMinute])
+                }
+                HStack {
+                    Text("Fin")
+                    DatePicker("", selection: $jourViewModel.fin, displayedComponents: [.hourAndMinute])
+                }
                 Section {
                     Button("Créer") {
                         Task {
@@ -64,16 +54,7 @@ struct JourCreateView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
                 }
             }
-            .onReceive(jourViewModel.$date) { date in
-                jourViewModel.dateString = dateFormatter.string(from: date)
-            }
-            .onReceive(jourViewModel.$debut) { debut in
-                jourViewModel.debutString = timeFormatter.string(from: debut)
-            }
-            .onReceive(jourViewModel.$fin) { fin in
-                jourViewModel.finString = timeFormatter.string(from: fin)
-            }
-            .onReceive(jourViewModel.$error) { error in
+            .onChange(of: jourViewModel.error) { error in
                 print(error)
                 if (error != .noError) {
                     textAlert = "\(error)"

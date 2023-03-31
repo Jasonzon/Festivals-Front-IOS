@@ -4,12 +4,12 @@ struct JourDTO: Codable {
     
     let id: Int
     let name: String
-    let debut: String
-    let fin: String
-    let date: String
+    let debut: Date
+    let fin: Date
+    let date: Date
     let festival: Int
 
-    init(id: Int, name: String, debut: String, fin: String, date: String, festival: Int) {
+    init(id: Int, name: String, debut: Date, fin: Date, date: Date, festival: Int) {
         self.id = id
         self.name = name
         self.debut = debut
