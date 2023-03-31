@@ -12,10 +12,10 @@ struct JourCreateView: View {
     @State private var endDate: DateComponents
     
     init(joursViewModel: JoursViewModel, festival: Festival) {
-        self.jourViewModel = JourViewModel(model: Jour(name: "", debut: Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1, hour: 9, minute: 0))!, fin: Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1, hour: 17, minute: 0))!, date: Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1))!, id: 0, festival: festival.id))
-        self.intent = JourIntent()
         self.startDate = DateComponents(year: Int(festival.year)!, month: 1, day: 1)
         self.endDate = DateComponents(year: Int(festival.year)!, month: 12, day: 31)
+        self.jourViewModel = JourViewModel(model: Jour(name: "", debut: Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1, hour: 9, minute: 0))!, fin: Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1, hour: 17, minute: 0))!, date: Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1))!, id: 0, festival: festival.id))
+        self.intent = JourIntent()
         self.intent.addObserver(viewModel: jourViewModel)
         self.intent.addListObserver(viewModel: joursViewModel)
     }
