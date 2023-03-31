@@ -9,8 +9,8 @@ struct JourView: View {
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
-    private var startDate: DateComponents(year: 2023, month: 1, day: 1)
-    private var endDate: DateComponents(year: 2023, month: 1, day: 1)
+    private var startDate: DateComponents = DateComponents(year: 2023, month: 1, day: 1)
+    private var endDate: DateComponents = DateComponents(year: 2023, month: 1, day: 1)
     
     init(jour: Jour, joursViewModel: JoursViewModel, festival: Festival) {
         self.jourViewModel = JourViewModel(model: jour)
