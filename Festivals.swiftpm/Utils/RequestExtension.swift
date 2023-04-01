@@ -9,6 +9,20 @@ struct IdDTO: Codable {
     }
 }
 
+extension Date {
+    var iso8601: String {
+        return DateFormatter.iso8601.string(from: self)
+    }
+}
+
+extension JSONEncoder {
+    static var iso8601: JSONEncoder {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .formatted(DateFormatter.iso8601)
+        return encoder
+    }
+}
+
 extension URLSession {
 
     func getJSON<T:Decodable>(from url:URL) async -> Result<T, APIError>{
@@ -22,8 +36,10 @@ extension URLSession {
         return .success(decoded)
     }
 
-    func create<T:Encodable>(from url:URL,element:T)async -> Result<Int, APIError>{
-        guard let encoded :Data = try? JSONEncoder().encode(element)else {
+    func create<T:Encodable>(from url:URL,element:T)async -> Result<Int, APIError> {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        guard let encoded :Data = try? encoder.encode(element)else {
             return .failure(.JsonEncodingFailed)
         }
         var request :URLRequest = URLRequest(url: url)

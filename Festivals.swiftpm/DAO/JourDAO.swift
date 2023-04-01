@@ -24,16 +24,6 @@ struct JourDAO {
     
     func create(jour: Jour) async -> Result<Int,APIError> {
         let jourDTO = JourDTO(jour: jour) 
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let isoString = dateFormatter.string(from: jour.date)
-        print(isoString)
-        let dateFormatter2 = DateFormatter()
-        dateFormatter2.dateFormat = "HH:mm"
-        let timeString = dateFormatter2.string(from: jour.debut)
-        print(timeString)
-        let timeString2 = dateFormatter2.string(from: jour.fin)
-        print(timeString2)
         return await URLSession.shared.create(from: URL(string: self.API)!, element: jourDTO)
     }
     
