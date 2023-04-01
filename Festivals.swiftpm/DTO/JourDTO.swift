@@ -37,11 +37,15 @@ struct JourDTO: Codable {
     }
 
     func serialize() -> [String: Any] {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm:ss"
         var dict: [String: Any] = [:]
         dict["name"] = self.name
-        dict["debut"] = self.debut.timeIntervalSince1970
-        dict["fin"] = self.fin.timeIntervalSince1970
-        dict["date"] = self.date.timeIntervalSince1970
+        dict["debut"] = timeFormatter.string(from: self.debut)
+        dict["fin"] = timeFormatter.string(from: self.fin)
+        dict["date"] = dateFormatter.string(from: self.date)
         dict["festival"] = self.festival
         return dict
     }
