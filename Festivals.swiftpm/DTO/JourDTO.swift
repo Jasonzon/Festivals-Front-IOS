@@ -36,21 +36,18 @@ struct JourDTO: Codable {
         case festival = "jour_festival"
     }
 
-    func serialize() -> Data? {
+    func serialize() -> Data {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "HH:mm:ss"
         let dict: [String: Any] = [
-            "name": self.name
-            "debut": timeFormatter.string(from: self.debut)
-            "fin": timeFormatter.string(from: self.fin)
-            "date": dateFormatter.string(from: self.date)
+            "name": self.name,
+            "debut": timeFormatter.string(from: self.debut),
+            "fin": timeFormatter.string(from: self.fin),
+            "date": dateFormatter.string(from: self.date),
             "festival": self.festival
         ]
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: []) else {
-            return nil
-        }
-        return jsonData
+        return JSONSerialization.data(withJSONObject: dict, options: [])!
     }
 }
