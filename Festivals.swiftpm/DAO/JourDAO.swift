@@ -23,7 +23,7 @@ struct JourDAO {
     }
     
     func create(jour: Jour) async -> Result<Int,APIError> {
-        let jourDTO = JourDTO(jour: jour) 
+        let jourDTO = JourDTO(jour: Jour(name: jour.name, debut: Date(timeIntervalSince1970: TimeInterval(jour.debut)), fin: Date(timeIntervalSince1970: TimeInterval(jour.fin)), date: Date(timeIntervalSince1970: TimeInterval(jour.date)), id: jour.id, festival: jour.festival)) 
         return await URLSession.shared.create(from: URL(string: self.API)!, element: jourDTO)
     }
     
