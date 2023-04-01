@@ -50,6 +50,7 @@ struct JourDTO: Codable {
             "jour_id": self.id
         ]
         guard let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: []) else {
+            print("Erreur json")
             return nil
         }
         return jsonData
