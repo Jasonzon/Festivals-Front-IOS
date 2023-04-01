@@ -42,11 +42,12 @@ struct JourDTO: Codable {
         let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "HH:mm:ss"
         let dict: [String: Any] = [
-            "name": self.name,
-            "debut": timeFormatter.string(from: self.debut),
-            "fin": timeFormatter.string(from: self.fin),
-            "date": dateFormatter.string(from: self.date),
-            "festival": self.festival
+            "jour_name": self.name,
+            "jour_debut": timeFormatter.string(from: self.debut),
+            "jour_fin": timeFormatter.string(from: self.fin),
+            "jour_date": dateFormatter.string(from: self.date),
+            "jour_festival": self.festival,
+            "jour_id": self.id
         ]
         guard let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: []) else {
             return nil
