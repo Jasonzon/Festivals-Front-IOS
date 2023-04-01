@@ -21,12 +21,37 @@ struct JourDTO: Codable {
     init(jour: Jour) {
         self.id = jour.id
         self.name = jour.name
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        self.debut = dateFormatter.date(from: jour.debut)!
-        self.fin = dateFormatter.date(from: jour.fin)!
-        self.date = dateFormatter.date(from: jour.date)!
+        self.debut = jour.debut
+        self.fin = jour.fin
+        self.date = jour.date
         self.festival = jour.festival
+    }
+
+    init(from decoder: Decoder) throws {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.festival = try container.decode(Int.self, forKey: .festival)
+        let debutString = try container.decode(String.self, forKey: .debut)
+        if let debut = dateFormatter.date(from: debutString) {
+            self.debut = debut
+        } else {
+            throw DecodingError.dataCorruptedError(forKey: .debut, in: container, debugDescription: "Date string does not match format expected by formatter.")
+        }
+        let finString = try container.decode(String.self, forKey: .fin)
+        if let fin = dateFormatter.date(from: finString) {
+            self.fin = fin
+        } else {
+            throw DecodingError.dataCorruptedError(forKey: .fin, in: container, debugDescription: "Date string does not match format expected by formatter.")
+        }
+        let dateString = try container.decode(String.self, forKey: .date)
+        if let date = dateFormatter.date(from: dateString) {
+            self.date = date
+        } else {
+            throw DecodingError.dataCorruptedError(forKey: .date, in: container, debugDescription: "Date string does not match format expected by formatter.")
+        }
     }
 
     enum CodingKeys: String, CodingKey {
