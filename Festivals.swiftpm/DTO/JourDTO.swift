@@ -48,6 +48,6 @@ struct JourDTO: Codable {
             "date": dateFormatter.string(from: self.date),
             "festival": self.festival
         ]
-        return JSONSerialization.data(withJSONObject: dict, options: [])!
+        return JSONSerialization.data(withJSONObject: dict, options: [])
     }
 }
