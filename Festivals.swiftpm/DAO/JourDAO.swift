@@ -23,8 +23,9 @@ struct JourDAO {
     }
     
     func create(jour: Jour) async -> Result<Int, APIError>{
+        let url: URL = URL(string: self.API)!
         let serialized = JourDTO(jour: jour).serialize()
-        var request = URLRequest(url: URL(string: self.API))
+        var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(UserDefaults.standard.string(forKey: "token")!, forHTTPHeaderField: "token")
