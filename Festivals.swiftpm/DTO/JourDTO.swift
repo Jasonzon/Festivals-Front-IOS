@@ -21,9 +21,11 @@ struct JourDTO: Codable {
     init(jour: Jour) {
         self.id = jour.id
         self.name = jour.name
-        self.debut = jour.debut
-        self.fin = jour.fin
-        self.date = jour.date
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        self.debut = dateFormatter.date(from: jour.debut)!
+        self.fin = dateFormatter.date(from: jour.fin)!
+        self.date = dateFormatter.date(from: jour.date)!
         self.festival = jour.festival
     }
 
