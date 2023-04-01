@@ -37,9 +37,9 @@ extension URLSession {
     }
 
     func create<T:Encodable>(from url:URL,element:T)async -> Result<Int, APIError> {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        guard let encoded :Data = try? encoder.encode(element)else {
+        var encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .formatted(DateFormatter.iso8601)
+        guard let encoded :Data = try? encoder.encode(element) else {
             return .failure(.JsonEncodingFailed)
         }
         var request :URLRequest = URLRequest(url: url)
