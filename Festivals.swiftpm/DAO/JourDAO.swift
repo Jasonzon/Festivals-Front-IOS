@@ -22,9 +22,28 @@ struct JourDAO {
         }
     }
     
-    func create(jour: Jour) async -> Result<Int,APIError> {
-        let jourDTO = JourDTO(jour: Jour(name: jour.name, debut: Date(timeIntervalSince1970: TimeInterval(jour.debut)), fin: Date(timeIntervalSince1970: TimeInterval(jour.fin)), date: Date(timeIntervalSince1970: TimeInterval(jour.date)), id: jour.id, festival: jour.festival)) 
-        return await URLSession.shared.create(from: URL(string: self.API)!, element: jourDTO)
+    func create(jour: Jour) async -> Result<Int, APIError>{
+        guard let serialized = JourDTO(jour: jour).serialize() else {
+            return .failure(.JsonEncodingFailed)
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(UserDefaults.standard.string(forKey: "token")!, forHTTPHeaderField: "token")
+        do {
+            let (data,response) = try await upload(for: request, from: serialized, delegate: nil)
+            let httpResponse = response as! HTTPURLResponse
+            if httpResponse.statusCode == 201 || httpResponse.statusCode == 200 {
+                guard let id = try? JSONDecoder().decode(IdDTO.self, from: data) else {
+                    return .failure(.JsonDecodingFailed)
+                }
+                return .success(id.ID)
+            } else {
+                return .failure(.httpResponseError(httpResponse.statusCode))
+            }       
+        } catch {
+            return .failure(.urlNotFound(url.absoluteString))
+        }
     }
     
     func update(jour: Jour) async -> Result<Bool,APIError> {

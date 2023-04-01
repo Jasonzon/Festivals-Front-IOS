@@ -35,4 +35,14 @@ struct JourDTO: Codable {
         case date = "jour_date"
         case festival = "jour_festival"
     }
+
+    func serialize() -> [String: Any] {
+        var dict: [String: Any] = [:]
+        dict["name"] = self.name
+        dict["debut"] = self.debut.timeIntervalSince1970
+        dict["fin"] = self.fin.timeIntervalSince1970
+        dict["date"] = self.date.timeIntervalSince1970
+        dict["festival"] = self.festival
+        return dict
+    }
 }
