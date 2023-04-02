@@ -13,7 +13,8 @@ struct JourView: View {
     private var endDate: Date
     @Binding var festival: Festival
     
-    init(jour: Jour, joursViewModel: JoursViewModel) {
+    init(jour: Jour, joursViewModel: JoursViewModel, festival: Binding<Festival>) {
+        _festival = festival
         self.jourViewModel = JourViewModel(model: jour)
         self.startDate = Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1))!
         self.endDate = Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 12, day: 31))!

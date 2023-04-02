@@ -11,7 +11,8 @@ struct CreneauView: View {
     @State private var textAlert = ""
     @Binding var festival: Festival
     
-    init(creneau: Creneau, creneauxViewModel: CreneauxViewModel) {
+    init(creneau: Creneau, creneauxViewModel: CreneauxViewModel, festival: Binding<Festival>) {
+        _festival = festival
         self.creneauViewModel = CreneauViewModel(model: creneau)
         self.intent = CreneauIntent()
         self.intent.addObserver(viewModel: creneauViewModel)
