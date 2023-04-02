@@ -23,6 +23,7 @@ extension URLSession {
     }
 
     func create<T:Encodable>(from url:URL,element:T)async -> Result<Int, APIError>{
+        print("ON EST LA")
         guard let encoded :Data = try? JSONEncoder().encode(element)else {
             return .failure(.JsonEncodingFailed)
         }

@@ -30,7 +30,6 @@ struct RegisterView: View {
                         Task {
                             intent.intentTestValidation(benevole: benevoleViewModel.getBenevoleFromViewModel())
                             if benevoleViewModel.error == .noError {
-                                print("ENCORE")
                                 let data = await API.benevoleDAO().create(benevole: benevoleViewModel.copyModel)
                                 switch data{
                                     case .success(let id):
