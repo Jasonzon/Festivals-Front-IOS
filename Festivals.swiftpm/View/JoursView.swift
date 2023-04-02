@@ -28,7 +28,7 @@ struct JoursView: View {
                     }
                     List {
                         ForEach(searchResults, id: \.id) { element in
-                            NavigationLink(destination: JourView(jour: element, joursViewModel: joursViewModel, festival: festival)) {
+                            NavigationLink(destination: JourView(jour: element, joursViewModel: joursViewModel, festival: $festival)) {
                                 HStack {
                                     Text(element.name)
                                 }

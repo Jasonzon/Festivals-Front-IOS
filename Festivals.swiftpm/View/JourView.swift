@@ -82,7 +82,7 @@ struct JourView: View {
                 Text("Début : \(jourViewModel.debut)")
                 Text("Fin : \(jourViewModel.fin)")
             }
-            CreneauxView(jour: $jourViewModel.copyModel, festival: festival)
+            CreneauxView(jour: $jourViewModel.copyModel, festival: $festival)
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)
