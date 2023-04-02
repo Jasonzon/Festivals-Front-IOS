@@ -63,7 +63,7 @@ struct ZonesView: View {
     
     func loadData(){
         Task{
-            self.zonesViewModel.zones = await API.zoneDAO().getAll(url: "/creneau/\(creneau.id)")
+            self.zonesViewModel.zones = await API.zoneDAO().getAll(url: "/festival/\(festival)")
             dataIsLoad = true
         }
     }
