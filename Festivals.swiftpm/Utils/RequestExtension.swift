@@ -29,7 +29,9 @@ extension URLSession {
         var request :URLRequest = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue(UserDefaults.standard.string(forKey: "token")!, forHTTPHeaderField: "token")
+        if let token = UserDefaults.standard.string(forKey: "token") {
+            request.addValue(token, forHTTPHeaderField: "token")
+        }
         do {
             let (data,response) = try await upload(for: request, from: encoded, delegate: nil)
             let httpResponse = response as! HTTPURLResponse
