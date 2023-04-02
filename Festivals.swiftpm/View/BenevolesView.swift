@@ -6,6 +6,7 @@ struct BenevolesView: View {
     @ObservedObject var benevolesViewModel : BenevolesViewModel = BenevolesViewModel(benevoles: [])
     @State private var searchText = ""
     @State private var dataIsLoad = false
+    @Binding var url: String
     private var searchResults: [Benevole] {
         if searchText.isEmpty {
             return benevolesViewModel.benevoles
@@ -50,7 +51,7 @@ struct BenevolesView: View {
     
     func loadData(){
         Task{
-            self.benevolesViewModel.benevoles = await API.benevoleDAO().getAll()
+            self.benevolesViewModel.benevoles = await API.benevoleDAO().getAll(url: url)
             dataIsLoad = true
         }
     }

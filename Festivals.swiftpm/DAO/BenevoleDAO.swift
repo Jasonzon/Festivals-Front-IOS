@@ -27,8 +27,8 @@ struct BenevoleDAO {
         self.API = api + "/benevole"
     }
     
-    func getAll() async -> [Benevole] {
-        let data:Result<[BenevoleDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
+    func getAll(url: String) async -> [Benevole] {
+        let data:Result<[BenevoleDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API + url)!)
         switch data {
             case .success(let DTO):
                 var benevoleList: [Benevole] = DTO.compactMap { 

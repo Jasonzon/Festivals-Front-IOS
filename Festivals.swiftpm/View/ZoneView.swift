@@ -9,8 +9,10 @@ struct ZoneView: View {
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
+    @Binding var creneau: Int
     
-    init(zone: Zone, zonesViewModel: ZonesViewModel) {
+    init(zone: Zone, zonesViewModel: ZonesViewModel, creneau: Binding<Int>) {
+        _creneau = creneau
         self.zoneViewModel = ZoneViewModel(model: zone)
         self.intent = ZoneIntent()
         self.intent.addObserver(viewModel: zoneViewModel)
@@ -68,6 +70,10 @@ struct ZoneView: View {
                 Text("Nom : \(zoneViewModel.name)")
                 //Text("Nombre de bénévoles : \(zoneViewModel.benevoles)")
             }
+            BenevolesView(url: "/zone?creneau=\(creneau)&zone=\(zoneViewModel.id)")
+        }
+        .onAppear() {
+            loadData()
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)

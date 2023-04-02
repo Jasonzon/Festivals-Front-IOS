@@ -12,7 +12,7 @@ struct ContentView: View {
                     FestivalsView().tabItem {
                         Label("Festivals", systemImage: "gamecontroller") 
                     }.tag(1)
-                    BenevolesView().tabItem { 
+                    BenevolesView(url: "").tabItem { 
                         Label("Bénévoles", systemImage: "person.3.fill") 
                     }.tag(2)
                     UserView().tabItem {

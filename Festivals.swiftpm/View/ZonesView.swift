@@ -4,11 +4,11 @@ import AlertToast
 struct ZonesView: View {
 
     @ObservedObject var zonesViewModel : ZonesViewModel = ZonesViewModel(zones: [])
-    @Binding var creneau: Creneau
     @Binding var festival: Int
     @State private var searchText = ""
     @State private var createZone = false
     @State private var dataIsLoad = false
+    @Binding var creneau: Int
     private var searchResults: [Zone] {
         if searchText.isEmpty {
             return zonesViewModel.zones
@@ -29,7 +29,7 @@ struct ZonesView: View {
                     }
                     List{
                         ForEach(searchResults, id: \.id) { element in
-                            NavigationLink(destination: ZoneView(zone: element, zonesViewModel: zonesViewModel)) {
+                            NavigationLink(destination: ZoneView(zone: element, zonesViewModel: zonesViewModel, creneau: $creneau)) {
                                 HStack {
                                     Text(element.name)
                                 }
