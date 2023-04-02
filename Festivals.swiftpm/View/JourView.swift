@@ -11,10 +11,9 @@ struct JourView: View {
     @State private var textAlert = ""
     private var startDate: Date
     private var endDate: Date
-    private var festival: Festival
+    @Binding var festival: Festival
     
-    init(jour: Jour, joursViewModel: JoursViewModel, festival: Festival) {
-        self.festival = festival
+    init(jour: Jour, joursViewModel: JoursViewModel) {
         self.jourViewModel = JourViewModel(model: jour)
         self.startDate = Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1))!
         self.endDate = Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 12, day: 31))!
