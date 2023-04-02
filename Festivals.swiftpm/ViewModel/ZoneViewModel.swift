@@ -6,11 +6,15 @@ class ZoneViewModel: Subscriber, ObservableObject, ZoneObserver {
     private var model: Zone
     var copyModel: Zone
     var id: Int
+    var festival: Int
     @Published var name: String
+    @Published var benevoles: Int
     @Published var error : INPUTError = .noError
     
     init(model: Zone){
         self.copyModel = model.copy()
+        self.festival = copyModel.festival
+        self.benevoles = copyModel.benevoles
         self.id = copyModel.id
         self.name = copyModel.name
         self.model = model
@@ -19,6 +23,10 @@ class ZoneViewModel: Subscriber, ObservableObject, ZoneObserver {
 
     func change(name: String) {
         self.name = name
+    }
+
+    func change(benevoles: Int) {
+        self.benevoles = benevoles
     }
     
     func receive(subscription: Subscription) {
@@ -33,6 +41,7 @@ class ZoneViewModel: Subscriber, ObservableObject, ZoneObserver {
                 self.model.paste(zone: self.copyModel)
             case .testValidation(let zone):
                 self.copyModel.name = zone.name
+                self.copyModel.benevoles = zone.benevoles
         }
         return .none
     }
@@ -42,6 +51,6 @@ class ZoneViewModel: Subscriber, ObservableObject, ZoneObserver {
     }
 
     func getZoneFromViewModel() -> Zone {
-        return Zone(name: name, id: id)
+        return Zone(name: name, id: id, benevoles: benevoles, festival: festival)
     }
 }

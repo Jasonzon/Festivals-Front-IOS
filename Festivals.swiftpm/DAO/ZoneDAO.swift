@@ -8,8 +8,8 @@ struct ZoneDAO {
         self.API = api + "/zone"
     }
     
-    func getAll() async -> [Zone] {
-        let data:Result<[ZoneDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
+    func getAll(url: String) async -> [Zone] {
+        let data:Result<[ZoneDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API + url)!)
         switch data {
             case .success(let DTO):
                 var zoneList: [Zone] = DTO.compactMap { 

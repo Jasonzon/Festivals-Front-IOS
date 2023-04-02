@@ -4,6 +4,7 @@ import AlertToast
 struct ZonesView: View {
 
     @ObservedObject var zonesViewModel : ZonesViewModel = ZonesViewModel(zones: [])
+    @Binding var creneau: Creneau
     @State private var searchText = ""
     @State private var createZone = false
     @State private var dataIsLoad = false
@@ -61,7 +62,7 @@ struct ZonesView: View {
     
     func loadData(){
         Task{
-            self.zonesViewModel.zones = await API.zoneDAO().getAll()
+            self.zonesViewModel.zones = await API.zoneDAO().getAll(url: "/creneau/\(creneau.id)")
             dataIsLoad = true
         }
     }

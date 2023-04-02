@@ -80,7 +80,6 @@ struct JourView: View {
                 Text("Nom : \(jourViewModel.name)")
                 Text("Début : \(jourViewModel.debut)")
                 Text("Fin : \(jourViewModel.fin)")
-                Text("Date : \(jourViewModel.date)")
             }
             CreneauxView(jour: $jourViewModel.copyModel)
         }
