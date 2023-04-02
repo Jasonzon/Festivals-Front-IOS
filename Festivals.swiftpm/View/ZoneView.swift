@@ -72,9 +72,6 @@ struct ZoneView: View {
             }
             BenevolesView(url: "/zone?creneau=\(creneau)&zone=\(zoneViewModel.id)")
         }
-        .onAppear() {
-            loadData()
-        }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)
         }, completion: {

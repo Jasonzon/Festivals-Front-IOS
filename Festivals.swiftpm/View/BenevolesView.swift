@@ -6,7 +6,7 @@ struct BenevolesView: View {
     @ObservedObject var benevolesViewModel : BenevolesViewModel = BenevolesViewModel(benevoles: [])
     @State private var searchText = ""
     @State private var dataIsLoad = false
-    @Binding var url: String
+    let url: String
     private var searchResults: [Benevole] {
         if searchText.isEmpty {
             return benevolesViewModel.benevoles

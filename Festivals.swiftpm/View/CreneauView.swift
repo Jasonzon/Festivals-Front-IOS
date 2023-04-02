@@ -70,7 +70,7 @@ struct CreneauView: View {
                 Text("Debut : \(creneauViewModel.debut)")
                 Text("Fin : \(creneauViewModel.fin)")
             }
-            ZonesView(creneau: $creneauViewModel.copyModel.id, festival: $festival)
+            ZonesView(festival: $festival, creneau: $creneauViewModel.copyModel.id)
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)
