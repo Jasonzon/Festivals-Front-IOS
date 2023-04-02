@@ -5,7 +5,7 @@ struct CreneauxView: View {
 
     @ObservedObject var creneauxViewModel : CreneauxViewModel = CreneauxViewModel(creneaux: [])
     @Binding var jour: Jour
-    @Binding var festival: Festival
+    @Binding var festival: Int
     @State private var searchText = ""
     @State private var createCreneau = false
     @State private var dataIsLoad = false
