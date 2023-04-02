@@ -70,7 +70,7 @@ struct ZoneView: View {
                 Text("Nom : \(zoneViewModel.name)")
                 Text("Nombre de bénévoles : \(zoneViewModel.benevoles)")
             }
-            BenevolesView(url: "/zone?creneau=\(creneau)&zone=\(zoneViewModel.id)")
+            BenevolesTravailView(url: "/zone?creneau=\(creneau)&zone=\(zoneViewModel.id)", maximum: zoneViewModel.benevoles, zone: zoneViewModel.id, creneau: creneau)
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)
