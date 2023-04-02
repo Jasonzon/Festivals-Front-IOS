@@ -20,7 +20,6 @@ struct FestivalView: View {
     }
 
     var body: some View {
-        ScrollView {
         VStack {
             if (UserSession.shared.user?.role == .Admin) {
                 Form {
@@ -89,6 +88,5 @@ struct FestivalView: View {
             festivalViewModel.error = .noError
             errorAlert = false
         })   
-        }
     }
 }
