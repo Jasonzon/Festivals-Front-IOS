@@ -1,7 +1,7 @@
 import SwiftUI
 import AlertToast
 
-struct BenevolesView: View {
+struct BenevolesTravailView: View {
 
     @ObservedObject var benevolesViewModel : BenevolesViewModel = BenevolesViewModel(benevoles: [])
     @State private var searchText = ""
@@ -34,7 +34,7 @@ struct BenevolesView: View {
                 Button("Quitter") {
                     Task {
                         let user = benevolesViewModel.benevoles.first(where: { $0.id == UserSession.shared.user!.id })!
-                        let data = await API.travailDAO().delete(user.id)
+                        let data = await API.travailDAO().delete(id: user.id)
                     }
                 }
             }
