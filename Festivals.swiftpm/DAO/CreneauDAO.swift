@@ -8,8 +8,8 @@ struct CreneauDAO {
         self.API = api + "/creneau"
     }
     
-    func getAll() async -> [Creneau] {
-        let data:Result<[CreneauDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API)!)
+    func getAll(url: String) async -> [Creneau] {
+        let data:Result<[CreneauDTO],APIError> = await URLSession.shared.getJSON(from: URL(string: self.API + url)!)
         switch data {
             case .success(let DTO):
                 var creneauList: [Creneau] = DTO.compactMap { 
