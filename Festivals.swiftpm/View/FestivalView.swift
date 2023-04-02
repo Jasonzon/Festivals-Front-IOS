@@ -10,7 +10,7 @@ struct FestivalView: View {
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
-    @State private var show = false
+    @State private var showJours = false
     
     init(festival: Festival, festivalsViewModel: FestivalsViewModel){
         self.festivalViewModel = FestivalViewModel(model: festival)
@@ -22,7 +22,7 @@ struct FestivalView: View {
 
     var body: some View {
         VStack {
-            if show {
+            if !showJours {
                 if (UserSession.shared.user?.role == .Admin) {
                     Form {
                         TextField("Nom", text: $festivalViewModel.name)
@@ -78,13 +78,13 @@ struct FestivalView: View {
                     Text("Statut : \(festivalViewModel.opened ? "Ouvert" : "Fermé")")
                 }
                 Button("Afficher les jours") {
-                    show = true
+                    showJours = true
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
             }
             else {
                 Button("Cacher les jours") {
-                    show = false
+                    showJours = false
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
                 JoursView(festival: $festivalViewModel.copyModel.id, year: $festivalViewModel.copyModel.year)
