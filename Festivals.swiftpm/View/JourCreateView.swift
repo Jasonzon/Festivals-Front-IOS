@@ -12,9 +12,9 @@ struct JourCreateView: View {
     private var endDate: Date
     
     init(joursViewModel: JoursViewModel, festival: Int, year: String) {
-        self.jourViewModel = JourViewModel(model: Jour(name: "", debut: Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1, hour: 9, minute: 0))!, fin: Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1, hour: 17, minute: 0))!, date: Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1))!, id: 0, festival: festival.id))
-        self.startDate = Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1))!
-        self.endDate = Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 12, day: 31))!
+        self.jourViewModel = JourViewModel(model: Jour(name: "", debut: Calendar.current.date(from: DateComponents(year: Int(year)!, month: 1, day: 1, hour: 9, minute: 0))!, fin: Calendar.current.date(from: DateComponents(year: Int(year)!, month: 1, day: 1, hour: 17, minute: 0))!, date: Calendar.current.date(from: DateComponents(year: Int(year)!, month: 1, day: 1))!, id: 0, festival: festival))
+        self.startDate = Calendar.current.date(from: DateComponents(year: Int(year)!, month: 1, day: 1))!
+        self.endDate = Calendar.current.date(from: DateComponents(year: Int(year)!, month: 12, day: 31))!
         self.intent = JourIntent()
         self.intent.addObserver(viewModel: jourViewModel)
         self.intent.addListObserver(viewModel: joursViewModel)

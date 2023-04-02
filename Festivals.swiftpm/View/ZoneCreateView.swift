@@ -9,8 +9,8 @@ struct ZoneCreateView: View {
     @State private var textAlert = ""
     @State private var errorAlert = false
     
-    init(zonesViewModel: ZonesViewModel, festival: Festival) {
-        self.zoneViewModel = ZoneViewModel(model: Zone(name: "", id: 0, benevoles: 3, festival: festival.id))
+    init(zonesViewModel: ZonesViewModel, festival: Int) {
+        self.zoneViewModel = ZoneViewModel(model: Zone(name: "", id: 0, benevoles: 3, festival: festival))
         self.intent = ZoneIntent()
         self.intent.addObserver(viewModel: zoneViewModel)
         self.intent.addListObserver(viewModel: zonesViewModel)
