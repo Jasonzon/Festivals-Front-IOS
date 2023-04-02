@@ -68,7 +68,7 @@ struct ZoneView: View {
             }
             else {
                 Text("Nom : \(zoneViewModel.name)")
-                //Text("Nombre de bénévoles : \(zoneViewModel.benevoles)")
+                Text("Nombre de bénévoles : \(zoneViewModel.benevoles)")
             }
             BenevolesView(url: "/zone?creneau=\(creneau)&zone=\(zoneViewModel.id)")
         }

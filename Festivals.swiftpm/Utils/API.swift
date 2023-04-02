@@ -23,4 +23,8 @@ class API {
     static func jourDAO() -> JourDAO {
         return JourDAO(api: self.API)
     }
+
+    static func travailDAO() -> TravailDAO {
+        return TravailDAO(api: self.API)
+    }
 }
