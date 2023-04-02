@@ -5,6 +5,7 @@ struct JoursView: View {
 
     @ObservedObject var joursViewModel : JoursViewModel = JoursViewModel(jours: [])
     @Binding var festival: Int
+    @Binding var year: String
     @State private var searchText = ""
     @State private var createJour = false
     @State private var dataIsLoad = false
@@ -24,7 +25,7 @@ struct JoursView: View {
             NavigationView {
                 VStack {
                     if (UserSession.shared.user?.role == .Admin) {
-                        NavigationLink(destination: JourCreateView(joursViewModel: joursViewModel, festival: festival), isActive: $createJour){}
+                        NavigationLink(destination: JourCreateView(joursViewModel: joursViewModel, festival: festival, year: year), isActive: $createJour){}
                     }
                     List {
                         ForEach(searchResults, id: \.id) { element in
