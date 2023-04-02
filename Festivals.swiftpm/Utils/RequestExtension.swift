@@ -12,6 +12,7 @@ struct IdDTO: Codable {
 extension URLSession {
 
     func getJSON<T:Decodable>(from url:URL) async -> Result<T, APIError>{
+        print(url.absoluteString)
         guard let(data,_) = try? await data(from: url) else {
             return .failure(.urlNotFound(url.absoluteString))
         }

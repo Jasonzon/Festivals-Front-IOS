@@ -78,6 +78,7 @@ struct FestivalView: View {
             }
             JoursView(festival: $festivalViewModel.copyModel.id, year: $festivalViewModel.copyModel.year)
         }
+        .padding(.bottom, 50)
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)
         }, completion: {
