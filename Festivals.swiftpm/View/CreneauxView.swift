@@ -4,6 +4,7 @@ import AlertToast
 struct CreneauxView: View {
 
     @ObservedObject var creneauxViewModel : CreneauxViewModel = CreneauxViewModel(creneaux: [])
+    @Binding var jour: Jour
     @State private var searchText = ""
     @State private var createCreneau = false
     @State private var dataIsLoad = false
@@ -22,9 +23,6 @@ struct CreneauxView: View {
         VStack{
             NavigationView {
                 VStack {
-                    if (UserSession.shared.user?.role == .Admin) {
-                        NavigationLink(destination: CreneauCreateView(creneauxViewModel: creneauxViewModel), isActive: $createCreneau){}
-                    }
                     List{
                         ForEach(searchResults, id: \.id) { element in
                             NavigationLink(destination: CreneauView(creneau: element, creneauxViewModel: creneauxViewModel)) {
@@ -61,7 +59,7 @@ struct CreneauxView: View {
     
     func loadData(){
         Task{
-            self.creneauxViewModel.creneaux = await API.creneauDAO().getAll()
+            self.creneauxViewModel.creneaux = await API.creneauDAO().getAll(url: "/jour/\(jour.id)")
             dataIsLoad = true
         }
     }
