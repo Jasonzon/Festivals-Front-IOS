@@ -33,8 +33,7 @@ struct BenevolesTravailView: View {
             if (UserSession.shared.user != nil && benevolesViewModel.benevoles.contains(where: { $0.id == UserSession.shared.user!.id })) {
                 Button("Quitter") {
                     Task {
-                        let user = benevolesViewModel.benevoles.first(where: { $0.id == UserSession.shared.user!.id })!
-                        let data = await API.travailDAO().delete(id: user.id)
+                        let data = await API.travailDAO().delete(benevole: UserSession.shared.user!.id, creneau: creneau, zone: zone)
                     }
                 }
             }
