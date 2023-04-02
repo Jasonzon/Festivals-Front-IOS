@@ -9,6 +9,7 @@ class Creneau {
 
     var observer : CreneauObserver?
     var id: Int
+    var jour: Int
 
     var debut: String {
         didSet {
@@ -36,16 +37,18 @@ class Creneau {
         }
     }
 
-    init(debut: String, fin: String, id: Int) {
+    init(debut: String, fin: String, id: Int, jour: Int) {
         self.debut = debut
         self.fin = fin
         self.id = id
+        self.jour = jour
     }
 
     init(creneauDTO: CreneauDTO) {
         self.debut = creneauDTO.debut
         self.fin = creneauDTO.fin
         self.id = creneauDTO.id
+        self.jour = creneauDTO.jour
     }
 
     func isDebutValid() -> Bool {
@@ -57,12 +60,13 @@ class Creneau {
     }
 
     func copy() -> Creneau {
-        return Creneau(debut: self.debut, fin: self.fin, id: self.id)
+        return Creneau(debut: self.debut, fin: self.fin, id: self.id, jour: self.jour)
     }
 
     func paste(creneau: Creneau) {
         self.debut = creneau.debut
         self.fin = creneau.fin
         self.id = creneau.id
+        self.jour = creneau.jour
     }
 }

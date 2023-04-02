@@ -9,8 +9,10 @@ struct CreneauView: View {
     @State private var showingAlertNotDismiss = false
     @State private var errorAlert = false
     @State private var textAlert = ""
+    private var festival: Festival
     
-    init(creneau: Creneau, creneauxViewModel: CreneauxViewModel){
+    init(creneau: Creneau, creneauxViewModel: CreneauxViewModel, festival: festival) {
+        self.festival = festival
         self.creneauViewModel = CreneauViewModel(model: creneau)
         self.intent = CreneauIntent()
         self.intent.addObserver(viewModel: creneauViewModel)
@@ -68,7 +70,7 @@ struct CreneauView: View {
                 Text("Debut : \(creneauViewModel.debut)")
                 Text("Fin : \(creneauViewModel.fin)")
             }
-            ZonesView(creneau: $creneauViewModel.copyModel)
+            ZonesView(creneau: $creneauViewModel.copyModel, festival: festival)
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)

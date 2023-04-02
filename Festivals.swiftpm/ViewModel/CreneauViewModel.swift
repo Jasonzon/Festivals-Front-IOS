@@ -6,6 +6,7 @@ class CreneauViewModel: Subscriber, ObservableObject, CreneauObserver {
     private var model: Creneau
     var copyModel: Creneau
     var id: Int
+    var jour: Int
     @Published var debut: String
     @Published var fin: String
     @Published var error : INPUTError = .noError
@@ -13,6 +14,7 @@ class CreneauViewModel: Subscriber, ObservableObject, CreneauObserver {
     init(model: Creneau){
         self.copyModel = model.copy()
         self.id = copyModel.id
+        self.jour = copyModel.jour
         self.debut = copyModel.debut
         self.fin = copyModel.fin
         self.model = model
@@ -49,6 +51,6 @@ class CreneauViewModel: Subscriber, ObservableObject, CreneauObserver {
     }
 
     func getCreneauFromViewModel() -> Creneau {
-        return Creneau(debut: debut, fin: fin, id: id)
+        return Creneau(debut: debut, fin: fin, id: id, jour: jour)
     }
 }

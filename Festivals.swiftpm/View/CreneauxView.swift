@@ -5,6 +5,7 @@ struct CreneauxView: View {
 
     @ObservedObject var creneauxViewModel : CreneauxViewModel = CreneauxViewModel(creneaux: [])
     @Binding var jour: Jour
+    @Binding var festival: Festival
     @State private var searchText = ""
     @State private var createCreneau = false
     @State private var dataIsLoad = false
@@ -25,7 +26,7 @@ struct CreneauxView: View {
                 VStack {
                     List{
                         ForEach(searchResults, id: \.id) { element in
-                            NavigationLink(destination: CreneauView(creneau: element, creneauxViewModel: creneauxViewModel)) {
+                            NavigationLink(destination: CreneauView(creneau: element, creneauxViewModel: creneauxViewModel, festival: festival)) {
                                 HStack {
                                     Text(element.debut + " " + element.fin)
                                 }

@@ -5,6 +5,7 @@ struct ZonesView: View {
 
     @ObservedObject var zonesViewModel : ZonesViewModel = ZonesViewModel(zones: [])
     @Binding var creneau: Creneau
+    @Binding var festival: Festival
     @State private var searchText = ""
     @State private var createZone = false
     @State private var dataIsLoad = false
@@ -24,7 +25,7 @@ struct ZonesView: View {
             NavigationView {
                 VStack {
                     if (UserSession.shared.user?.role == .Admin) {
-                        NavigationLink(destination:ZoneCreateView(zonesViewModel: zonesViewModel), isActive: $createZone){}
+                        NavigationLink(destination:ZoneCreateView(zonesViewModel: zonesViewModel, festival: festival), isActive: $createZone){}
                     }
                     List{
                         ForEach(searchResults, id: \.id) { element in

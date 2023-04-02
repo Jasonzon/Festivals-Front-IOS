@@ -11,8 +11,10 @@ struct JourView: View {
     @State private var textAlert = ""
     private var startDate: Date
     private var endDate: Date
+    private var festival: Festival
     
     init(jour: Jour, joursViewModel: JoursViewModel, festival: Festival) {
+        self.festival = festival
         self.jourViewModel = JourViewModel(model: jour)
         self.startDate = Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 1, day: 1))!
         self.endDate = Calendar.current.date(from: DateComponents(year: Int(festival.year)!, month: 12, day: 31))!
@@ -81,7 +83,7 @@ struct JourView: View {
                 Text("Début : \(jourViewModel.debut)")
                 Text("Fin : \(jourViewModel.fin)")
             }
-            CreneauxView(jour: $jourViewModel.copyModel)
+            CreneauxView(jour: $jourViewModel.copyModel, festival: festival)
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)
