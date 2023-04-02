@@ -28,6 +28,7 @@ struct BenevolesTravailView: View {
                 Button("Participer") {
                     Task {
                         let data = await API.travailDAO().create(travail: Travail(id: 0, benevole: UserSession.shared.user!.id, zone: zone, creneau: creneau))
+                        loadData()
                     }
                 }
             }
@@ -35,6 +36,7 @@ struct BenevolesTravailView: View {
                 Button("Quitter") {
                     Task {
                         let data = await API.travailDAO().delete(benevole: UserSession.shared.user!.id, creneau: creneau, zone: zone)
+                        loadData()
                     }
                 }
             }
