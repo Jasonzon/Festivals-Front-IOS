@@ -21,16 +21,30 @@ struct UserView: View {
         VStack {
             if isConnected {
                 Text(UserSession.shared.user!.prenom + "  " + UserSession.shared.user!.nom)
-                Button("Se déconnecter") {
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.top, 30)
+                Spacer()
+                Button(action: {
                     UserDefaults.standard.removeObject(forKey: "myKey")
                     UserSession.shared.user = nil
                     isConnected = false
                     isRegistering = false
+                }) {
+                    Text("Se déconnecter")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .padding()
+                        .frame(width: 220, height: 60)
+                        .background(Color.blue)
+                        .cornerRadius(15.0)
                 }
-            } 
+                .padding(.bottom, 30)
+                Spacer()
+            }
             else if isRegistering {
                 RegisterView(isRegistering: $isRegistering)
-            } 
+            }
             else {
                 ConnectionView(isRegistering: $isRegistering, isConnected: $isConnected)
             }
