@@ -80,13 +80,11 @@ struct FestivalView: View {
                 Button("Afficher les jours") {
                     showJours = true
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
             }
             else {
                 Button("Cacher les jours") {
                     showJours = false
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
                 JoursView(festival: $festivalViewModel.copyModel.id, year: $festivalViewModel.copyModel.year)
             }
         }
