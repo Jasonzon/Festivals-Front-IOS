@@ -22,6 +22,7 @@ struct BenevolesTravailView: View {
     }
     
     var body: some View {
+        ScrollView {
         VStack {
             if (UserSession.shared.user != nil && benevolesViewModel.benevoles.count < maximum && !benevolesViewModel.benevoles.contains(where: { $0.id == UserSession.shared.user!.id })) {
                 Button("Participer") {
@@ -63,6 +64,7 @@ struct BenevolesTravailView: View {
             }, completion: {
                 benevolesViewModel.alert = false
             })
+        }
         }
     }
     

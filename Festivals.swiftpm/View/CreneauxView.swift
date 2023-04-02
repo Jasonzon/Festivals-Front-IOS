@@ -21,6 +21,7 @@ struct CreneauxView: View {
     }
     
     var body: some View {
+        ScrollView {
         VStack{
             NavigationView {
                 VStack {
@@ -55,6 +56,7 @@ struct CreneauxView: View {
             }, completion: {
                 creneauxViewModel.alert = false
             })
+        }
         }
     }
     

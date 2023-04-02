@@ -21,6 +21,7 @@ struct ZonesView: View {
     }
     
     var body: some View {
+        ScrollView {
         VStack{
             NavigationView {
                 VStack {
@@ -58,6 +59,7 @@ struct ZonesView: View {
             }, completion: {
                 zonesViewModel.alert = false
             })
+        }
         }
     }
     

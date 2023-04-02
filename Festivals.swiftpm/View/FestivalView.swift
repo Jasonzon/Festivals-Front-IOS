@@ -21,7 +21,7 @@ struct FestivalView: View {
 
     var body: some View {
         ScrollView {
-        VStack(spacing: 20) {
+        VStack {
             if (UserSession.shared.user?.role == .Admin) {
                 Form {
                     TextField("Nom", text: $festivalViewModel.name)

@@ -20,6 +20,7 @@ struct FestivalsView: View {
     }
     
     var body: some View {
+        ScrollView {
         VStack{
             NavigationView {
                 VStack {
@@ -62,6 +63,7 @@ struct FestivalsView: View {
             if (UserSession.shared.user?.role == .Admin) {
                 isConnected = true
             }
+        }
         }
     }
     
