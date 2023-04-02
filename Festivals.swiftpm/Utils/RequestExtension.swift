@@ -11,8 +11,7 @@ struct IdDTO: Codable {
 
 extension URLSession {
 
-    func getJSON<T:Decodable>(from url:URL) async -> Result<T, APIError>{
-        print(url.absoluteString)
+    func getJSON<T:Decodable>(from url:URL) async -> Result<T, APIError> {
         guard let(data,_) = try? await data(from: url) else {
             return .failure(.urlNotFound(url.absoluteString))
         }
@@ -24,7 +23,6 @@ extension URLSession {
     }
 
     func create<T:Encodable>(from url:URL,element:T)async -> Result<Int, APIError>{
-        print("ON EST LA")
         guard let encoded :Data = try? JSONEncoder().encode(element)else {
             return .failure(.JsonEncodingFailed)
         }
