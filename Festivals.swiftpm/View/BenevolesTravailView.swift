@@ -10,6 +10,8 @@ struct BenevolesTravailView: View {
     let maximum: Int
     let zone: Int
     let creneau: Int
+    @Binding var opened: Bool
+
     private var searchResults: [Benevole] {
         if searchText.isEmpty {
             return benevolesViewModel.benevoles
@@ -24,7 +26,7 @@ struct BenevolesTravailView: View {
     var body: some View {
         ScrollView {
         VStack {
-            if (UserSession.shared.user != nil && benevolesViewModel.benevoles.count < maximum && !benevolesViewModel.benevoles.contains(where: { $0.id == UserSession.shared.user!.id })) {
+            if (UserSession.shared.user != nil && opened == true && benevolesViewModel.benevoles.count < maximum && !benevolesViewModel.benevoles.contains(where: { $0.id == UserSession.shared.user!.id })) {
                 Button("Participer") {
                     Task {
                         let data = await API.travailDAO().create(travail: Travail(id: 0, benevole: UserSession.shared.user!.id, zone: zone, creneau: creneau))

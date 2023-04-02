@@ -9,6 +9,7 @@ struct ZonesView: View {
     @State private var createZone = false
     @State private var dataIsLoad = false
     @Binding var creneau: Int
+    @Binding var opened: Bool
     private var searchResults: [Zone] {
         if searchText.isEmpty {
             return zonesViewModel.zones
@@ -30,7 +31,7 @@ struct ZonesView: View {
                     }
                     List{
                         ForEach(searchResults, id: \.id) { element in
-                            NavigationLink(destination: ZoneView(zone: element, zonesViewModel: zonesViewModel, creneau: $creneau)) {
+                            NavigationLink(destination: ZoneView(zone: element, zonesViewModel: zonesViewModel, creneau: $creneau, opened: $opened)) {
                                 HStack {
                                     Text(element.name)
                                 }

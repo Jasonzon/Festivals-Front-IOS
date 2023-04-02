@@ -10,9 +10,11 @@ struct CreneauView: View {
     @State private var errorAlert = false
     @State private var textAlert = ""
     @Binding var festival: Int
+    @Binding var opened: Bool
     
-    init(creneau: Creneau, creneauxViewModel: CreneauxViewModel, festival: Binding<Int>) {
+    init(creneau: Creneau, creneauxViewModel: CreneauxViewModel, festival: Binding<Int>, opened: Binding<Bool>) {
         _festival = festival
+        _opened = opened
         self.creneauViewModel = CreneauViewModel(model: creneau)
         self.intent = CreneauIntent()
         self.intent.addObserver(viewModel: creneauViewModel)
@@ -70,7 +72,7 @@ struct CreneauView: View {
                 Text("Debut : \(creneauViewModel.debut)")
                 Text("Fin : \(creneauViewModel.fin)")
             }
-            ZonesView(festival: $festival, creneau: $creneauViewModel.copyModel.id)
+            ZonesView(festival: $festival, creneau: $creneauViewModel.copyModel.id, opened: $opened)
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)

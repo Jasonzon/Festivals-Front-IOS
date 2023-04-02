@@ -13,10 +13,12 @@ struct JourView: View {
     private var endDate: Date
     @Binding var festival: Int
     @Binding var year: String
+    @Binding var opened: Bool
     
-    init(jour: Jour, joursViewModel: JoursViewModel, festival: Binding<Int>, year: Binding<String>) {
+    init(jour: Jour, joursViewModel: JoursViewModel, festival: Binding<Int>, year: Binding<String>, opened: Binding<Bool>) {
         _festival = festival
         _year = year
+        _opened = opened
         self.jourViewModel = JourViewModel(model: jour)
         self.startDate = Calendar.current.date(from: DateComponents(year: Int(year.wrappedValue)!, month: 1, day: 1))!
         self.endDate = Calendar.current.date(from: DateComponents(year: Int(year.wrappedValue)!, month: 12, day: 31))!
@@ -85,7 +87,7 @@ struct JourView: View {
                 Text("Début : \(jourViewModel.debut)")
                 Text("Fin : \(jourViewModel.fin)")
             }
-            CreneauxView(jour: $jourViewModel.copyModel, festival: $festival)
+            CreneauxView(jour: $jourViewModel.copyModel, festival: $festival, opened: $opened)
         }
         .toast(isPresenting: $showingAlert, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: textAlert)

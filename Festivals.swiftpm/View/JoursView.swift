@@ -6,6 +6,7 @@ struct JoursView: View {
     @ObservedObject var joursViewModel : JoursViewModel = JoursViewModel(jours: [])
     @Binding var festival: Int
     @Binding var year: String
+    @Binding var opened: Bool
     @State private var searchText = ""
     @State private var createJour = false
     @State private var dataIsLoad = false
@@ -30,7 +31,7 @@ struct JoursView: View {
                     }
                     List {
                         ForEach(searchResults, id: \.id) { element in
-                            NavigationLink(destination: JourView(jour: element, joursViewModel: joursViewModel, festival: $festival, year: $year)) {
+                            NavigationLink(destination: JourView(jour: element, joursViewModel: joursViewModel, festival: $festival, year: $year, opened: $opened)) {
                                 HStack {
                                     Text(element.name)
                                 }
