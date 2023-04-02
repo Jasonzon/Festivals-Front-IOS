@@ -27,8 +27,9 @@ struct TravailDAO {
         return await URLSession.shared.create(from: URL(string: self.API)!, element: travailDTO)
     }
     
-    func delete(benevole: Int, creneau: Int, zone: Int) async -> Result<Bool,APIError>{
-        var request :URLRequest = URLRequest(url: URL(string: self.API + "/query?creneau=\(creneau)&benevole=\(benevole)&zone=\(zone)"))
+    func delete(benevole: Int, creneau: Int, zone: Int) async -> Result<Bool,APIError> {
+        let url: URL = URL(string: self.API + "/query?creneau=\(creneau)&benevole=\(benevole)&zone=\(zone)")!
+        var request :URLRequest = URLRequest(url: url)
         request.httpMethod = "DELETE"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(UserDefaults.standard.string(forKey: "token")!, forHTTPHeaderField: "token")
