@@ -39,13 +39,6 @@ struct CreneauxView: View {
                     .onAppear() {
                         loadData()
                     }
-                    .toolbar {
-                        if (UserSession.shared.user?.role == .Admin) {
-                            Button("+") {
-                                createCreneau = true
-                            }
-                        }
-                    }
                     .navigationTitle("Creneaux")
                 }
             }

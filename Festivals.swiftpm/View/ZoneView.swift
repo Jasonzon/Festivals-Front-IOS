@@ -26,7 +26,7 @@ struct ZoneView: View {
             if (UserSession.shared.user?.role == .Admin) {
                 Form {
                     TextField("Nom", text: $zoneViewModel.name)
-                    //TextField("Nombre de bénévoles", value: $zoneViewModel.benevoles, formatter: NumberFormatter(), keyboardType: .numberPad) {}
+                    TextField("Nombre de bénévoles", text: $zoneViewModel.benevoles)
                     Section {
                         Button("Enregistrer") {
                             Task {
